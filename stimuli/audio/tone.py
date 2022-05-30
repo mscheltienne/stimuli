@@ -1,5 +1,7 @@
 """Pure tone sound."""
 
+from typing import Tuple, Union
+
 import numpy as np
 
 from ..utils._checks import _check_type
@@ -19,17 +21,23 @@ class Tone(_Sound):
     %(audio_volume)s
     %(audio_sample_rate)s
     %(audio_duration)s
-    frequency : int
+    frequency : float
         Pure tone frequency. The default is 440 Hz (La - A440).
     """
 
-    def __init__(self, volume, sample_rate=44100, duration=0.1, frequency=440):
+    def __init__(
+        self,
+        volume: Union[float, Tuple[float, float]],
+        sample_rate: int = 44100,
+        duration: int = 0.1,
+        frequency: float = 440,
+    ):
         self._frequency = Tone._check_frequency(frequency)
         self.name = "tone"
         super().__init__(volume, sample_rate, duration)
 
     @copy_doc(_Sound._set_signal)
-    def _set_signal(self):
+    def _set_signal(self) -> None:
         tone_arr = np.sin(2 * np.pi * self._frequency * self._time_arr)
 
         self._signal[:, 0] = tone_arr * self._volume[0] / 100
@@ -38,7 +46,7 @@ class Tone(_Sound):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_frequency(frequency):
+    def _check_frequency(frequency: float) -> float:
         """Check if the frequency is positive."""
         _check_type(frequency, ("numeric",), item_name="frequency")
         assert 0 < frequency
@@ -46,11 +54,11 @@ class Tone(_Sound):
 
     # --------------------------------------------------------------------
     @property
-    def frequency(self):
+    def frequency(self) -> float:
         """Sound's pure tone frequency [Hz]."""
         return self._frequency
 
     @frequency.setter
-    def frequency(self, frequency):
+    def frequency(self, frequency: float):
         self._frequency = Tone._check_frequency(frequency)
         self._set_signal()

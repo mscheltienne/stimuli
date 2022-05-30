@@ -1,7 +1,9 @@
 """Sound loaded from a file."""
 
 from pathlib import Path
+from typing import Tuple, Union
 
+from numpy.typing import NDArray
 from scipy.io import wavfile
 from scipy.signal import resample
 
@@ -19,7 +21,7 @@ class Sound(_Sound):
         Path to the supported audio file to load.
     """
 
-    def __init__(self, fname):
+    def __init__(self, fname: Union[str, Path]):
         self._fname = Sound._check_file(fname)
 
         _original_sample_rate, _original_signal = wavfile.read(self._fname)
@@ -38,7 +40,7 @@ class Sound(_Sound):
         )
 
     @copy_doc(_Sound._set_signal)
-    def _set_signal(self):
+    def _set_signal(self) -> None:
         assert len(self._signal.shape) in (1, 2)
         slc = (
             slice(None, self._trim_samples)
@@ -47,21 +49,21 @@ class Sound(_Sound):
         )
         self._signal = self._original_signal[slc]
 
-    def trim(self, duration):
+    def trim(self, duration: float) -> None:
         """Trim the original sound to the new duration."""
         if Sound._valid_trim_duration(duration, self._original_duration):
             self._duration = _Sound._check_duration(duration)
             self._trim_samples = int(self._duration * self._sample_rate)
             self._set_signal()
 
-    def resample(self, sample_rate):
+    def resample(self, sample_rate: int) -> None:
         """Resample the current sound to the new sampling rate."""
         self._sample_rate = _Sound._check_sample_rate(sample_rate)
         self._signal = resample(
             self._signal, int(self._sample_rate * self._duration), axis=0
         )
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset the current sound to the original loaded sound."""
         self._duration = self._original_duration
         self._trim_samples = None
@@ -70,7 +72,7 @@ class Sound(_Sound):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_file(fname):
+    def _check_file(fname: Union[str, Path]) -> Path:
         """Check if the file is supported and exists."""
         SUPPORTED = ".wav"
 
@@ -80,30 +82,32 @@ class Sound(_Sound):
         return fname
 
     @staticmethod
-    def _check_signal(signal):
+    def _check_signal(signal: NDArray[float]) -> NDArray[float]:
         """Check that the sound is either mono or stereo."""
-        assert len(signal.shape) in (1, 2)
-        if len(signal.shape) == 2:
+        assert signal.ndim in (1, 2)
+        if signal.ndim == 2:
             assert signal.shape[1] in (1, 2)
             if signal.shape[1] == 1:
                 signal = signal[:, 0]
         return signal
 
     @staticmethod
-    def _compute_duration(signal, sample_rate):
+    def _compute_duration(signal: NDArray[float], sample_rate: int) -> float:
         """Compute the sounds duration."""
         return signal.shape[0] / sample_rate
 
     @staticmethod
-    def _compute_volume(signal):
+    def _compute_volume(signal) -> Tuple[float, ...]:
         """Volume modifications is not supported for loaded sounds.
 
         Returns [1] * number of channels.
         """
-        return [1] * len(signal.shape)
+        return tuple([1.0] * len(signal.shape))
 
     @staticmethod
-    def _valid_trim_duration(trim_duration, sound_duration):
+    def _valid_trim_duration(
+        trim_duration: float, sound_duration: float
+    ) -> bool:
         """Return True if trim_duration is smaller than sound_duration."""
         if sound_duration <= trim_duration:
             return False
@@ -111,18 +115,18 @@ class Sound(_Sound):
 
     # --------------------------------------------------------------------
     @_Sound.volume.setter
-    def volume(self, volume):
+    def volume(self, volume: Union[float, Tuple[float, float]]):
         pass
 
     @_Sound.sample_rate.setter
-    def sample_rate(self, sample_rate):
+    def sample_rate(self, sample_rate: int):
         self.resample(sample_rate)
 
     @_Sound.duration.setter
-    def duration(self, duration):
+    def duration(self, duration: float):
         self.trim(duration)
 
     @property
-    def fname(self):
+    def fname(self) -> Path:
         """The sound's original file name."""
         return self._fname

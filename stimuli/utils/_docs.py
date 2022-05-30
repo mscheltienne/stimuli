@@ -25,11 +25,11 @@ verbose : int | str | bool | None
 docdict[
     "audio_volume"
 ] = """
-volume : float | list
+volume : float | tuple
     If an int or a float is provided, the sound will use only one channel
-    (mono). If a 2-length sequence is provided, the sound will use 2
+    (mono). If a 2-length tuple is provided, the sound will use 2
     channels (stereo). The volume of each channel is given between 0 and 100.
-    For stereo, the volume is given as [L, R]."""
+    For stereo, the volume is given as (L, R)."""
 docdict[
     "audio_sample_rate"
 ] = """

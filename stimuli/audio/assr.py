@@ -1,5 +1,7 @@
 """Auditory Steady State Response Stimuli."""
 
+from typing import Tuple, Union
+
 import numpy as np
 
 from ..utils._checks import _check_type, _check_value
@@ -38,12 +40,12 @@ class ASSR(_Sound):
 
     def __init__(
         self,
-        volume,
-        sample_rate=44100,
-        duration=0.1,
-        frequency_carrier=1000,
-        frequency_modulation=40,
-        method="conventional",
+        volume: Union[float, Tuple[float, float]],
+        sample_rate: int = 44100,
+        duration: float = 0.1,
+        frequency_carrier: float = 1000,
+        frequency_modulation: float = 40,
+        method: str = "conventional",
     ):
         self._frequency_carrier = ASSR._check_frequency_carrier(
             frequency_carrier
@@ -51,15 +53,14 @@ class ASSR(_Sound):
         self._frequency_modulation = ASSR._check_frequency_modulation(
             frequency_modulation
         )
-        _check_value(
-            method, ("conventional", "dsbsc"), item_name="assr method"
-        )
+        _check_type(method, (str,), "method")
+        _check_value(method, ("conventional", "dsbsc"), "assr method")
         self._method = method
         self.name = f"ASSR {self._method}"
         super().__init__(volume, sample_rate, duration)
 
     @copy_doc(_Sound._set_signal)
-    def _set_signal(self):
+    def _set_signal(self) -> None:
         if self._method == "conventional":
             assr_amplitude = 1 - np.cos(
                 2 * np.pi * self._frequency_modulation * self._time_arr
@@ -86,7 +87,7 @@ class ASSR(_Sound):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_frequency_carrier(frequency_carrier):
+    def _check_frequency_carrier(frequency_carrier: float) -> float:
         """Check if the carrier frequency is positive."""
         _check_type(
             frequency_carrier, ("numeric",), item_name="frequency_carrier"
@@ -95,7 +96,7 @@ class ASSR(_Sound):
         return frequency_carrier
 
     @staticmethod
-    def _check_frequency_modulation(frequency_modulation):
+    def _check_frequency_modulation(frequency_modulation: float) -> float:
         """Check if the modulation frequency is positive."""
         _check_type(
             frequency_modulation,
@@ -107,35 +108,35 @@ class ASSR(_Sound):
 
     # --------------------------------------------------------------------
     @property
-    def frequency_carrier(self):
+    def frequency_carrier(self) -> float:
         """Sound's carrier frequency [Hz]."""
         return self._frequency_carrier
 
     @frequency_carrier.setter
-    def frequency_carrier(self, frequency_carrier):
+    def frequency_carrier(self, frequency_carrier: float):
         self._frequency_carrier = ASSR._check_frequency_carrier(
             frequency_carrier
         )
         self._set_signal()
 
     @property
-    def frequency_modulation(self):
+    def frequency_modulation(self) -> float:
         """Sound's modulation frequency [Hz]."""
         return self._frequency_modulation
 
     @frequency_modulation.setter
-    def frequency_modulation(self, frequency_modulation):
+    def frequency_modulation(self, frequency_modulation: float):
         self._frequency_modulation = ASSR._check_frequency_modulation(
             frequency_modulation
         )
         self._set_signal()
 
     @property
-    def method(self):
+    def method(self) -> str:
         """Sound's modulation method."""
         return self._method
 
     @method.setter
-    def method(self, method):
+    def method(self, method: str):
         self._method = ASSR._check_method(method)
         self._set_signal()
