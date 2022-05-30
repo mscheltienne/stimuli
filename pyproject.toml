@@ -32,10 +32,15 @@ classifiers = [
     'Programming Language :: Python :: 3.10',
     'Natural Language :: English',
     'License :: OSI Approved :: MIT License',
+    'Intended Audience :: Science/Research',
+    'Topic :: Scientific/Engineering',
 ]
 dependencies = [
+    'matplotlib',
     'numpy',
+    'opencv-python',
     'scipy',
+    'screeninfo',
     'sounddevice',
 ]
 
