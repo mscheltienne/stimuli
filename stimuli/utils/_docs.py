@@ -42,25 +42,37 @@ duration : float
     Duration of the sound. The default is 1 second."""
 
 # ----------------------------------- visual ----------------------------------
-docdict["window_name"] = """
+docdict[
+    "window_name"
+] = """
 window_name : str
     Name of the window in which the visual is displayed."""
-docdict["window_size"] = """
+docdict[
+    "window_size"
+] = """
 window_size : tuple | None
     Either None to automatically select a window size based on the
     available monitors, or a 2-length of positive integer sequence as
     (width, height)."""
-docdict["color"] = """The color is provided as a matplotlib string or a
+docdict[
+    "color"
+] = """The color is provided as a matplotlib string or a
 (B, G, R) tuple of int8 set between 0 and 255."""
-docdict["position"] = """
+docdict[
+    "position"
+] = """
 The position of the object can be either defined as the string 'center' or
 'centered' to position the object in the center of the window; or as a 2-length
 tuple of positive integer. The position is defined in opencv coordinates, with
 (0, 0) being the top left corner of the window."""
-docdict["length"] = """
+docdict[
+    "length"
+] = """
 length : int
     Number of pixels used to draw the length of the bar."""
-docdict["width"] = """
+docdict[
+    "width"
+] = """
 width : int
     Number of pixels used to draw the width of the bar."""
 

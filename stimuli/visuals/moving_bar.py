@@ -1,18 +1,16 @@
 from copy import deepcopy
-from typing import Tuple, Optional, Union
+from typing import Optional, Tuple, Union
 
 import cv2
 
-from ._visual import _Visual
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
+from ._visual import _Visual
 
 
 @fill_doc
 class MovingBar(_Visual):
-    """
-    Class to display a centered moving bar along the vertical or horizontal
-    axis.
+    """Class to display a centered moving bar along an axis.
 
     Parameters
     ----------
@@ -21,22 +19,22 @@ class MovingBar(_Visual):
     """
 
     def __init__(
-            self,
-            window_name: str = 'Visual',
-            window_size: Optional[Tuple[int, int]] = None,
-        ):
+        self,
+        window_name: str = "Visual",
+        window_size: Optional[Tuple[int, int]] = None,
+    ):
         super().__init__(window_name, window_size)
         self._backup_img = None
 
     @fill_doc
     def putBar(
-            self,
-            length: int,
-            width: int,
-            color: Union[str, Tuple[int, int, int]],
-            position: float = 0,
-            axis: Union[int, str] = 0,
-        ):
+        self,
+        length: int,
+        width: int,
+        color: Union[str, Tuple[int, int, int]],
+        position: float = 0,
+        axis: Union[int, str] = 0,
+    ):
         """Draw the bar on top of the current visual.
 
         Parameters
@@ -70,9 +68,11 @@ class MovingBar(_Visual):
         self._axis = _Visual._check_axis(axis)
 
         self._length = MovingBar._check_length(
-            length, self._axis, self.window_size)
+            length, self._axis, self.window_size
+        )
         self._width = MovingBar._check_width(
-            width, self._length, self._axis, self.window_size)
+            width, self._length, self._axis, self.window_size
+        )
         self._color = _Visual._check_color(color)
 
         self._putBar()
@@ -95,16 +95,17 @@ class MovingBar(_Visual):
         --- P2
         """
         position = MovingBar._convert_position_to_pixel(
-            self._position, self._axis, self.window_size, self.window_center)
+            self._position, self._axis, self.window_size, self.window_center
+        )
 
         if self._axis == 0:
-            xP1 = self.window_center[0] - self._length//2
-            yP1 = position - self._width//2
+            xP1 = self.window_center[0] - self._length // 2
+            yP1 = position - self._width // 2
             xP2 = xP1 + self._length
             yP2 = yP1 + self._width
         elif self._axis == 1:
-            xP1 = position - self._width//2
-            yP1 = self.window_center[1] - self._length//2
+            xP1 = position - self._width // 2
+            yP1 = self.window_center[1] - self._length // 2
             xP2 = xP1 + self._width
             yP2 = yP1 + self._length
 
@@ -116,7 +117,9 @@ class MovingBar(_Visual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_length(length: int, axis: int, window_size: Tuple[int, int]) -> int:
+    def _check_length(
+        length: int, axis: int, window_size: Tuple[int, int]
+    ) -> int:
         """Check that the length is valid."""
         _check_type(length, ("int",), "length")
         assert 0 < length
@@ -124,7 +127,9 @@ class MovingBar(_Visual):
         return length
 
     @staticmethod
-    def _check_width(width: int, length: int, axis: int, window_size: Tuple[int, int]) -> int:
+    def _check_width(
+        width: int, length: int, axis: int, window_size: Tuple[int, int]
+    ) -> int:
         """Check that the width is valid."""
         _check_type(width, ("int",), "width")
         assert 0 < width
@@ -140,7 +145,12 @@ class MovingBar(_Visual):
         return position
 
     @staticmethod
-    def _convert_position_to_pixel(position: float, axis: int, window_size: Tuple[int, int], window_center: Tuple[int, int]) -> int:
+    def _convert_position_to_pixel(
+        position: float,
+        axis: int,
+        window_size: Tuple[int, int],
+        window_center: Tuple[int, int],
+    ) -> int:
         """Convert the position [-1, 1] to an absolute position in pixel."""
         # horizontal bar moving up and down
         if axis == 0:
@@ -148,11 +158,13 @@ class MovingBar(_Visual):
                 return window_center[1]
             elif -1 <= position < 0:
                 # top to center
-                return int(window_center[1] * (1-abs(position)))
+                return int(window_center[1] * (1 - abs(position)))
             elif 0 < position <= 1:
                 # center to bottom
-                return int(window_center[1] +
-                           (window_size[1]-window_center[1])*position)
+                return int(
+                    window_center[1]
+                    + (window_size[1] - window_center[1]) * position
+                )
 
         # vertical bar moving left and right
         elif axis == 1:
@@ -160,11 +172,13 @@ class MovingBar(_Visual):
                 return window_center[0]
             elif -1 <= position < 0:
                 # left to center
-                return int(window_center[0] * (1-abs(position)))
+                return int(window_center[0] * (1 - abs(position)))
             elif 0 < position <= 1:
                 # center to right
-                return int(window_center[0] +
-                           (window_size[0]-window_center[0])*position)
+                return int(
+                    window_center[0]
+                    + (window_size[0] - window_center[0]) * position
+                )
 
     # --------------------------------------------------------------------
     @property
@@ -175,7 +189,8 @@ class MovingBar(_Visual):
     @length.setter
     def length(self, length):
         self._length = MovingBar._check_length(
-            length, self._axis, self.window_size)
+            length, self._axis, self.window_size
+        )
         self._reset()
         self._putBar()
 
@@ -187,13 +202,14 @@ class MovingBar(_Visual):
     @width.setter
     def width(self, width):
         self._width = MovingBar._check_width(
-            width, self._length, self._axis, self.window_size)
+            width, self._length, self._axis, self.window_size
+        )
         self._reset()
         self._putBar()
 
     @property
     def color(self) -> Tuple[int, int, int]:
-        """Color of the bar."""
+        """Color of the bar in BGR color space."""
         return self._color
 
     @color.setter
@@ -219,7 +235,7 @@ class MovingBar(_Visual):
 
         This property is a binary integer:
             - 0: Horizontal bar along vertical axis.
-            - 1: Vertical bar along horizonal axis.
+            - 1: Vertical bar along horizontal axis.
         """
         return self._axis
 

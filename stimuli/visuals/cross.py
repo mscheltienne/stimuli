@@ -1,10 +1,10 @@
-import cv2
-from typing import Tuple, Optional, Union
+from typing import Optional, Tuple, Union
 
-from ._visual import _Visual
+import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
+from ._visual import _Visual
 
 
 @fill_doc
@@ -18,24 +18,24 @@ class Cross(_Visual):
     """
 
     def __init__(
-            self,
-            window_name: str = 'Visual',
-            window_size: Optional[Tuple[int, int]] = None,
-        ):
+        self,
+        window_name: str = "Visual",
+        window_size: Optional[Tuple[int, int]] = None,
+    ):
         super().__init__(window_name, window_size)
 
     @fill_doc
     def putCross(
-            self,
-            length: int,
-            thickness: int,
-            color: Union[str, Tuple[int, int, int]],
-            position: Union[str, Tuple[int, int]] = 'centered'
-        ) -> None:
+        self,
+        length: int,
+        thickness: int,
+        color: Union[str, Tuple[int, int, int]],
+        position: Union[str, Tuple[int, int]] = "centered",
+    ) -> None:
         """Draw a cross composed of 2 rectangles.
 
         The rectangles are defined by length and thickness.
-        The rectangles are positionned to form a cross.
+        The rectangles are positioned to form a cross.
 
         - Horizontal rectangle
         P1 --------------
@@ -71,18 +71,19 @@ class Cross(_Visual):
         thickness = Cross._check_thickness(thickness, length)
         color = _Visual._check_color(color)
         position = Cross._check_position(
-            position, length, self.window_size, self.window_center)
+            position, length, self.window_size, self.window_center
+        )
 
         # Horizontal rectangle
-        xP1 = position[0] - length//2
-        yP1 = position[1] - thickness//2
+        xP1 = position[0] - length // 2
+        yP1 = position[1] - thickness // 2
         xP2 = xP1 + length
         yP2 = yP1 + thickness
         cv2.rectangle(self._img, (xP1, yP1), (xP2, yP2), color, -1)
 
         # Vertical rectangle
-        xP1 = position[0] - thickness//2
-        yP1 = position[1] - length//2
+        xP1 = position[0] - thickness // 2
+        yP1 = position[1] - length // 2
         xP2 = xP1 + thickness
         yP2 = yP1 + length
         cv2.rectangle(self._img, (xP1, yP1), (xP2, yP2), color, -1)
@@ -90,7 +91,7 @@ class Cross(_Visual):
     # --------------------------------------------------------------------
     @staticmethod
     def _check_length(length: int, window_size: Tuple[int, int]) -> int:
-        """Checks that the length is valid."""
+        """Check that the length is valid."""
         _check_type(length, ("int",), "length")
         assert 0 < length
         assert all(length <= size for size in window_size)
@@ -98,7 +99,7 @@ class Cross(_Visual):
 
     @staticmethod
     def _check_thickness(thickness: int, length: int) -> int:
-        """Checks that the thickness is valid."""
+        """Check that the thickness is valid."""
         _check_type(thickness, ("int",), "thickness")
         assert 0 < thickness
         assert thickness < length
@@ -106,25 +107,25 @@ class Cross(_Visual):
 
     @staticmethod
     def _check_position(
-            position: Union[str, Tuple[int, int]],
-            length: int,
-            window_size: Tuple[int, int],
-            window_center: Tuple[int, int]
-        ) -> Tuple[int, int]:
-        """Checks that the cross position is coherent with the window size.
+        position: Union[str, Tuple[int, int]],
+        length: int,
+        window_size: Tuple[int, int],
+        window_center: Tuple[int, int],
+    ) -> Tuple[int, int]:
+        """Check that the cross position is coherent with the window size.
 
         The position of the cross is given as the center of the cross.
         """
         _check_type(position, (str, tuple), "position")
         if isinstance(position, str):
             position = position.lower().strip()
-            assert position in ['centered', 'center']
+            assert position in ["centered", "center"]
             position = window_center
         for pos in position:
             _check_type(pos, ("int",))
         assert len(position) == 2
-        assert 0 <= position[0] - length//2
-        assert position[0] - length//2 + length <= window_size[0]
-        assert 0 <= position[1] - length//2
-        assert position[1] - length//2 + length <= window_size[1]
+        assert 0 <= position[0] - length // 2
+        assert position[0] - length // 2 + length <= window_size[0]
+        assert 0 <= position[1] - length // 2
+        assert position[1] - length // 2 + length <= window_size[1]
         return position
