@@ -29,7 +29,7 @@ class Tone(_Sound):
         self,
         volume: Union[float, Tuple[float, float]],
         sample_rate: int = 44100,
-        duration: int = 0.1,
+        duration: int = 1,
         frequency: float = 440,
     ):
         self._frequency = Tone._check_frequency(frequency)

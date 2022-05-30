@@ -42,7 +42,7 @@ class ASSR(_Sound):
         self,
         volume: Union[float, Tuple[float, float]],
         sample_rate: int = 44100,
-        duration: float = 0.1,
+        duration: float = 1,
         frequency_carrier: float = 1000,
         frequency_modulation: float = 40,
         method: str = "conventional",
