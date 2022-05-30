@@ -10,7 +10,7 @@ from ._sound import _Sound
 
 @fill_doc
 class WhiteNoise(_Sound):
-    """White noise stimuli.
+    """White noise stimulus.
 
     Parameters
     ----------

@@ -11,7 +11,7 @@ from ._sound import _Sound
 
 @fill_doc
 class ASSR(_Sound):
-    """Auditory Steady State Response Stimuli.
+    """Auditory Steady State Response Stimulus.
 
     Composed of a carrier frequency fc which is amplitude modulated at fm.
     By default, a 1000 Hz carrier frequency modulated at 40 Hz through

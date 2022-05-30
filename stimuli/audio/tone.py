@@ -11,7 +11,7 @@ from ._sound import _Sound
 
 @fill_doc
 class Tone(_Sound):
-    """Pure tone stimuli at the frequency f (Hz).
+    """Pure tone stimulus at the frequency f (Hz).
 
     The equation is sin(2*pi*f*time).
     Example: A 440 - La 440 - Tone(f=440)

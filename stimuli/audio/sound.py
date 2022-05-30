@@ -13,7 +13,7 @@ from ._sound import _Sound
 
 
 class Sound(_Sound):
-    """Sound loaded from file.
+    """Auditory stimulus loaded from a file.
 
     Parameters
     ----------
