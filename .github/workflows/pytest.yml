@@ -44,4 +44,4 @@ jobs:
         run: |
           python -m pip install --progress-bar off pytest pytest-cov
       - name: Run pytest
-        run: pytest template --cov=template --cov-report=xml --verbose
+        run: pytest stimuli --cov=stimuli --cov-report=xml --verbose

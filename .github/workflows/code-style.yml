@@ -36,7 +36,7 @@ jobs:
       - name: Run flake8
         uses: py-actions/flake8@v1
         with:
-          path: "template"
+          path: "stimuli"
       - name: Run isort
         uses: jamescurtin/isort-action@master
       - name: Run black

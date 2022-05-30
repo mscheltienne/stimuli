@@ -3,9 +3,9 @@ requires = ['setuptools >= 61.0.0', 'wheel']
 build-backend = 'setuptools.build_meta'
 
 [project]
-name = 'template'
+name = 'stimuli'
 version = '0.1.0'
-description = 'Template for python projects.'
+description = 'Simple auditory and visual stimuli avoiding PsychoPy.'
 readme = 'README.md'
 license = {file = 'LICENSE'}
 requires-python = '>=3.8'
@@ -17,7 +17,10 @@ maintainers = [
 ]
 keywords = [
     'python',
-    'template',
+    'stimuli',
+    'audio',
+    'auditory',
+    'visual',
 ]
 classifiers = [
     'Operating System :: Microsoft :: Windows',
@@ -31,7 +34,9 @@ classifiers = [
     'License :: OSI Approved :: MIT License',
 ]
 dependencies = [
-    'numpy'
+    'numpy',
+    'scipy',
+    'sounddevice',
 ]
 
 [project.optional-dependencies]
@@ -63,16 +68,16 @@ all = [
 ]
 
 [project.urls]
-homepage = 'https://github.com/mscheltienne/template-python'
-documentation = 'https://github.com/mscheltienne/template-python'
-source = 'https://github.com/mscheltienne/template-python'
-tracker = 'https://github.com/mscheltienne/template-python/issues'
+homepage = 'https://github.com/mscheltienne/simple-stimuli'
+documentation = 'https://github.com/mscheltienne/simple-stimuli'
+source = 'https://github.com/mscheltienne/simple-stimuli'
+tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.packages.find]
-include = ['template*']
+include = ['stimuli*']
 exclude = ['^.*tests']
 
 [tool.black]
@@ -84,9 +89,6 @@ extend-exclude = '''
       __pycache__
     | \.github
     | setup.py
-    | doc/
-    | examples/
-    | tutorials/
 )
 '''
 
@@ -97,9 +99,6 @@ line_length = 79
 py_version = 38
 extend_skip_glob = [
     'setup.py',
-    'doc/*',
-    'examples/*',
-    'tutorials/*'
 ]
 
 [tool.pydocstyle]
