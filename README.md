@@ -2,14 +2,10 @@
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![tests](https://github.com/mscheltienne/template-python/actions/workflows/pytest.yml/badge.svg?branch=main)](https://github.com/mscheltienne/template-python/actions/workflows/pytest.yml)
 
-# template-python
+# Simple-stimuli
 
-Template python repository.
-
-The folder name `template` should be changed to the package name.
-Entries in `pyproject.toml` should be adapted to the path(s)/URL(s)/name(s)/...
-involved in the package.
-Entries in the CIs workflow should be updated:
-- `build.yml`: name of the package
-- `code-style.yml`: path to the package for the `flake8` action
-- `pytest.yml`: path to the package for the `pytest` action
+This repository contains simple auditory and visual stimuli that do not require
+[PsychoPy](https://www.psychopy.org/). The auditory stimuli use the python
+[sounddevice](https://python-sounddevice.readthedocs.io/en/0.4.4/) library and
+the visual stimuli use the python [opencv](https://docs.opencv.org/4.x/)
+library.

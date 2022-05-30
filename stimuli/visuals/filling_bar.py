@@ -17,8 +17,8 @@ class FillingBar(_Visual):
 
     Parameters
     ----------
-    %(window_name)s
-    %(window_size)s
+    %(visual_window_name)s
+    %(visual_window_size)s
     """
 
     def __init__(
@@ -44,8 +44,8 @@ class FillingBar(_Visual):
 
         Parameters
         ----------
-        %(length)s
-        %(width)s
+        %(visual_length)s
+        %(visual_width)s
         margin : int
             Margin in pixel between the filling bar and the containing bar.
             The containing bar (length x width) is set as:

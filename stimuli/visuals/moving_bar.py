@@ -14,8 +14,8 @@ class MovingBar(_Visual):
 
     Parameters
     ----------
-    %(window_name)s
-    %(window_size)s
+    %(visual_window_name)s
+    %(visual_window_size)s
     """
 
     def __init__(
@@ -39,10 +39,10 @@ class MovingBar(_Visual):
 
         Parameters
         ----------
-        %(length)s
-        %(width)s
+        %(visual_length)s
+        %(visual_width)s
         color : str | tuple
-            Color used to draw the bar. %(color)s
+            Color used to draw the bar. %(visual_color)s
         position : float
             Relative position of the bar along the given axis.
             Along the vertical axis:

@@ -17,8 +17,8 @@ class _Visual(ABC):
 
     Parameters
     ----------
-    %(window_name)s
-    %(window_size)s
+    %(visual_window_name)s
+    %(visual_window_size)s
     """
 
     @abstractmethod
@@ -74,7 +74,7 @@ class _Visual(ABC):
         Parameters
         ----------
         color : str | tuple
-            Color used to draw the background. %(color)s
+            Color used to draw the background. %(visual_color)s
         """
         color = _Visual._check_color(color)
         self._img = np.full(

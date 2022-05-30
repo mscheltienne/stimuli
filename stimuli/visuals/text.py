@@ -14,8 +14,8 @@ class Text(_Visual):
 
     Parameters
     ----------
-    %(window_name)s
-    %(window_size)s
+    %(visual_window_name)s
+    %(visual_window_size)s
     """
 
     def __init__(
@@ -46,7 +46,7 @@ class Text(_Visual):
         fontScale : int
             Scale of the font.
         color : str | tuple
-            Color used to write the text. %(color)s
+            Color used to write the text. %(visual_color)s
         thickness : int
             Text line thickness in pixel.
         position : str | tuple
@@ -55,7 +55,7 @@ class Text(_Visual):
 
         Notes
         -----
-        %(position)s
+        %(visual_position)s
         """
         _check_type(text, (str,), "text")
         if len(text.strip()) == 0:

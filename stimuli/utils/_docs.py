@@ -43,35 +43,35 @@ duration : float
 
 # ----------------------------------- visual ----------------------------------
 docdict[
-    "window_name"
+    "visual_window_name"
 ] = """
 window_name : str
     Name of the window in which the visual is displayed."""
 docdict[
-    "window_size"
+    "visual_window_size"
 ] = """
 window_size : tuple | None
     Either None to automatically select a window size based on the
     available monitors, or a 2-length of positive integer sequence as
     (width, height)."""
 docdict[
-    "color"
+    "visual_color"
 ] = """The color is provided as a matplotlib string or a
 (B, G, R) tuple of int8 set between 0 and 255."""
 docdict[
-    "position"
+    "visual_position"
 ] = """
 The position of the object can be either defined as the string 'center' or
 'centered' to position the object in the center of the window; or as a 2-length
 tuple of positive integer. The position is defined in opencv coordinates, with
 (0, 0) being the top left corner of the window."""
 docdict[
-    "length"
+    "visual_length"
 ] = """
 length : int
     Number of pixels used to draw the length of the bar."""
 docdict[
-    "width"
+    "visual_width"
 ] = """
 width : int
     Number of pixels used to draw the width of the bar."""
