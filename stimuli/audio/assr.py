@@ -1,4 +1,4 @@
-"""Auditory Steady State Response Stimuli."""
+"""Auditory Steady State Response sound."""
 
 from typing import Tuple, Union
 
@@ -69,10 +69,6 @@ class ASSR(_Sound):
                 2 * np.pi * self._frequency_carrier * self._time_arr
             )
 
-            self._signal[:, 0] = assr_arr * self._volume[0] / 100
-            if len(self._volume) == 2:
-                self._signal[:, 1] = assr_arr * self._volume[1] / 100
-
         elif self._method == "dsbsc":
             assr_amplitude = np.sin(
                 2 * np.pi * self._frequency_modulation * self._time_arr
@@ -80,10 +76,7 @@ class ASSR(_Sound):
             assr_arr = assr_amplitude * np.sin(
                 2 * np.pi * self._frequency_carrier * self._time_arr
             )
-
-            self._signal[:, 0] = assr_arr * self._volume[0] / 100
-            if len(self._volume) == 2:
-                self._signal[:, 1] = assr_arr * self._volume[1] / 100
+        self._signal = np.vstack((assr_arr, assr_arr)).T * self._volume / 100
 
     # --------------------------------------------------------------------
     @staticmethod

@@ -39,10 +39,7 @@ class Tone(_Sound):
     @copy_doc(_Sound._set_signal)
     def _set_signal(self) -> None:
         tone_arr = np.sin(2 * np.pi * self._frequency * self._time_arr)
-
-        self._signal[:, 0] = tone_arr * self._volume[0] / 100
-        if len(self._volume) == 2:
-            self._signal[:, 1] = tone_arr * self._volume[1] / 100
+        self._signal = np.vstack((tone_arr, tone_arr)).T * self._volume / 100
 
     # --------------------------------------------------------------------
     @staticmethod

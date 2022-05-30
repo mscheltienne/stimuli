@@ -33,7 +33,4 @@ class WhiteNoise(_Sound):
     def _set_signal(self) -> None:
         # mean: 0, sigma: 0.33
         wn_arr = self._rng.normal(loc=0, scale=1 / 3, size=self._time_arr.size)
-
-        self._signal[:, 0] = wn_arr * 0.1 * self._volume[0] / 100
-        if len(self._volume) == 2:
-            self._signal[:, 1] = wn_arr * 0.1 * self._volume[1] / 100
+        self._signal = np.vstack((wn_arr, wn_arr)).T * self._volume / 100
