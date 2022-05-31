@@ -90,3 +90,9 @@ def _test_base(Sound):
     assert sound.sample_rate == 48000
     assert sound.duration == 0.5
     assert sound.times.size == sound.sample_rate * sound.duration
+
+
+def _test_no_volume(Sound):
+    """Test signal if volume is set to 0."""
+    sound = Sound(0)
+    assert np.allclose(sound.signal, np.zeros(sound.signal.shape))

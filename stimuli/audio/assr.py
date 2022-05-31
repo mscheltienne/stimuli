@@ -77,6 +77,7 @@ class ASSR(BaseSound):
             assr_arr = assr_amplitude * np.sin(
                 2 * np.pi * self._frequency_carrier * self._times
             )
+        assr_arr /= np.max(np.abs(assr_arr))  # normalize
         self._signal = np.vstack((assr_arr, assr_arr)).T * self._volume / 100
 
     # --------------------------------------------------------------------
