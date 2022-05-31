@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 import pytest
 
@@ -46,3 +48,45 @@ def test_check_duration():
         BaseSound._check_duration([101])
     with pytest.raises(AssertionError):
         BaseSound._check_sample_rate(-101)
+
+
+def _test_base(Sound):
+    """Test base functionalities with a Sound class."""
+    sound = Sound(10, duration=0.2)
+
+    # test play/stop
+    sound.play()
+    time.sleep(0.2)
+
+    duration = 1
+    sound = Sound(10, duration=duration)
+    sound.play(blocking=True)
+
+    start = time.time()
+    sound.play(blocking=False)
+    sound.stop()
+    assert time.time() - start <= duration
+
+    # test volume setter
+    assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
+    sound.volume = 20
+    assert sound.volume == 20
+    assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
+    sound.volume = (20, 100)
+    assert sound.volume == (20, 100)
+    assert np.allclose(
+        np.max(np.abs(sound.signal), axis=0), np.array(sound.volume) / 100
+    )
+
+    # test sample rate and duration setter
+    assert sound.sample_rate == 44100
+    assert sound.duration == duration
+    assert sound.times.size == sound.sample_rate * sound.duration
+    sound.sample_rate = 48000
+    assert sound.sample_rate == 48000
+    assert sound.duration == duration
+    assert sound.times.size == sound.sample_rate * sound.duration
+    sound.duration = 0.5
+    assert sound.sample_rate == 48000
+    assert sound.duration == 0.5
+    assert sound.times.size == sound.sample_rate * sound.duration
