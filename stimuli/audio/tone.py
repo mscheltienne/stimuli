@@ -30,7 +30,7 @@ class Tone(BaseSound):
         self,
         volume: Union[float, Tuple[float, float]],
         sample_rate: int = 44100,
-        duration: int = 1,
+        duration: float = 1,
         frequency: float = 440,
     ):
         self._frequency = Tone._check_frequency(frequency)
