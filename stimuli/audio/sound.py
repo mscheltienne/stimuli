@@ -6,7 +6,6 @@ from typing import Optional, Tuple, Union
 import numpy as np
 from numpy.typing import NDArray
 from scipy.io import wavfile
-from scipy.signal import resample
 
 from ..utils._checks import _check_type
 from ..utils._docs import copy_doc
@@ -25,27 +24,23 @@ class Sound(BaseSound):
     def __init__(self, fname: Union[str, Path]):
         self._fname = Sound._check_file(fname)
 
-        original_sample_rate, original_signal = wavfile.read(self._fname)
-        self._original_sample_rate = BaseSound._check_sample_rate(
-            original_sample_rate
-        )
+        sample_rate, original_signal = wavfile.read(self._fname)
         self._original_signal, volume = Sound._check_signal(original_signal)
-        self._original_duration = (
-            self._original_signal.shape[0] / self._original_sample_rate
-        )
+        self._original_duration = self._original_signal.shape[0] / sample_rate
 
-        self._trim_samples = None
-        super().__init__(
-            volume, self._original_sample_rate, self._original_duration
-        )
+        self._tmin = None  # idx
+        self._tmax = None  # idx
+        super().__init__(volume, sample_rate, self._original_duration)
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         assert self._signal.ndim == 2
-        slc = (slice(None, self._trim_samples), slice(None))
+        slc = (slice(self._tmin, self._tmax), slice(None))
         self._signal = self._original_signal[slc] * self._volume / 100
 
-    def crop(self, tmin: Optional[float] = None, tmax: Optional[float] = None) -> None:
+    def crop(
+        self, tmin: Optional[float] = None, tmax: Optional[float] = None
+    ) -> None:
         """Crop the sound between tmin and tmax.
 
         Parameters
@@ -54,8 +49,27 @@ class Sound(BaseSound):
             Left-edge of the crop. If None, the beginning of the sound.
         tmax : float | None
             Right-edge of the crop. If None, the end of the sound.
+
+        Notes
+        -----
+        The time-based selection selects the samples in the closed interval
+        [tmin, tmax].
         """
-        tmin, tmax = Sound._check_tmin_tmax(tmin, tmax, self._original_duration)
+        self._tmin, self._tmax = Sound._check_tmin_tmax(
+            tmin, tmax, self._time_arr
+        )
+        self._time_arr = self._time_arr[self._tmin, self._tmax]
+        self._duration = self._tmax - self._tmin
+        self._set_signal()
+
+    def reset(self) -> None:
+        """Reset the signal to the original loaded signal."""
+        self._tmin = None
+        self._tmax = None
+        self._duration = self._original_duration
+        self._volume = np.array([100.0, 100.0])
+        self._set_time_arr()
+        self._set_signal()
 
     # --------------------------------------------------------------------
     @staticmethod
@@ -86,20 +100,45 @@ class Sound(BaseSound):
         return signal, (100, 100)
 
     @staticmethod
-    def _check_tmin_tmax(tmin: Optional[float], tmax: Optional[float], duration: float) -> Tuple[int, int]:
+    def _check_tmin_tmax(
+        tmin: Optional[float], tmax: Optional[float], times: NDArray[float]
+    ) -> Tuple[int, int]:
         """Check tmin/tmax and convert to idx."""
-        pass
+        _check_type(tmin, ("numeric", None), "tmin")
+        _check_type(tmax, ("numeric", None), "tmax")
+        tmin = 0 if tmin is None else tmin
+        tmin = tmin if np.isfinite(tmin) else 0
+        tmax = times[-1] if tmax is None else tmax
+        tmax = tmax if np.isfinite(tmax) else times[-1]
+        assert 0 <= tmin
+        assert tmax <= times[-1]
+        idx = np.where((tmin <= times) & (times <= tmax))[0]
+        return idx[0], idx[-1]
 
     # --------------------------------------------------------------------
     @BaseSound.sample_rate.setter
     def sample_rate(self, sample_rate: int):
-        self.resample(sample_rate)
+        pass
 
     @BaseSound.duration.setter
     def duration(self, duration: float):
-        self.trim(duration)
+        pass
 
     @property
     def fname(self) -> Path:
         """The sound's original file name."""
         return self._fname
+
+    @property
+    def tmin(self) -> float:
+        """Left-edge of the signal crop [seconds]."""
+        if self._tmin is None:
+            return 0.0
+        return self._tmin / self._sample_rate
+
+    @property
+    def tmax(self) -> float:
+        """Right-edge of the signal crop [seconds]."""
+        if self._tmax is None:
+            return self._time_arr[-1]
+        return self._tmax / self._sample_rate

@@ -35,8 +35,6 @@ class BaseSound(ABC):
         self._sample_rate = BaseSound._check_sample_rate(sample_rate)
         self._duration = BaseSound._check_duration(duration)
         self._set_time_arr()
-        # [:, 0] for left and [:, 1] for right
-        self._signal = np.zeros(shape=(self._time_arr.size, 2))
         self._set_signal()
 
     def _set_time_arr(self) -> None:
@@ -51,7 +49,8 @@ class BaseSound(ABC):
     @abstractmethod
     def _set_signal(self) -> None:
         """Set the signal in the numpy array ._signal played by sounddevice."""
-        pass
+        # [:, 0] for left and [:, 1] for right
+        self._signal = np.zeros(shape=(self._time_arr.size, 2))
 
     # --------------------------------------------------------------------
     def play(self, blocking: bool = False) -> None:
