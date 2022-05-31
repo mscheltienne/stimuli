@@ -150,5 +150,7 @@ class ASSR(BaseSound):
     @method.setter
     def method(self, method: str):
         logger.debug("Setting 'method' to %s.", method)
-        self._method = ASSR._check_method(method)
+        _check_type(method, (str,), "method")
+        _check_value(method, ("conventional", "dsbsc"), "assr method")
+        self._method = method
         self._set_signal()
