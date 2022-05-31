@@ -35,12 +35,18 @@ class BaseSound(ABC):
         self._volume = BaseSound._check_volume(volume)
         self._sample_rate = BaseSound._check_sample_rate(sample_rate)
         self._duration = BaseSound._check_duration(duration)
-        self._set_time_arr()
+        self._set_times()
         self._set_signal()
 
-    def _set_time_arr(self) -> None:
+    def _set_times(self) -> None:
         """Update the time array annd the ._signal variable."""
-        self._time_arr = np.linspace(
+        logger.debug(
+            "Setting the 'times' array with the duration %.2f "
+            "[seconds] and the sampling rate %.1f [Hz].",
+            self._duration,
+            self._sample_rate,
+        )
+        self._times = np.linspace(
             0,
             self._duration,
             int(self._duration * self._sample_rate),
@@ -51,7 +57,7 @@ class BaseSound(ABC):
     def _set_signal(self) -> None:
         """Set the signal in the numpy array ._signal played by sounddevice."""
         # [:, 0] for left and [:, 1] for right
-        self._signal = np.zeros(shape=(self._time_arr.size, 2))
+        self._signal = np.zeros(shape=(self._times.size, 2))
 
     # --------------------------------------------------------------------
     def play(self, blocking: bool = False) -> None:
@@ -80,7 +86,7 @@ class BaseSound(ABC):
             should be '.wav'.
         """
         logger.debug(
-            "Writing sound to file %s with sampling frequency %.1f.",
+            "Writing sound to file %s with sampling frequency %.1f [Hz].",
             fname,
             self._sample_rate,
         )
@@ -119,6 +125,7 @@ class BaseSound(ABC):
     @property
     def volume(self) -> Union[float, Tuple[float, float]]:
         """Sound's volume(s) [AU]."""
+        logger.debug("'self._volume' is set to %s [AU].", self._volume)
         volume = tuple(self._volume)
         if volume[0] == volume[1]:
             volume = volume[0]
@@ -126,32 +133,46 @@ class BaseSound(ABC):
 
     @volume.setter
     def volume(self, volume: Union[float, Tuple[float, float]]):
+        logger.debug("Setting 'volume' to %s [AU].", volume)
         self._volume = BaseSound._check_volume(volume)
         self._set_signal()
 
     @property
     def sample_rate(self) -> int:
         """Sound's sampling rate [Hz]."""
+        logger.debug(
+            "'self._sample_rate' is set to %.1f [Hz].", self._sample_rate
+        )
         return self._sample_rate
 
     @sample_rate.setter
     def sample_rate(self, sample_rate: int):
+        logger.debug("Setting 'sample_rate' to %.1f [Hz].", sample_rate)
         self._sample_rate = BaseSound._check_sample_rate(sample_rate)
-        self._set_time_arr()
+        self._set_times()
         self._set_signal()
 
     @property
     def duration(self) -> float:
         """Sound's duration [seconds]."""
+        logger.debug(
+            "'self._duration' is set to %.2f [seconds].", self._duration
+        )
         return self._duration
 
     @duration.setter
     def duration(self, duration: float):
+        logger.debug("Setting 'duration' to %.2f [seconds].", duration)
         self._duration = BaseSound._check_duration(duration)
-        self._set_time_arr()
+        self._set_times()
         self._set_signal()
 
     @property
     def signal(self) -> NDArray[float]:
         """Sound's signal."""
         return self._signal
+
+    @property
+    def times(self) -> NDArray[float]:
+        """Times array."""
+        return self._times

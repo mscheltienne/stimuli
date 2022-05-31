@@ -4,6 +4,7 @@ from typing import Tuple, Union
 
 import numpy as np
 
+from .. import logger
 from ..utils._checks import _check_type, _check_value
 from ..utils._docs import copy_doc, fill_doc
 from .base import BaseSound
@@ -63,18 +64,18 @@ class ASSR(BaseSound):
     def _set_signal(self) -> None:
         if self._method == "conventional":
             assr_amplitude = 1 - np.cos(
-                2 * np.pi * self._frequency_modulation * self._time_arr
+                2 * np.pi * self._frequency_modulation * self._times
             )
             assr_arr = assr_amplitude * np.cos(
-                2 * np.pi * self._frequency_carrier * self._time_arr
+                2 * np.pi * self._frequency_carrier * self._times
             )
 
         elif self._method == "dsbsc":
             assr_amplitude = np.sin(
-                2 * np.pi * self._frequency_modulation * self._time_arr
+                2 * np.pi * self._frequency_modulation * self._times
             )
             assr_arr = assr_amplitude * np.sin(
-                2 * np.pi * self._frequency_carrier * self._time_arr
+                2 * np.pi * self._frequency_carrier * self._times
             )
         self._signal = np.vstack((assr_arr, assr_arr)).T * self._volume / 100
 
@@ -103,10 +104,17 @@ class ASSR(BaseSound):
     @property
     def frequency_carrier(self) -> float:
         """Sound's carrier frequency [Hz]."""
+        logger.debug(
+            "'self._frequency_carrier' is set to %.2f [Hz].",
+            self._frequency_carrier,
+        )
         return self._frequency_carrier
 
     @frequency_carrier.setter
     def frequency_carrier(self, frequency_carrier: float):
+        logger.debug(
+            "Setting 'frequency_carrier' to %.2f [Hz].", frequency_carrier
+        )
         self._frequency_carrier = ASSR._check_frequency_carrier(
             frequency_carrier
         )
@@ -115,10 +123,18 @@ class ASSR(BaseSound):
     @property
     def frequency_modulation(self) -> float:
         """Sound's modulation frequency [Hz]."""
+        logger.debug(
+            "'self._frequency_modulation' is set to %.2f [Hz].",
+            self._frequency_modulation,
+        )
         return self._frequency_modulation
 
     @frequency_modulation.setter
     def frequency_modulation(self, frequency_modulation: float):
+        logger.debug(
+            "Setting 'frequency_modulation' to %.2f [Hz].",
+            frequency_modulation,
+        )
         self._frequency_modulation = ASSR._check_frequency_modulation(
             frequency_modulation
         )
@@ -127,9 +143,11 @@ class ASSR(BaseSound):
     @property
     def method(self) -> str:
         """Sound's modulation method."""
+        logger.debug("'self._method' is set to %s.", self._method)
         return self._method
 
     @method.setter
     def method(self, method: str):
+        logger.debug("Setting 'method' to %s.", method)
         self._method = ASSR._check_method(method)
         self._set_signal()

@@ -56,20 +56,28 @@ class Sound(BaseSound):
         The time-based selection selects the samples in the closed interval
         [tmin, tmax].
         """
+        logger.debug("Cropping the signal between %s and %s.", tmin, tmax)
         self._tmin, self._tmax = Sound._check_tmin_tmax(
-            tmin, tmax, self._time_arr
+            tmin, tmax, self._times
         )
-        self._time_arr = self._time_arr[self._tmin, self._tmax]
+        logger.debug(
+            "'tmin' corresponds to the idx %i and 'tmax' corresponds "
+            "to the idx %i.",
+            self._tmin,
+            self._tmax,
+        )
+        self._times = self._times[self._tmin, self._tmax]
         self._duration = self._tmax - self._tmin
         self._set_signal()
 
     def reset(self) -> None:
         """Reset the signal to the original loaded signal."""
+        logger.debug("Resetting the loaded sound.")
         self._tmin = None
         self._tmax = None
         self._duration = self._original_duration
         self._volume = np.array([100.0, 100.0])
-        self._set_time_arr()
+        self._set_times()
         self._set_signal()
 
     # --------------------------------------------------------------------
@@ -120,7 +128,7 @@ class Sound(BaseSound):
     @BaseSound.sample_rate.setter
     def sample_rate(self, sample_rate: int):
         logger.warning(
-            "The sampling rate of a loaded sound can not be "
+            "The sampling rate property of a loaded sound can not be "
             "changed. Skipping."
         )
 
@@ -129,49 +137,37 @@ class Sound(BaseSound):
         logger.warning(
             "The duration property of a loaded sound can not be "
             "changed. Use the method .crop(tmin, tmax) to trim "
-            "a loaded sound."
+            "a loaded sound. Skipping."
         )
 
     @property
     def fname(self) -> Path:
         """The sound's original file name."""
+        logger.debug("'self._fname' is set to %s.", self._fname)
         return self._fname
 
     @property
     def tmin(self) -> float:
         """Left-edge of the signal crop [seconds]."""
+        logger.debug("'self._tmin' is set to %s [AU].", self._tmin)
         if self._tmin is None:
-            logger.debug("'self._tmin' is set to None. Returning 0 seconds.")
             return 0.0
-        tmin = self._tmin / self._sample_rate
-        logger.debug(
-            "'self._tmin' is set to %i. Returning %.2f seconds.",
-            self._tmin,
-            tmin,
-        )
-        return tmin
+        return self._tmin / self._sample_rate
 
     @tmin.setter
     def tmin(self, tmin):
+        logger.debug("Setting 'tmin' to %.2f [seconds].", tmin)
         self.crop(tmin=tmin, tmax=self.tmax)
 
     @property
     def tmax(self) -> float:
         """Right-edge of the signal crop [seconds]."""
+        logger.debug("'self._tmax' is set to %s [AU].", self._tmax)
         if self._tmax is None:
-            tmax = self._time_arr[-1]
-            logger.debug(
-                "'self._tmax' is set to None. Returning %.2f seconds.", tmax
-            )
-            return tmax
-        tmax = self._tmax / self._sample_rate
-        logger.debug(
-            "'self._tmax' is set to %i. Returning %.2f seconds.",
-            self._tmax,
-            tmax,
-        )
-        return tmax
+            return self._times[-1]
+        return self._tmax / self._sample_rate
 
     @tmax.setter
     def tmax(self, tmax):
+        logger.debug("Setting 'tmax' to %.2f [seconds].", tmax)
         self.crop(tmin=self.tmin, tmax=tmax)

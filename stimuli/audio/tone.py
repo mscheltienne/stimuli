@@ -4,6 +4,7 @@ from typing import Tuple, Union
 
 import numpy as np
 
+from .. import logger
 from ..utils._checks import _check_type
 from ..utils._docs import copy_doc, fill_doc
 from .base import BaseSound
@@ -38,7 +39,7 @@ class Tone(BaseSound):
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
-        tone_arr = np.sin(2 * np.pi * self._frequency * self._time_arr)
+        tone_arr = np.sin(2 * np.pi * self._frequency * self._times)
         self._signal = np.vstack((tone_arr, tone_arr)).T * self._volume / 100
 
     # --------------------------------------------------------------------
@@ -53,9 +54,11 @@ class Tone(BaseSound):
     @property
     def frequency(self) -> float:
         """Sound's pure tone frequency [Hz]."""
+        logger.debug("'self._frequency' is set to %.2f [Hz].", self._frequency)
         return self._frequency
 
     @frequency.setter
     def frequency(self, frequency: float):
+        logger.debug("Setting 'frequency' to %.2f [Hz].", frequency)
         self._frequency = Tone._check_frequency(frequency)
         self._set_signal()
