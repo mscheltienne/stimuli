@@ -12,7 +12,9 @@ def test_check_volume():
     assert np.allclose(volume, np.array([25, 50]))
     volume = BaseSound._check_volume((0, 100))
     assert np.allclose(volume, np.array([0, 100]))
-    with pytest.raises(TypeError, match="must be an instance of numeric or tuple"):
+    with pytest.raises(
+        TypeError, match="must be an instance of numeric or tuple"
+    ):
         BaseSound._check_volume([25, 50])
     with pytest.raises(AssertionError):
         volume = BaseSound._check_volume((25, 50, 75))

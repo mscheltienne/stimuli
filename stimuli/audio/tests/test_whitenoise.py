@@ -41,7 +41,9 @@ def test_base():
     assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
     sound.volume = (20, 100)
     assert sound.volume == (20, 100)
-    assert np.allclose(np.max(np.abs(sound.signal), axis=0), np.array(sound.volume) / 100)
+    assert np.allclose(
+        np.max(np.abs(sound.signal), axis=0), np.array(sound.volume) / 100
+    )
 
     # test sample rate and duration setter
     assert sound.sample_rate == 44100
