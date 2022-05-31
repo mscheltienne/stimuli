@@ -6,11 +6,11 @@ import numpy as np
 
 from ..utils._checks import _check_type
 from ..utils._docs import copy_doc, fill_doc
-from ._sound import _Sound
+from .base import BaseSound
 
 
 @fill_doc
-class Tone(_Sound):
+class Tone(BaseSound):
     """Pure tone stimulus at the frequency f (Hz).
 
     The equation is sin(2*pi*f*time).
@@ -36,7 +36,7 @@ class Tone(_Sound):
         self.name = "tone"
         super().__init__(volume, sample_rate, duration)
 
-    @copy_doc(_Sound._set_signal)
+    @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         tone_arr = np.sin(2 * np.pi * self._frequency * self._time_arr)
         self._signal = np.vstack((tone_arr, tone_arr)).T * self._volume / 100

@@ -6,11 +6,11 @@ import numpy as np
 
 from ..utils._checks import _check_type, _check_value
 from ..utils._docs import copy_doc, fill_doc
-from ._sound import _Sound
+from .base import BaseSound
 
 
 @fill_doc
-class ASSR(_Sound):
+class ASSR(BaseSound):
     """Auditory Steady State Response Stimulus.
 
     Composed of a carrier frequency fc which is amplitude modulated at fm.
@@ -59,7 +59,7 @@ class ASSR(_Sound):
         self.name = f"ASSR {self._method}"
         super().__init__(volume, sample_rate, duration)
 
-    @copy_doc(_Sound._set_signal)
+    @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         if self._method == "conventional":
             assr_amplitude = 1 - np.cos(

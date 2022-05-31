@@ -14,7 +14,7 @@ from ..utils._docs import fill_doc
 
 
 @fill_doc
-class _Sound(ABC):
+class BaseSound(ABC):
     """Base audio stimulus class.
 
     Parameters
@@ -31,12 +31,15 @@ class _Sound(ABC):
         sample_rate: int = 44100,
         duration: float = 1,
     ):
-        self._volume = _Sound._check_volume(volume)
-        self._sample_rate = _Sound._check_sample_rate(sample_rate)
-        self._duration = _Sound._check_duration(duration)
-        self._set_time_arr_and_signal()
+        self._volume = BaseSound._check_volume(volume)
+        self._sample_rate = BaseSound._check_sample_rate(sample_rate)
+        self._duration = BaseSound._check_duration(duration)
+        self._set_time_arr()
+        # [:, 0] for left and [:, 1] for right
+        self._signal = np.zeros(shape=(self._time_arr.size, 2))
+        self._set_signal()
 
-    def _set_time_arr_and_signal(self) -> None:
+    def _set_time_arr(self) -> None:
         """Update the time array annd the ._signal variable."""
         self._time_arr = np.linspace(
             0,
@@ -44,9 +47,6 @@ class _Sound(ABC):
             int(self._duration * self._sample_rate),
             endpoint=True,
         )
-        # [:, 0] for left and [:, 1] for right
-        self._signal = np.zeros(shape=(self._time_arr.size, len(self._volume)))
-        self._set_signal()
 
     @abstractmethod
     def _set_signal(self) -> None:
@@ -118,8 +118,7 @@ class _Sound(ABC):
 
     @volume.setter
     def volume(self, volume: Union[float, Tuple[float, float]]):
-        self._volume = _Sound._check_volume(volume)
-        self._signal = np.zeros(shape=(self._time_arr.size, 2))
+        self._volume = BaseSound._check_volume(volume)
         self._set_signal()
 
     @property
@@ -129,8 +128,9 @@ class _Sound(ABC):
 
     @sample_rate.setter
     def sample_rate(self, sample_rate: int):
-        self._sample_rate = _Sound._check_sample_rate(sample_rate)
-        self._set_time_arr_and_signal()
+        self._sample_rate = BaseSound._check_sample_rate(sample_rate)
+        self._set_time_arr()
+        self._set_signal()
 
     @property
     def duration(self) -> float:
@@ -139,8 +139,9 @@ class _Sound(ABC):
 
     @duration.setter
     def duration(self, duration: float):
-        self._duration = _Sound._check_duration(duration)
-        self._set_time_arr_and_signal()
+        self._duration = BaseSound._check_duration(duration)
+        self._set_time_arr()
+        self._set_signal()
 
     @property
     def signal(self) -> NDArray[float]:

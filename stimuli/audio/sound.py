@@ -1,7 +1,7 @@
 """Sound loaded from a file."""
 
 from pathlib import Path
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -10,10 +10,10 @@ from scipy.signal import resample
 
 from ..utils._checks import _check_type
 from ..utils._docs import copy_doc
-from ._sound import _Sound
+from .base import BaseSound
 
 
-class Sound(_Sound):
+class Sound(BaseSound):
     """Auditory stimulus loaded from a file.
 
     Parameters
@@ -25,11 +25,11 @@ class Sound(_Sound):
     def __init__(self, fname: Union[str, Path]):
         self._fname = Sound._check_file(fname)
 
-        _original_sample_rate, _original_signal = wavfile.read(self._fname)
-        self._original_sample_rate = _Sound._check_sample_rate(
-            _original_sample_rate
+        original_sample_rate, original_signal = wavfile.read(self._fname)
+        self._original_sample_rate = BaseSound._check_sample_rate(
+            original_sample_rate
         )
-        self._original_signal, volume = Sound._check_signal(_original_signal)
+        self._original_signal, volume = Sound._check_signal(original_signal)
         self._original_duration = (
             self._original_signal.shape[0] / self._original_sample_rate
         )
@@ -39,35 +39,23 @@ class Sound(_Sound):
             volume, self._original_sample_rate, self._original_duration
         )
 
-    @copy_doc(_Sound._set_signal)
+    @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         assert self._signal.ndim == 2
         slc = (slice(None, self._trim_samples), slice(None))
         self._signal = self._original_signal[slc] * self._volume / 100
 
-    # TODO: Replace with a crop method with tmin and tmax
-    def trim(self, duration: float) -> None:
-        """Trim the original sound to the new duration."""
-        duration = _Sound._check_duration(duration)
-        if self._original_duration <= duration:
-            return None
-        self._duration = duration
-        self._trim_samples = int(self._duration * self._sample_rate)
-        self._set_signal()
+    def crop(self, tmin: Optional[float] = None, tmax: Optional[float] = None) -> None:
+        """Crop the sound between tmin and tmax.
 
-    def resample(self, sample_rate: int) -> None:
-        """Resample the current sound to the new sampling rate."""
-        self._sample_rate = _Sound._check_sample_rate(sample_rate)
-        self._signal = resample(
-            self._signal, int(self._sample_rate * self._duration), axis=0
-        )
-
-    def reset(self) -> None:
-        """Reset the current sound to the original loaded sound."""
-        self._duration = self._original_duration
-        self._trim_samples = None
-        self._sample_rate = self._original_sample_rate
-        self._set_signal()
+        Parameters
+        ----------
+        tmin : float | None
+            Left-edge of the crop. If None, the beginning of the sound.
+        tmax : float | None
+            Right-edge of the crop. If None, the end of the sound.
+        """
+        tmin, tmax = Sound._check_tmin_tmax(tmin, tmax, self._original_duration)
 
     # --------------------------------------------------------------------
     @staticmethod
@@ -97,12 +85,17 @@ class Sound(_Sound):
         signal /= max_
         return signal, (100, 100)
 
+    @staticmethod
+    def _check_tmin_tmax(tmin: Optional[float], tmax: Optional[float], duration: float) -> Tuple[int, int]:
+        """Check tmin/tmax and convert to idx."""
+        pass
+
     # --------------------------------------------------------------------
-    @_Sound.sample_rate.setter
+    @BaseSound.sample_rate.setter
     def sample_rate(self, sample_rate: int):
         self.resample(sample_rate)
 
-    @_Sound.duration.setter
+    @BaseSound.duration.setter
     def duration(self, duration: float):
         self.trim(duration)
 
