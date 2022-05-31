@@ -23,7 +23,7 @@ class Sound(BaseSound):
     """
 
     def __init__(self, fname: Union[str, Path]):
-        self._fname = Sound._check_file(fname)
+        self._fname = BaseSound._check_file(fname, must_exists=True)
 
         sample_rate, original_signal = wavfile.read(self._fname)
         self._original_signal, volume = Sound._check_signal(original_signal)
@@ -32,11 +32,13 @@ class Sound(BaseSound):
         self._tmin = None  # idx
         self._tmax = None  # idx
         super().__init__(volume, sample_rate, self._original_duration)
+        self._original_times = self._times.copy()
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
-        assert self._signal.ndim == 2
-        slc = (slice(self._tmin, self._tmax), slice(None))
+        assert self._original_signal.ndim == 2
+        tmax = None if self._tmax is None else self._tmax + 1  # +1 for slice
+        slc = (slice(self._tmin, tmax), slice(None))
         self._signal = self._original_signal[slc] * self._volume / 100
 
     def crop(
@@ -58,7 +60,7 @@ class Sound(BaseSound):
         """
         logger.debug("Cropping the signal between %s and %s.", tmin, tmax)
         self._tmin, self._tmax = Sound._check_tmin_tmax(
-            tmin, tmax, self._times
+            tmin, tmax, self._original_times
         )
         logger.debug(
             "'tmin' corresponds to the idx %i and 'tmax' corresponds "
@@ -66,8 +68,11 @@ class Sound(BaseSound):
             self._tmin,
             self._tmax,
         )
-        self._times = self._times[self._tmin, self._tmax]
-        self._duration = self._tmax - self._tmin
+        self._duration = (
+            self._original_times[self._tmax] - self._original_times[self._tmin]
+        )
+        # tmax + 1 for slice
+        self._times = self._original_times[self._tmin : self._tmax + 1]
         self._set_signal()
 
     def reset(self) -> None:
@@ -76,21 +81,11 @@ class Sound(BaseSound):
         self._tmin = None
         self._tmax = None
         self._duration = self._original_duration
-        self._volume = np.array([100.0, 100.0])
+        self._volume = np.max(np.abs(self._original_signal), axis=0) * 100
         self._set_times()
         self._set_signal()
 
     # --------------------------------------------------------------------
-    @staticmethod
-    def _check_file(fname: Union[str, Path]) -> Path:
-        """Check if the file is supported and exists."""
-        SUPPORTED = ".wav"
-
-        _check_type(fname, ("path-like",))
-        fname = Path(fname)
-        assert fname.suffix in SUPPORTED and fname.exists()
-        return fname
-
     @staticmethod
     def _check_signal(
         signal: NDArray[float],
@@ -101,10 +96,14 @@ class Sound(BaseSound):
             assert signal.shape[1] in (1, 2)
             if signal.shape[1] == 1:
                 signal = signal[:, 0]
-        if signal.ndin == 1:
+        if signal.ndim == 1:
             signal = np.vstack((signal, signal)).T
-        signal /= np.max(np.abs(signal))  # normalize
-        return signal, (100, 100)
+        with np.errstate(divide="ignore"):
+            signal /= np.max(np.abs(signal), axis=0)  # normalize both channels
+        np.nan_to_num(signal, copy=False, nan=0.0)
+        volume = tuple(np.max(np.abs(signal), axis=0) * 100)
+        # volume is (100, 100) except if one channel is muted.
+        return signal, volume
 
     @staticmethod
     def _check_tmin_tmax(
@@ -149,13 +148,8 @@ class Sound(BaseSound):
         """Left-edge of the signal crop [seconds]."""
         logger.debug("'self._tmin' is set to %s [AU].", self._tmin)
         if self._tmin is None:
-            return 0.0
-        return self._tmin / self._sample_rate
-
-    @tmin.setter
-    def tmin(self, tmin):
-        logger.debug("Setting 'tmin' to %.2f [seconds].", tmin)
-        self.crop(tmin=tmin, tmax=self.tmax)
+            return self._times[0]
+        return self._original_times[self._tmin]
 
     @property
     def tmax(self) -> float:
@@ -163,9 +157,4 @@ class Sound(BaseSound):
         logger.debug("'self._tmax' is set to %s [AU].", self._tmax)
         if self._tmax is None:
             return self._times[-1]
-        return self._tmax / self._sample_rate
-
-    @tmax.setter
-    def tmax(self, tmax):
-        logger.debug("Setting 'tmax' to %.2f [seconds].", tmax)
-        self.crop(tmin=self.tmin, tmax=tmax)
+        return self._original_times[self._tmax]

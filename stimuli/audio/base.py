@@ -1,6 +1,7 @@
 """Base class for sound delivery."""
 
 from abc import ABC, abstractmethod
+from os import makedirs
 from pathlib import Path
 from typing import Tuple, Union
 
@@ -76,7 +77,7 @@ class BaseSound(ABC):
         logger.debug("Stop requested.")
         sd.stop()
 
-    def write(self, fname: Union[str, Path]) -> None:
+    def save(self, fname: Union[str, Path], overwrite: bool = False) -> None:
         """Save a sound signal into a .wav file with scipy.io.wavfile.write().
 
         Parameters
@@ -84,7 +85,19 @@ class BaseSound(ABC):
         fname : str | Path
             Path to the file where the sound signal is saved. The extension
             should be '.wav'.
+        overwrite : bool
+            If True, file with the same name are overwritten.
         """
+        fname = BaseSound._check_file(fname, must_exists=False)
+        if overwrite is False and fname.exists():
+            raise RuntimeError(
+                "The file %s already exist. Set argument "
+                "'overwrite' to True if you want to overwrite "
+                "the existing file.",
+                fname,
+            )
+        if not fname.parent.exists():
+            makedirs(fname.parent)
         logger.debug(
             "Writing sound to file %s with sampling frequency %.1f [Hz].",
             fname,
@@ -120,6 +133,18 @@ class BaseSound(ABC):
         _check_type(duration, ("numeric",), item_name="duration")
         assert 0 < duration
         return duration
+
+    @staticmethod
+    def _check_file(fname: Union[str, Path], must_exists: bool) -> Path:
+        """Check if the fname is valid."""
+        SUPPORTED = ".wav"
+
+        _check_type(fname, ("path-like",))
+        fname = Path(fname)
+        assert fname.suffix in SUPPORTED
+        if must_exists:
+            assert fname.exists()
+        return fname
 
     # --------------------------------------------------------------------
     @property
