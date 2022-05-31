@@ -9,6 +9,7 @@ import sounddevice as sd
 from numpy.typing import NDArray
 from scipy.io import wavfile
 
+from .. import logger
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
 
@@ -58,12 +59,15 @@ class BaseSound(ABC):
 
         This function creates and terminates an audio stream.
         """
+        _check_type(blocking, ("bool",), "blocking")
+        logger.debug("Play requested with blocking set to %s", blocking)
         sd.play(self._signal, samplerate=self._sample_rate, mapping=[1, 2])
         if blocking:
             sd.wait()
 
     def stop(self) -> None:
         """Stop the sounds played on the active audio stream."""
+        logger.debug("Stop requested.")
         sd.stop()
 
     def write(self, fname: Union[str, Path]) -> None:
@@ -75,6 +79,11 @@ class BaseSound(ABC):
             Path to the file where the sound signal is saved. The extension
             should be '.wav'.
         """
+        logger.debug(
+            "Writing sound to file %s with sampling frequency %.1f.",
+            fname,
+            self._sample_rate,
+        )
         wavfile.write(fname, self._sample_rate, self._signal)
 
     # --------------------------------------------------------------------

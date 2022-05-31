@@ -7,6 +7,7 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.io import wavfile
 
+from .. import logger
 from ..utils._checks import _check_type
 from ..utils._docs import copy_doc
 from .base import BaseSound
@@ -118,11 +119,18 @@ class Sound(BaseSound):
     # --------------------------------------------------------------------
     @BaseSound.sample_rate.setter
     def sample_rate(self, sample_rate: int):
-        pass
+        logger.warning(
+            "The sampling rate of a loaded sound can not be "
+            "changed. Skipping."
+        )
 
     @BaseSound.duration.setter
     def duration(self, duration: float):
-        pass
+        logger.warning(
+            "The duration property of a loaded sound can not be "
+            "changed. Use the method .crop(tmin, tmax) to trim "
+            "a loaded sound."
+        )
 
     @property
     def fname(self) -> Path:
@@ -133,12 +141,37 @@ class Sound(BaseSound):
     def tmin(self) -> float:
         """Left-edge of the signal crop [seconds]."""
         if self._tmin is None:
+            logger.debug("'self._tmin' is set to None. Returning 0 seconds.")
             return 0.0
-        return self._tmin / self._sample_rate
+        tmin = self._tmin / self._sample_rate
+        logger.debug(
+            "'self._tmin' is set to %i. Returning %.2f seconds.",
+            self._tmin,
+            tmin,
+        )
+        return tmin
+
+    @tmin.setter
+    def tmin(self, tmin):
+        self.crop(tmin=tmin, tmax=self.tmax)
 
     @property
     def tmax(self) -> float:
         """Right-edge of the signal crop [seconds]."""
         if self._tmax is None:
-            return self._time_arr[-1]
-        return self._tmax / self._sample_rate
+            tmax = self._time_arr[-1]
+            logger.debug(
+                "'self._tmax' is set to None. Returning %.2f seconds.", tmax
+            )
+            return tmax
+        tmax = self._tmax / self._sample_rate
+        logger.debug(
+            "'self._tmax' is set to %i. Returning %.2f seconds.",
+            self._tmax,
+            tmax,
+        )
+        return tmax
+
+    @tmax.setter
+    def tmax(self, tmax):
+        self.crop(tmin=self.tmin, tmax=tmax)
