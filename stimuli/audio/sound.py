@@ -103,9 +103,7 @@ class Sound(BaseSound):
                 signal = signal[:, 0]
         if signal.ndin == 1:
             signal = np.vstack((signal, signal)).T
-        # normalize signal
-        max_ = np.max(np.abs(signal))
-        signal /= max_
+        signal /= np.max(np.abs(signal))  # normalize
         return signal, (100, 100)
 
     @staticmethod

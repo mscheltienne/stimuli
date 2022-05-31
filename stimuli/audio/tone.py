@@ -40,6 +40,7 @@ class Tone(BaseSound):
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         tone_arr = np.sin(2 * np.pi * self._frequency * self._times)
+        tone_arr /= np.max(np.abs(tone_arr))  # normalize
         self._signal = np.vstack((tone_arr, tone_arr)).T * self._volume / 100
 
     # --------------------------------------------------------------------
