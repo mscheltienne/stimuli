@@ -65,7 +65,7 @@ class BaseSound(ABC):
 
         This function creates and terminates an audio stream.
         """
-        _check_type(blocking, ("bool",), "blocking")
+        _check_type(blocking, (bool,), "blocking")
         logger.debug("Play requested with blocking set to %s", blocking)
         sd.play(self._signal, samplerate=self._sample_rate, mapping=[1, 2])
         if blocking:
@@ -100,7 +100,7 @@ class BaseSound(ABC):
         """Check that the volume provided by the user is valid."""
         _check_type(volume, ("numeric", tuple), "volume")
         if not isinstance(volume, tuple):
-            volume = tuple([volume])
+            volume = (volume, volume)
         assert len(volume) in (1, 2)
         for vol in volume:
             _check_type(vol, ("numeric",))

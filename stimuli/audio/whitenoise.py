@@ -33,4 +33,6 @@ class WhiteNoise(BaseSound):
     def _set_signal(self) -> None:
         # mean: 0, sigma: 0.33
         wn_arr = self._rng.normal(loc=0, scale=1 / 3, size=self._times.size)
+        # normalize
+        wn_arr /= np.max(np.abs(wn_arr))
         self._signal = np.vstack((wn_arr, wn_arr)).T * self._volume / 100
