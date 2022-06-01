@@ -33,7 +33,7 @@ def test_io(tmp_path, SoundClass):
     sound = SoundClass(volume=(50, 25))
     sound.save(fname, overwrite=False)
     sound_loaded = Sound(fname)
-    assert sound_loaded.volume == 100
+    assert np.allclose(sound_loaded.volume, (100, 50))
     sound_loaded.volume = (50, 25)
     assert np.allclose(sound.signal, sound_loaded.signal)
 

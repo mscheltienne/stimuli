@@ -90,7 +90,31 @@ class Sound(BaseSound):
     def _check_signal(
         signal: NDArray[float],
     ) -> Tuple[NDArray[float], Tuple[float, float]]:
-        """Check that the sound is either mono or stereo."""
+        """Check that the sound is either mono or stereo.
+
+        Parameters
+        ----------
+        signal : array
+            Raw signal loaded from the file.
+
+        Returns
+        -------
+        signal : array
+            Signal that has been normalized channel-wise.
+        volume : tuple
+            A 2-float tuple representing the (L, R) volume before channel-wise
+            normalization. The volume is normalized between 0 and 100.
+
+        Notes
+        -----
+        The volume is retrieved after normalizing the signal with the max of
+        both channels, thus preserving the difference between both channels.
+        The returned signal, stored in _original_signal, is normalized channel-
+        wise. Thus, it does not correspond to the returned volume.
+
+        However, the set signal, stored in _signal, is scaled by the volume in
+        the _set_signal method.
+        """
         assert signal.ndim in (1, 2)
         if signal.ndim == 2:
             assert signal.shape[1] in (1, 2)
@@ -98,11 +122,19 @@ class Sound(BaseSound):
                 signal = signal[:, 0]
         if signal.ndim == 1:
             signal = np.vstack((signal, signal)).T
-        with np.errstate(divide="ignore"):
-            signal /= np.max(np.abs(signal), axis=0)  # normalize both channels
-        np.nan_to_num(signal, copy=False, nan=0.0)
+        # normalize to retrieve the volume of boh channels
+        max_ = np.max(np.abs(signal))
+        if max_ == 0:
+            logger.warning("The loaded sound has 2 empty channels.")
+            return signal(0, 0)
+        signal /= max_
         volume = tuple(np.max(np.abs(signal), axis=0) * 100)
-        # volume is (100, 100) except if one channel is muted.
+        assert len(volume) == 2  # sanity-check
+        assert any(elt == 100 for elt in volume)  # sanity-check
+        # normalize both channels
+        if all(elt != 0 for elt in volume):
+            signal /= np.max(np.abs(signal), axis=0)
+            np.nan_to_num(signal, copy=False, nan=0.0)  # sanity-check
         return signal, volume
 
     @staticmethod
