@@ -4,11 +4,11 @@ import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
-from ._visual import _Visual
+from .base import BaseVisual
 
 
 @fill_doc
-class Text(_Visual):
+class Text(BaseVisual):
     """
     Class to display a text.
 
@@ -72,7 +72,7 @@ class Text(_Visual):
             self.window_size,
             self.window_center,
         )
-        color = _Visual._check_color(color)
+        color = BaseVisual._check_color(color)
 
         cv2.putText(
             self._img,

@@ -4,11 +4,11 @@ import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
-from ._visual import _Visual
+from .base import BaseVisual
 
 
 @fill_doc
-class Cross(_Visual):
+class Cross(BaseVisual):
     """Class to display a cross, e.g. a fixation cross.
 
     Parameters
@@ -69,7 +69,7 @@ class Cross(_Visual):
         """
         length = Cross._check_length(length, self.window_size)
         thickness = Cross._check_thickness(thickness, length)
-        color = _Visual._check_color(color)
+        color = BaseVisual._check_color(color)
         position = Cross._check_position(
             position, length, self.window_size, self.window_center
         )

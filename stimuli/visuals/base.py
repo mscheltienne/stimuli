@@ -12,7 +12,7 @@ from ..utils._docs import fill_doc
 
 
 @fill_doc
-class _Visual(ABC):
+class BaseVisual(ABC):
     """Base visual class.
 
     Parameters
@@ -32,7 +32,7 @@ class _Visual(ABC):
         self._window_name = window_name
 
         # size attributes
-        self._window_size = _Visual._check_window_size(window_size)
+        self._window_size = BaseVisual._check_window_size(window_size)
         self._window_width = self._window_size[0]
         self._window_height = self._window_size[1]
         self._window_center = (
@@ -76,7 +76,7 @@ class _Visual(ABC):
         color : str | tuple
             Color used to draw the background. %(visual_color)s
         """
-        color = _Visual._check_color(color)
+        color = BaseVisual._check_color(color)
         self._img = np.full(
             (self._window_height, self._window_width, 3),
             fill_value=color,

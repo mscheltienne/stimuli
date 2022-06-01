@@ -5,11 +5,11 @@ import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
-from ._visual import _Visual
+from .base import BaseVisual
 
 
 @fill_doc
-class FillingBar(_Visual):
+class FillingBar(BaseVisual):
     """Class to display a centered bar that can fill/unfill along a given axis.
 
     The filling process starts from the center of the bar and fills both sides
@@ -70,7 +70,7 @@ class FillingBar(_Visual):
         else:
             self._reset()
 
-        self._axis = _Visual._check_axis(axis)
+        self._axis = BaseVisual._check_axis(axis)
         self._length, margin = FillingBar._check_length_margin(
             length, margin, self._axis, self.window_size
         )
@@ -78,8 +78,8 @@ class FillingBar(_Visual):
             width, margin, self._length, self._axis, self.window_size
         )
         self._margin = margin
-        self._color = _Visual._check_color(color)
-        self._fill_color = _Visual._check_color(fill_color)
+        self._color = BaseVisual._check_color(color)
+        self._fill_color = BaseVisual._check_color(fill_color)
         self._fill_perc = FillingBar._check_fill_perc(fill_perc)
 
         self._putBar()
@@ -233,7 +233,7 @@ class FillingBar(_Visual):
 
     @color.setter
     def color(self, color):
-        self._color = _Visual._check_color(color)
+        self._color = BaseVisual._check_color(color)
         self._reset()
         self._putBar()
 
@@ -244,7 +244,7 @@ class FillingBar(_Visual):
 
     @fill_color.setter
     def fill_color(self, fill_color):
-        self._fill_color = _Visual._check_color(fill_color)
+        self._fill_color = BaseVisual._check_color(fill_color)
         self._reset()
         self._putBar()
 
@@ -271,6 +271,6 @@ class FillingBar(_Visual):
 
     @axis.setter
     def axis(self, axis):
-        self._axis = _Visual._check_axis(axis)
+        self._axis = BaseVisual._check_axis(axis)
         self._reset()
         self._putBar()

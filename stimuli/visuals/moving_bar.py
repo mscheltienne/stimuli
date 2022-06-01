@@ -5,11 +5,11 @@ import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
-from ._visual import _Visual
+from .base import BaseVisual
 
 
 @fill_doc
-class MovingBar(_Visual):
+class MovingBar(BaseVisual):
     """Class to display a centered moving bar along an axis.
 
     Parameters
@@ -65,7 +65,7 @@ class MovingBar(_Visual):
             self._reset()
 
         self._position = MovingBar._check_position(position)
-        self._axis = _Visual._check_axis(axis)
+        self._axis = BaseVisual._check_axis(axis)
 
         self._length = MovingBar._check_length(
             length, self._axis, self.window_size
@@ -73,7 +73,7 @@ class MovingBar(_Visual):
         self._width = MovingBar._check_width(
             width, self._length, self._axis, self.window_size
         )
-        self._color = _Visual._check_color(color)
+        self._color = BaseVisual._check_color(color)
 
         self._putBar()
 
@@ -214,7 +214,7 @@ class MovingBar(_Visual):
 
     @color.setter
     def color(self, color):
-        self._color = _Visual._check_color(color)
+        self._color = BaseVisual._check_color(color)
         self._reset()
         self._putBar()
 
@@ -241,6 +241,6 @@ class MovingBar(_Visual):
 
     @axis.setter
     def axis(self, axis):
-        self._axis = _Visual._check_axis(axis)
+        self._axis = BaseVisual._check_axis(axis)
         self._reset()
         self._putBar()
