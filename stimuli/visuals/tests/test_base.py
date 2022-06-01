@@ -1,6 +1,4 @@
 import pytest
-import screeninfo
-
 from stimuli.visuals import BaseFeedbackVisual, BaseVisual
 
 
@@ -8,15 +6,6 @@ def test_check_window_size():
     """Check the window size static checker."""
     winsize = BaseVisual._check_window_size((100, 20))
     assert winsize == (100, 20)
-    try:
-        winsize = BaseVisual._check_window_size(None)
-        assert isinstance(winsize, tuple)
-        assert len(winsize) == 2
-        assert all(isinstance(elt, int) for elt in winsize)
-        assert all(0 < elt for elt in winsize)
-    except screeninfo.ScreenInfoError:
-        with pytest.raises(RuntimeError, match="No monitor found."):
-            BaseVisual._check_window_size(None)
 
     with pytest.raises(TypeError, match="must be an instance of"):
         BaseVisual._check_window_size([100, 20])
