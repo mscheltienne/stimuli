@@ -29,10 +29,11 @@ class Text(BaseVisual):
     def putText(
         self,
         text: str,
-        fontFace=cv2.FONT_HERSHEY_DUPLEX,
+        fontFace: int = cv2.FONT_HERSHEY_DUPLEX,
         fontScale: int = 2,
         color: Union[str, Tuple[int, int, int]] = "white",
         thickness: int = 2,
+        lineType : int = cv2.LINE_AA,
         position: Union[str, Tuple[int, int]] = "centered",
     ) -> None:
         """Add text to the visual.
@@ -41,14 +42,16 @@ class Text(BaseVisual):
         ----------
         text : str
             Text to display.
-        fontFace : cv2 font
+        fontFace : int (cv2.FONT)
             Font to use to write the text.
         fontScale : int
-            Scale of the font.
+            Font scale factor multiplied by the font-specific base size.
         color : str | tuple
             Color used to write the text. %(visual_color)s
         thickness : int
             Text line thickness in pixel.
+        lineType : int (cv2.LINE)
+            Type of line to use.
         position : str | tuple
             Position of the bottom left corner of the text. See notes for
             additional information.
@@ -60,8 +63,10 @@ class Text(BaseVisual):
         _check_type(text, (str,), "text")
         if len(text.strip()) == 0:
             return None
+        _check_type(fontFace, ("int",), "fontFace")
         _check_type(fontScale, ("int",), "fontScale")
         _check_type(thickness, ("int",), "thickness")
+        _check_type(lineType, ("int",), "lineType")
         textWidth, textHeight = cv2.getTextSize(
             text, fontFace, fontScale, thickness
         )[0]
@@ -82,7 +87,7 @@ class Text(BaseVisual):
             fontScale,
             color,
             thickness=thickness,
-            lineType=cv2.LINE_AA,
+            lineType=lineType,
         )
 
     # --------------------------------------------------------------------
