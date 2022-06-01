@@ -18,8 +18,8 @@ from .test_base import _test_base
 )
 def test_cross(length, thickness, color, position):
     """Test a cross visual."""
-    visual = Cross(window_name="text", window_size=(500, 500))
-    assert visual.window_name == "text"
+    visual = Cross(window_name="test", window_size=(500, 500))
+    assert visual.window_name == "test"
     assert visual.window_size == (500, 500)
     assert visual._window_center == (250, 250)
     assert np.count_nonzero(visual.img) == 0
@@ -35,7 +35,7 @@ def test_base():
 
 def test_invalid_arguments():
     """Test invalid arguments."""
-    visual = Cross(window_name="text", window_size=(500, 500))
+    visual = Cross(window_name="test", window_size=(500, 500))
 
     with pytest.raises(TypeError, match="must be an instance of"):
         visual.putCross(length="long", thickness=10, color="white")

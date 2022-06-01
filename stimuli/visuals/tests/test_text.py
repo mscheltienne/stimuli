@@ -21,8 +21,8 @@ from .test_base import _test_base
 )
 def test_text(fontFace, fontScale, color, thickness, lineType, position):
     """Test a text visual."""
-    visual = Text(window_name="text", window_size=(500, 500))
-    assert visual.window_name == "text"
+    visual = Text(window_name="test", window_size=(500, 500))
+    assert visual.window_name == "test"
     assert visual.window_size == (500, 500)
     assert visual._window_center == (250, 250)
     assert np.count_nonzero(visual.img) == 0
@@ -40,7 +40,7 @@ def test_base():
 
 def test_invalid_arguments():
     """Test invalid arguments."""
-    visual = Text(window_name="text", window_size=(500, 500))
+    visual = Text(window_name="test", window_size=(500, 500))
 
     with pytest.raises(TypeError, match="must be an instance of"):
         visual.putText(101)
