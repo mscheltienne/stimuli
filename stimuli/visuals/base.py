@@ -10,6 +10,7 @@ from numpy.typing import NDArray
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
+from ..utils._logs import logger
 
 
 @fill_doc
@@ -109,8 +110,9 @@ class BaseVisual(ABC):
                 height = min(
                     monitor.height for monitor in screeninfo.get_monitors()
                 )
-            except screeninfo.ScreenInfoError:
-                raise RuntimeError("No monitor found.")
+            except Exception as error:
+                logger.error("No monitor found.")
+                raise error
             window_size = (width, height)
 
         for size in window_size:

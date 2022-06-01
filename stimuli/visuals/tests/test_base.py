@@ -1,4 +1,5 @@
 import pytest
+
 from stimuli.visuals import BaseFeedbackVisual, BaseVisual
 
 

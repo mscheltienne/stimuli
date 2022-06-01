@@ -34,11 +34,13 @@ jobs:
         with:
           path: main
       - name: Checkout tool repository
+        if: ${{ matrix.os != 'macos'}}
         uses: actions/checkout@v3
         with:
           repository: LABSN/sound-ci-helpers
           path: sound-ci-helpers
       - name: Create virtual sound card
+        if: ${{ matrix.os != 'macos'}}
         run: ./sound-ci-helpers/auto.sh
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
