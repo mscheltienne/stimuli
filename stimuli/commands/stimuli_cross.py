@@ -19,7 +19,7 @@ def run():
     )
     parser.add_argument(
         "--winsize",
-        help="name of the visual window",
+        help="size of the visual window",
         type=int,
         metavar=int,
         nargs=2,
@@ -49,7 +49,7 @@ def run():
     )
     parser.add_argument(
         "--color",
-        help="BGR color of the fixation cross as 3 integers in the range [0, 255]",
+        help="BGR color of the cross as 3 integers in the range [0, 255]",
         type=int,
         metavar=int,
         nargs=3,
