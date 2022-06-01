@@ -30,21 +30,24 @@ jobs:
         shell: bash
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          path: main
+      - name: Checkout tool repository
+        uses: actions/checkout@v3
+        with:
+          repository: LABSN/sound-ci-helpers
+          path: sound-ci-helpers
+      - name: Create virtual sound card
+        run: ./sound-ci-helpers/auto.sh
       - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
           architecture: 'x64'
       - name: Install package
         run: |
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
-          python -m pip install --progress-bar off .[test]
-      - name: Install portaudio
-        if: ${{ matrix.os == 'ubuntu'}}
-        run: sudo apt-get install libportaudio2
-      - name: Start audio server
-        if: ${{ matrix.os == 'windows' }}
-        run: net start audiosrv
+          python -m pip install --progress-bar off main/.[test]
       - name: Run pytest
         run: pytest stimuli --cov=stimuli --cov-report=xml --verbose
