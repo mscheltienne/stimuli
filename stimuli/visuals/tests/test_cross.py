@@ -7,25 +7,25 @@ from .. import Cross
 from .test_base import _test_base
 
 
-@pytest.mark.parametrize(
-    "length, thickness, color, position",
-    product(
-        (100, 20),
-        (5, 10),
-        ("white", "teal", (101, 101, 101)),
-        ("center", (100, 400)),
-    ),
-)
-def test_cross(length, thickness, color, position):
-    """Test a cross visual."""
-    visual = Cross(window_name="test", window_size=(500, 500))
-    assert visual.window_name == "test"
-    assert visual.window_size == (500, 500)
-    assert visual._window_center == (250, 250)
-    assert np.count_nonzero(visual.img) == 0
-    visual.putCross(length, thickness, color, position)
-    visual.show()
-    visual.close()
+# @pytest.mark.parametrize(
+#     "length, thickness, color, position",
+#     product(
+#         (100, 20),
+#         (5, 10),
+#         ("white", "teal", (101, 101, 101)),
+#         ("center", (100, 400)),
+#     ),
+# )
+# def test_cross(length, thickness, color, position):
+#     """Test a cross visual."""
+#     visual = Cross(window_name="test", window_size=(500, 500))
+#     assert visual.window_name == "test"
+#     assert visual.window_size == (500, 500)
+#     assert visual._window_center == (250, 250)
+#     assert np.count_nonzero(visual.img) == 0
+#     visual.putCross(length, thickness, color, position)
+#     visual.show()
+#     visual.close()
 
 
 def test_base():
