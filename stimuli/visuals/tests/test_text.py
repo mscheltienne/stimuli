@@ -29,8 +29,8 @@ def test_text(fontFace, fontScale, color, thickness, lineType, position):
     visual.putText(
         "101", fontFace, fontScale, color, thickness, lineType, position
     )
-    visual.show()
-    visual.close()
+    # visual.show()
+    # visual.close()
 
 
 def test_base():

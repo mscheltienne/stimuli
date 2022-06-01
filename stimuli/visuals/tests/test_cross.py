@@ -24,8 +24,8 @@ def test_cross(length, thickness, color, position):
     assert visual._window_center == (250, 250)
     assert np.count_nonzero(visual.img) == 0
     visual.putCross(length, thickness, color, position)
-    visual.show()
-    visual.close()
+    # visual.show()
+    # visual.close()
 
 
 def test_base():
