@@ -83,7 +83,4 @@ def run():
     visual = Cross(args.name, winsize)
     visual.draw_background(tuple(args.bgcolor))
     visual.putCross(args.length, args.thickness, tuple(args.color), position)
-    visual.show()
-
-    # wait for a user input in the console to close the window
-    input(">>> Press ENTER to close the fixation cross.\n")
+    visual.show(0)
