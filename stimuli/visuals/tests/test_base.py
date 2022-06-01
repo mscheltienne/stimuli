@@ -56,8 +56,6 @@ def test_check_axis():
 def _test_base(Visual):
     """Test base functionalities with a Visual class."""
     visual = Visual(window_size=(100, 50))
-    # visual.show()
-    # visual.close()
     assert np.all(visual.img == 0)
     visual.draw_background(color=(101, 101, 101))
     assert np.all(visual.img == 101)

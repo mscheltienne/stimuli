@@ -25,8 +25,6 @@ def test_moving_bar(length, width, color, position, axis):
     assert visual._window_center == (250, 250)
     assert np.count_nonzero(visual.img) == 0
     visual.putBar(length, width, color, position, axis)
-    # visual.show()
-    # visual.close()
 
 
 def test_moving_bar_setters():
