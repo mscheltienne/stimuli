@@ -43,5 +43,8 @@ jobs:
       - name: Install portaudio
         if: ${{ matrix.os == 'ubuntu'}}
         run: sudo apt-get install libportaudio2
+      - name: Start audio server
+        if: ${{ matrix.os == 'windows' }}
+        run: net start audiosrv
       - name: Run pytest
         run: pytest stimuli --cov=stimuli --cov-report=xml --verbose
