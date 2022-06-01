@@ -109,8 +109,8 @@ class BaseVisual(ABC):
                 height = min(
                     monitor.height for monitor in screeninfo.get_monitors()
                 )
-            except ValueError as headless:
-                raise ValueError from headless
+            except screeninfo.ScreenInfoError:
+                raise RuntimeError("No monitor found.")
             window_size = (width, height)
 
         for size in window_size:
