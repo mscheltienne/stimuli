@@ -5,11 +5,11 @@ import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
-from .base import BaseVisual
+from .base import BaseFeedbackVisual
 
 
 @fill_doc
-class FillingBar(BaseVisual):
+class FillingBar(BaseFeedbackVisual):
     """Class to display a centered bar that can fill/unfill along a given axis.
 
     The filling process starts from the center of the bar and fills both sides
@@ -27,7 +27,6 @@ class FillingBar(BaseVisual):
         window_size: Optional[Tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
-        self._backup_img = None
 
     @fill_doc
     def putBar(
@@ -51,9 +50,9 @@ class FillingBar(BaseVisual):
             The containing bar (length x width) is set as:
                 (length+margin, width+margin)
         color : str | tuple
-            Color used to draw the bar background. %(color)s
+            Color used to draw the bar background. %(visual_color)s
         color : str | tuple
-            Color used to fill the bar. %(color)s
+            Color used to fill the bar. %(visual_color)s
         fill_perc : float
             Percentage between 0 and 1 of bar filling.
                 - 0: not filled
@@ -70,16 +69,16 @@ class FillingBar(BaseVisual):
         else:
             self._reset()
 
-        self._axis = BaseVisual._check_axis(axis)
+        self._axis = BaseFeedbackVisual._check_axis(axis)
         self._length, margin = FillingBar._check_length_margin(
-            length, margin, self._axis, self.window_size
+            length, margin, self._axis, self._window_size
         )
         self._width, margin = FillingBar._check_width_margin(
-            width, margin, self._length, self._axis, self.window_size
+            width, margin, self._length, self._axis, self._window_size
         )
         self._margin = margin
-        self._color = BaseVisual._check_color(color)
-        self._fill_color = BaseVisual._check_color(fill_color)
+        self._color = BaseFeedbackVisual._check_color(color)
+        self._fill_color = BaseFeedbackVisual._check_color(fill_color)
         self._fill_perc = FillingBar._check_fill_perc(fill_perc)
 
         self._putBar()
@@ -116,9 +115,7 @@ class FillingBar(BaseVisual):
         cv2.rectangle(self._img, (xP1, yP1), (xP2, yP2), self._color, -1)
 
         # internal smaller rectangle filling the external rectangle
-        fill_perc = FillingBar._convert_fill_perc_to_pixel(
-            self.fill_perc, self._length
-        )
+        fill_perc = int((self._length // 2) * self._fill_perc)
         if fill_perc != 0:
             if self._axis == 0:
                 xP1 = self.window_center[0] - self._width // 2
@@ -135,9 +132,6 @@ class FillingBar(BaseVisual):
                 self._img, (xP1, yP1), (xP2, yP2), self._fill_color, -1
             )
 
-    def _reset(self):
-        """Reset the visual with the backup, thus removing the bar."""
-        self._img = deepcopy(self._backup_img)
 
     # --------------------------------------------------------------------
     @staticmethod
@@ -177,11 +171,6 @@ class FillingBar(BaseVisual):
         assert 0 <= fill_perc <= 1
         return fill_perc
 
-    @staticmethod
-    def _convert_fill_perc_to_pixel(fill_perc: float, length: int) -> int:
-        """Convert the fill length [0, 1] to the fill length in pixel."""
-        return int((length // 2) * fill_perc)
-
     # --------------------------------------------------------------------
     @property
     def length(self) -> int:
@@ -191,7 +180,7 @@ class FillingBar(BaseVisual):
     @length.setter
     def length(self, length):
         self._length, _ = FillingBar._check_length_margin(
-            length, self._margin, self._axis, self.window_size
+            length, self._margin, self._axis, self._window_size
         )
         self._reset()
         self._putBar()
@@ -204,7 +193,7 @@ class FillingBar(BaseVisual):
     @width.setter
     def width(self, width):
         self._width, _ = FillingBar._check_width_margin(
-            width, self._margin, self._length, self._axis, self.window_size
+            width, self._margin, self._length, self._axis, self._window_size
         )
         self._reset()
         self._putBar()
@@ -217,10 +206,10 @@ class FillingBar(BaseVisual):
     @margin.setter
     def margin(self, margin):
         _, margin = FillingBar._check_length_margin(
-            self._length, margin, self._axis, self.window_size
+            self._length, margin, self._axis, self._window_size
         )
         _, margin = FillingBar._check_width_margin(
-            self._width, margin, self._length, self._axis, self.window_size
+            self._width, margin, self._length, self._axis, self._window_size
         )
         self._margin = margin
         self._reset()
@@ -233,7 +222,7 @@ class FillingBar(BaseVisual):
 
     @color.setter
     def color(self, color):
-        self._color = BaseVisual._check_color(color)
+        self._color = BaseFeedbackVisual._check_color(color)
         self._reset()
         self._putBar()
 
@@ -244,7 +233,7 @@ class FillingBar(BaseVisual):
 
     @fill_color.setter
     def fill_color(self, fill_color):
-        self._fill_color = BaseVisual._check_color(fill_color)
+        self._fill_color = BaseFeedbackVisual._check_color(fill_color)
         self._reset()
         self._putBar()
 
@@ -271,6 +260,6 @@ class FillingBar(BaseVisual):
 
     @axis.setter
     def axis(self, axis):
-        self._axis = BaseVisual._check_axis(axis)
+        self._axis = BaseFeedbackVisual._check_axis(axis)
         self._reset()
         self._putBar()

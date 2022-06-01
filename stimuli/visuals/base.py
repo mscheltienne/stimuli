@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from copy import deepcopy
 from typing import Optional, Tuple, Union
 
 import cv2
@@ -131,22 +132,6 @@ class BaseVisual(ABC):
         assert all(0 <= c <= 255 for c in color)
         return color
 
-    @staticmethod
-    def _check_axis(axis: Union[str, int]) -> int:
-        """Check that the axis is valid and converts it to integer (0, 1).
-
-        The axis is a binary integer:
-        - 0: Vertical
-        - 1: Horizontal
-        """
-        _check_type(axis, ("int", str), "axis")
-        if isinstance(axis, str):
-            axis = axis.lower().strip()
-            assert axis in ["horizontal", "h", "vertical", "v"]
-            axis = 0 if axis.startswith("v") else 1
-        assert axis in (0, 1)
-        return axis
-
     # --------------------------------------------------------------------
     @property
     def window_name(self) -> str:
@@ -176,3 +161,44 @@ class BaseVisual(ABC):
     @background.setter
     def background(self, background):
         self.draw_background(background)
+
+
+class BaseFeedbackVisual(BaseVisual):
+    """Base visual feedback class.
+
+    Parameters
+    ----------
+    %(visual_window_name)s
+    %(visual_window_size)s
+    """
+
+    @abstractmethod
+    def __init__(
+        self,
+        window_name: str = "Visual",
+        window_size: Optional[Tuple[int, int]] = None,
+    ):
+        super().__init__(window_name, window_size)
+        self._backup_img = None
+
+    def _reset(self):
+        """Reset the visual with the backup, thus removing the feedback."""
+        if self._backup_img is not None:
+            self._img = deepcopy(self._backup_img)
+
+    # --------------------------------------------------------------------
+    @staticmethod
+    def _check_axis(axis: Union[str, int]) -> int:
+        """Check that the axis is valid and converts it to integer (0, 1).
+
+        The axis is a binary integer:
+        - 0: Vertical
+        - 1: Horizontal
+        """
+        _check_type(axis, ("int", str), "axis")
+        if isinstance(axis, str):
+            axis = axis.lower().strip()
+            assert axis in ["horizontal", "h", "vertical", "v"]
+            axis = 0 if axis.startswith("v") else 1
+        assert axis in (0, 1)
+        return axis

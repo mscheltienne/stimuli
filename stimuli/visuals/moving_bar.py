@@ -5,11 +5,11 @@ import cv2
 
 from ..utils._checks import _check_type
 from ..utils._docs import fill_doc
-from .base import BaseVisual
+from .base import BaseFeedbackVisual
 
 
 @fill_doc
-class MovingBar(BaseVisual):
+class MovingBar(BaseFeedbackVisual):
     """Class to display a centered moving bar along an axis.
 
     Parameters
@@ -24,7 +24,6 @@ class MovingBar(BaseVisual):
         window_size: Optional[Tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
-        self._backup_img = None
 
     @fill_doc
     def putBar(
@@ -65,15 +64,15 @@ class MovingBar(BaseVisual):
             self._reset()
 
         self._position = MovingBar._check_position(position)
-        self._axis = BaseVisual._check_axis(axis)
+        self._axis = BaseFeedbackVisual._check_axis(axis)
 
         self._length = MovingBar._check_length(
-            length, self._axis, self.window_size
+            length, self._axis, self._window_size
         )
         self._width = MovingBar._check_width(
-            width, self._length, self._axis, self.window_size
+            width, self._length, self._axis, self._window_size
         )
-        self._color = BaseVisual._check_color(color)
+        self._color = BaseFeedbackVisual._check_color(color)
 
         self._putBar()
 
@@ -95,7 +94,7 @@ class MovingBar(BaseVisual):
         --- P2
         """
         position = MovingBar._convert_position_to_pixel(
-            self._position, self._axis, self.window_size, self.window_center
+            self._position, self._axis, self._window_size, self.window_center
         )
 
         if self._axis == 0:
@@ -110,10 +109,6 @@ class MovingBar(BaseVisual):
             yP2 = yP1 + self._length
 
         cv2.rectangle(self._img, (xP1, yP1), (xP2, yP2), self._color, -1)
-
-    def _reset(self):
-        """Reset the visual with the backup, thus removing the bar."""
-        self._img = deepcopy(self._backup_img)
 
     # --------------------------------------------------------------------
     @staticmethod
@@ -152,33 +147,16 @@ class MovingBar(BaseVisual):
         window_center: Tuple[int, int],
     ) -> int:
         """Convert the position [-1, 1] to an absolute position in pixel."""
-        # horizontal bar moving up and down
-        if axis == 0:
-            if position == 0:
-                return window_center[1]
-            elif -1 <= position < 0:
-                # top to center
-                return int(window_center[1] * (1 - abs(position)))
-            elif 0 < position <= 1:
-                # center to bottom
-                return int(
-                    window_center[1]
-                    + (window_size[1] - window_center[1]) * position
-                )
-
-        # vertical bar moving left and right
-        elif axis == 1:
-            if position == 0:
-                return window_center[0]
-            elif -1 <= position < 0:
-                # left to center
-                return int(window_center[0] * (1 - abs(position)))
-            elif 0 < position <= 1:
-                # center to right
-                return int(
-                    window_center[0]
-                    + (window_size[0] - window_center[0]) * position
-                )
+        idx = (axis + 1) % 2
+        if position == 0:
+            return window_center[idx]
+        elif -1 <= position < 0:
+            return int(window_center[idx] * (1 - abs(position)))
+        elif 0 < position <= 1:
+            return int(
+                window_center[idx]
+                + (window_size[idx] - window_center[idx]) * position
+            )
 
     # --------------------------------------------------------------------
     @property
@@ -189,7 +167,7 @@ class MovingBar(BaseVisual):
     @length.setter
     def length(self, length):
         self._length = MovingBar._check_length(
-            length, self._axis, self.window_size
+            length, self._axis, self._window_size
         )
         self._reset()
         self._putBar()
@@ -202,7 +180,7 @@ class MovingBar(BaseVisual):
     @width.setter
     def width(self, width):
         self._width = MovingBar._check_width(
-            width, self._length, self._axis, self.window_size
+            width, self._length, self._axis, self._window_size
         )
         self._reset()
         self._putBar()
@@ -214,7 +192,7 @@ class MovingBar(BaseVisual):
 
     @color.setter
     def color(self, color):
-        self._color = BaseVisual._check_color(color)
+        self._color = BaseFeedbackVisual._check_color(color)
         self._reset()
         self._putBar()
 
@@ -241,6 +219,6 @@ class MovingBar(BaseVisual):
 
     @axis.setter
     def axis(self, axis):
-        self._axis = BaseVisual._check_axis(axis)
+        self._axis = BaseFeedbackVisual._check_axis(axis)
         self._reset()
         self._putBar()

@@ -74,8 +74,8 @@ class Text(BaseVisual):
             position,
             textWidth,
             textHeight,
-            self.window_size,
-            self.window_center,
+            self._window_size,
+            self._window_center,
         )
         color = BaseVisual._check_color(color)
 

@@ -67,11 +67,11 @@ class Cross(BaseVisual):
         -----
         %(visual_position)s
         """
-        length = Cross._check_length(length, self.window_size)
+        length = Cross._check_length(length, self._window_size)
         thickness = Cross._check_thickness(thickness, length)
         color = BaseVisual._check_color(color)
         position = Cross._check_position(
-            position, length, self.window_size, self.window_center
+            position, length, self._window_size, self._window_center
         )
 
         # Horizontal rectangle
