@@ -14,7 +14,7 @@ library.
 
 # Installation
 
-This repository is available on `pip` for `python ≥ 3.8`:
+This repository is available on `pip` for `python ≥ 3.8` with the command
 `pip install stimuli`.
 
 # Usage
@@ -28,9 +28,12 @@ sound = Tone(volume=80, frequency=1000)
 sound.play()
 ```
 
+The volume can be set indepently for each channel (stereo) by providing a tuple
+`(L, R)`.
+
 ## Visual stimulus
 
-Visual stimulus can be regrouped into 2 categories:
+Visual stimulus can be grouped into 2 categories:
 
 - simple visuals that are drawn on top of each other
 - feedback visuals that are drawn once and updated
