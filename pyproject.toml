@@ -78,6 +78,9 @@ documentation = 'https://github.com/mscheltienne/simple-stimuli'
 source = 'https://github.com/mscheltienne/simple-stimuli'
 tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
 
+[project.scripts]
+stimuli_cross = 'stimuli.commands.stimuli_cross:run'
+
 [tool.setuptools]
 include-package-data = true
 
