@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 from stimuli.visuals import BaseFeedbackVisual, BaseVisual
@@ -50,3 +51,20 @@ def test_check_axis():
         BaseFeedbackVisual._check_axis(True)
     with pytest.raises(AssertionError):
         BaseFeedbackVisual._check_axis("101")
+
+
+def _test_base(Visual):
+    """Test base functionalities with a Visual class."""
+    visual = Visual(window_size=(100, 50))
+    visual.show()
+    visual.close()
+    assert np.all(visual.img == 0)
+    visual.draw_background(color=(101, 101, 101))
+    assert np.all(visual.img == 101)
+    assert visual.window_name == "Visual"
+    assert visual.window_size == (100, 50)
+    assert visual._window_width == 100
+    assert visual._window_height == 50
+    assert visual.window_center == (50, 25)
+    visual.background = (50, 50, 50)
+    assert np.all(visual.img == 50)
