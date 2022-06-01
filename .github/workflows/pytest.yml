@@ -50,4 +50,4 @@ jobs:
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
           python -m pip install --progress-bar off main/.[test]
       - name: Run pytest
-        run: pytest stimuli --cov=stimuli --cov-report=xml --verbose
+        run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --verbose
