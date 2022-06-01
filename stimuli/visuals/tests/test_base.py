@@ -1,7 +1,7 @@
 import pytest
 import screeninfo
 
-from stimuli.visuals import BaseVisual, BaseFeedbackVisual
+from stimuli.visuals import BaseFeedbackVisual, BaseVisual
 
 
 def test_check_window_size():
@@ -28,7 +28,7 @@ def test_check_window_size():
 
 def test_check_color():
     """Check the color static checker."""
-    color = BaseVisual._check_color('teal')
+    color = BaseVisual._check_color("teal")
     assert isinstance(color, tuple)
     assert len(color) == 3
     assert all(isinstance(c, int) for c in color)

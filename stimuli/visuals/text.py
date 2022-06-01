@@ -33,7 +33,7 @@ class Text(BaseVisual):
         fontScale: int = 2,
         color: Union[str, Tuple[int, int, int]] = "white",
         thickness: int = 2,
-        lineType : int = cv2.LINE_AA,
+        lineType: int = cv2.LINE_AA,
         position: Union[str, Tuple[int, int]] = "centered",
     ) -> None:
         """Add text to the visual.

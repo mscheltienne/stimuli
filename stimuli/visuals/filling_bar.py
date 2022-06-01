@@ -132,7 +132,6 @@ class FillingBar(BaseFeedbackVisual):
                 self._img, (xP1, yP1), (xP2, yP2), self._fill_color, -1
             )
 
-
     # --------------------------------------------------------------------
     @staticmethod
     def _check_length_margin(

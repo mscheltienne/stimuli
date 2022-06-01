@@ -1,6 +1,6 @@
 """Module for visual stimulus using opencv."""
 
-from .base import BaseVisual, BaseFeedbackVisual  # noqa: F401
+from .base import BaseFeedbackVisual, BaseVisual  # noqa: F401
 from .cross import Cross  # noqa: F401
 from .filling_bar import FillingBar  # noqa: F401
 from .moving_bar import MovingBar  # noqa: F401
