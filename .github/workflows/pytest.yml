@@ -53,3 +53,13 @@ jobs:
           python -m pip install --progress-bar off main/.[test]
       - name: Run pytest
         run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --verbose
+      - name: Upload to codecov
+        if: ${{ matrix.os == 'ubuntu'}} & ${{ matrix.python-version == 3.9 }}
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./coverage.xml
+          flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
