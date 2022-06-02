@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from ... import logger
-from .. import ASSR, Sound, Tone, Noise
+from .. import ASSR, Noise, Sound, Tone
 
 logger.propagate = True
 
