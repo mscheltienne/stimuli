@@ -30,7 +30,7 @@ sound = Tone(volume=80, frequency=1000)
 sound.play()
 ```
 
-The volume can be set indepently for each channel (stereo) by providing a tuple
+The volume can be set independently for each channel (stereo) by providing a tuple
 `(L, R)`.
 
 ## Visual stimulus
