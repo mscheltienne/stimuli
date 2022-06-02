@@ -19,8 +19,11 @@ _PSDS = {
 
 
 @fill_doc
-class Noise(BaseSound):
-    """White noise stimulus.
+class Noise(BaseSound):  # noqa: E501
+    """Colored noise stimulus.
+
+    This class is based on the StackOverflow answer from Bob:
+    https://stackoverflow.com/questions/67085963/generate-colors-of-noise-in-python/67127726#67127726
 
     Parameters
     ----------
@@ -54,11 +57,8 @@ class Noise(BaseSound):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _noise_psd(rng: np.random.Generator, N: int, color: str):  # noqa
-        """Based on the StackOverflow answer from Bob:
-
-        https://stackoverflow.com/questions/67085963/generate-colors-of-noise-in-python/67127726#67127726
-        """
+    def _noise_psd(rng: np.random.Generator, N: int, color: str):
+        """Compute the noise signal 1D array."""
         white = rng.standard_normal(size=N)
         dft = np.fft.rfft(white)
         S = _PSDS[color](np.fft.rfftfreq(N))
