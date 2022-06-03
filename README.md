@@ -19,8 +19,9 @@ library.
 
 # Installation
 
-This repository is available on `pip` for `python ≥ 3.8` with the command
-`pip install stimuli`.
+This repository is available for `python ≥ 3.8` on `pip` with the command
+`pip install stimuli` or on `conda-forge` with the command
+`conda install -c conda-forge stimuli`.
 
 # Usage
 
