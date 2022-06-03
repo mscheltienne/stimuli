@@ -1,13 +1,6 @@
-# This CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to generate yours today!
-
-cff-version: 1.2.0
 title: Simple-stimuli
-abstract: Simple auditory and visual stimuli that do not require PsychoPy.
-message: >-
-  If you use this package, please cite it using the
-  metadata from this file.
 type: software
+abstract: Simple auditory and visual stimuli that do not require PsychoPy.
 authors:
   - given-names: Mathieu
     family-names: Scheltienne
@@ -23,3 +16,7 @@ identifiers:
 license: MIT
 repository-code: https://github.com/mscheltienne/simple-stimuli
 version: 0.2.1
+message: >-
+  If you use this package, please cite it using the
+  metadata from this file.
+cff-version: 1.2.0
