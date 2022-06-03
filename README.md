@@ -5,6 +5,9 @@
 [![build](https://github.com/mscheltienne/simple-stimuli/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/build.yml)
 [![PyPI version](https://badge.fury.io/py/stimuli.svg)](https://badge.fury.io/py/stimuli)
 [![Downloads](https://static.pepy.tech/personalized-badge/stimuli?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads)](https://pepy.tech/project/stimuli)
+[![Conda Version](https://img.shields.io/conda/vn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
+[![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
+[![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
 
 # Simple-stimuli
 
@@ -16,8 +19,9 @@ library.
 
 # Installation
 
-This repository is available on `pip` for `python ≥ 3.8` with the command
-`pip install stimuli`.
+This repository is available for `python ≥ 3.8` on `pip` with the command
+`pip install stimuli` or on `conda-forge` with the command
+`conda install -c conda-forge stimuli`.
 
 # Usage
 
