@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from scipy.signal import find_peaks
 
-from .. import ASSR
+from .. import SoundAM
 from .test_base import _test_base, _test_no_volume
 
 
@@ -40,8 +40,8 @@ def _check_frequency(signal, sample_rate, carrier, modulation, method):
     product((10, 100), (44100, 48000), (1, 5), ("conventional", "dsbsc")),
 )
 def test_assr(volume, sample_rate, duration, method):
-    """Test an ASSR sound."""
-    sound = ASSR(volume, sample_rate, duration, method=method)
+    """Test an AM sound."""
+    sound = SoundAM(volume, sample_rate, duration, method=method)
     assert sound.volume == volume
     assert sound.sample_rate == sample_rate
     assert sound.duration == duration
@@ -58,8 +58,8 @@ def test_assr(volume, sample_rate, duration, method):
     product((300, 1000, 5000), (20, 50), ("conventional", "dsbsc")),
 )
 def test_assr_frequencies(carrier, modulation, method):
-    """Test ASSR with different frequencies."""
-    sound = ASSR(
+    """Test AM with different frequencies."""
+    sound = SoundAM(
         volume=10,
         frequency_carrier=carrier,
         frequency_modulation=modulation,
@@ -81,8 +81,8 @@ def test_assr_frequencies(carrier, modulation, method):
     product((300, 1000, 5000), (20, 50), ("conventional", "dsbsc")),
 )
 def test_assr_frequencies_setter(carrier, modulation, method):
-    """Test ASSR frequency setter."""
-    sound = ASSR(
+    """Test AM frequency setter."""
+    sound = SoundAM(
         volume=10,
         frequency_carrier=200,
         frequency_modulation=10,
@@ -113,9 +113,9 @@ def test_assr_frequencies_setter(carrier, modulation, method):
 
 
 def test_assr_method_setter():
-    """Test ASSR method setter."""
+    """Test AM method setter."""
     method = "conventional"
-    sound = ASSR(10, method=method)
+    sound = SoundAM(10, method=method)
     assert sound.method == method
     _check_frequency(sound.signal, sound.sample_rate, 1000, 40, method)
     method = "dsbsc"
@@ -129,10 +129,10 @@ def test_assr_method_setter():
 
 
 def test_base():
-    """Test base functionalities with an ASSR."""
-    _test_base(ASSR)
+    """Test base functionalities with an AM sound."""
+    _test_base(SoundAM)
 
 
 def test_no_volume():
     """Test signal if volume is set to 0."""
-    _test_no_volume(ASSR)
+    _test_no_volume(SoundAM)

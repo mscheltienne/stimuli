@@ -4,11 +4,11 @@ import numpy as np
 import pytest
 
 from ... import logger
-from .. import ASSR, Noise, Sound, Tone
+from .. import Noise, Sound, SoundAM, Tone
 
 logger.propagate = True
 
-SoundClasses = (ASSR, Tone, Noise)
+SoundClasses = (SoundAM, Tone, Noise)
 
 
 @pytest.mark.parametrize("SoundClass", SoundClasses)

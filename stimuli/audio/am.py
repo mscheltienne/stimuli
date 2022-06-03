@@ -1,4 +1,4 @@
-"""Auditory Steady State Response sound."""
+"""Amplitude modulated sound."""
 
 from typing import Tuple, Union
 
@@ -11,12 +11,13 @@ from .base import BaseSound
 
 
 @fill_doc
-class ASSR(BaseSound):
-    """Auditory Steady State Response Stimulus.
+class SoundAM(BaseSound):
+    """Amplitude modulated sound.
 
     Composed of a carrier frequency fc which is amplitude modulated at fm.
-    By default, a 1000 Hz carrier frequency modulated at 40 Hz through
-    conventional modulation.
+    By default, an Auditory Steady State Response stimuli composed of a 1000 Hz
+    carrier frequency modulated at 40 Hz through conventional modulation is
+    created.
 
     Parameters
     ----------
@@ -48,37 +49,37 @@ class ASSR(BaseSound):
         frequency_modulation: float = 40,
         method: str = "conventional",
     ):
-        self._frequency_carrier = ASSR._check_frequency_carrier(
+        self._frequency_carrier = SoundAM._check_frequency_carrier(
             frequency_carrier
         )
-        self._frequency_modulation = ASSR._check_frequency_modulation(
+        self._frequency_modulation = SoundAM._check_frequency_modulation(
             frequency_modulation
         )
         _check_type(method, (str,), "method")
-        _check_value(method, ("conventional", "dsbsc"), "assr method")
+        _check_value(method, ("conventional", "dsbsc"), "AM method")
         self._method = method
-        self.name = f"ASSR {self._method}"
+        self.name = f"AM {self._method}"
         super().__init__(volume, sample_rate, duration)
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         if self._method == "conventional":
-            assr_amplitude = 1 - np.cos(
+            amplitude = 1 - np.cos(
                 2 * np.pi * self._frequency_modulation * self._times
             )
-            assr_arr = assr_amplitude * np.cos(
+            arr = amplitude * np.cos(
                 2 * np.pi * self._frequency_carrier * self._times
             )
 
         elif self._method == "dsbsc":
-            assr_amplitude = np.sin(
+            amplitude = np.sin(
                 2 * np.pi * self._frequency_modulation * self._times
             )
-            assr_arr = assr_amplitude * np.sin(
+            arr = amplitude * np.sin(
                 2 * np.pi * self._frequency_carrier * self._times
             )
-        assr_arr /= np.max(np.abs(assr_arr))  # normalize
-        self._signal = np.vstack((assr_arr, assr_arr)).T * self._volume / 100
+        arr /= np.max(np.abs(arr))  # normalize
+        self._signal = np.vstack((arr, arr)).T * self._volume / 100
 
     # --------------------------------------------------------------------
     @staticmethod
@@ -116,7 +117,7 @@ class ASSR(BaseSound):
         logger.debug(
             "Setting 'frequency_carrier' to %.2f [Hz].", frequency_carrier
         )
-        self._frequency_carrier = ASSR._check_frequency_carrier(
+        self._frequency_carrier = SoundAM._check_frequency_carrier(
             frequency_carrier
         )
         self._set_signal()
@@ -136,7 +137,7 @@ class ASSR(BaseSound):
             "Setting 'frequency_modulation' to %.2f [Hz].",
             frequency_modulation,
         )
-        self._frequency_modulation = ASSR._check_frequency_modulation(
+        self._frequency_modulation = SoundAM._check_frequency_modulation(
             frequency_modulation
         )
         self._set_signal()
@@ -151,6 +152,6 @@ class ASSR(BaseSound):
     def method(self, method: str):
         logger.debug("Setting 'method' to %s.", method)
         _check_type(method, (str,), "method")
-        _check_value(method, ("conventional", "dsbsc"), "assr method")
+        _check_value(method, ("conventional", "dsbsc"), "AM method")
         self._method = method
         self._set_signal()
