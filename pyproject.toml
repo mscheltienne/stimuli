@@ -4,7 +4,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'stimuli'
-version = '0.2.1'
+version = '0.3.0.dev'
 description = 'Simple auditory and visual stimuli avoiding PsychoPy.'
 readme = 'README.md'
 license = {file = 'LICENSE'}
