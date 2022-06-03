@@ -8,6 +8,7 @@
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
 [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
 [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
+[![DOI](https://zenodo.org/badge/497873209.svg)](https://zenodo.org/badge/latestdoi/497873209)
 
 # Simple-stimuli
 
