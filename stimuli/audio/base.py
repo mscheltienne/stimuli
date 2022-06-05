@@ -67,10 +67,13 @@ class BaseSound(ABC):
         This function creates and terminates an audio stream.
         """
         _check_type(blocking, (bool,), "blocking")
-        logger.debug("Play requested with blocking set to %s", blocking)
-        sd.play(self._signal, samplerate=self._sample_rate, mapping=[1, 2])
-        if blocking:
-            sd.wait()
+        logger.debug("Play requested with blocking set to %s.", blocking)
+        sd.play(
+            self._signal,
+            samplerate=self._sample_rate,
+            mapping=[1, 2],
+            blocking=blocking,
+        )
 
     def stop(self) -> None:
         """Stop the sounds played on the active audio stream."""
