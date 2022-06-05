@@ -15,7 +15,6 @@ identifiers:
     description: Version DOI
 license: MIT
 repository-code: https://github.com/mscheltienne/simple-stimuli
-version: 0.2.1
 message: >-
   If you use this package, please cite it using the
   metadata from this file.
