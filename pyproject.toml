@@ -16,10 +16,10 @@ maintainers = [
     {name = 'Mathieu Scheltienne', email = 'mathieu.scheltienne@fcbg.ch'},
 ]
 keywords = [
-    'python',
-    'stimuli',
     'audio',
     'auditory',
+    'python',
+    'stimuli',
     'visual',
 ]
 classifiers = [
@@ -45,6 +45,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+build = [
+    'build',
+    'twine',
+]
 style = [
     'black',
     'codespell',
@@ -56,20 +60,10 @@ test = [
     'pytest',
     'pytest-cov',
 ]
-build = [
-    'build',
-    'twine',
-]
 all = [
-    'black',
-    'codespell',
-    'isort',
-    'flake8',
-    'pydocstyle[toml]',
-    'pytest',
-    'pytest-cov',
-    'build',
-    'twine',
+    'stimuli[build]',
+    'stimuli[style]',
+    'stimuli[test]',
 ]
 
 [project.urls]
@@ -86,7 +80,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 include = ['stimuli*']
-exclude = ['^.*tests']
+exclude = ['stimuli*tests']
 
 [tool.black]
 line-length = 79
