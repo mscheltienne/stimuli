@@ -76,7 +76,7 @@ tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
 stimuli_cross = 'stimuli.commands.stimuli_cross:run'
 
 [tool.setuptools]
-include-package-data = true
+include-package-data = false
 
 [tool.setuptools.packages.find]
 include = ['stimuli*']
