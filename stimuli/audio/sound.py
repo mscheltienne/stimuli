@@ -127,7 +127,7 @@ class Sound(BaseSound):
         if max_ == 0:
             logger.warning("The loaded sound has 2 empty channels.")
             return signal(0, 0)
-        signal /= max_
+        signal = signal / max_
         volume = tuple(np.max(np.abs(signal), axis=0) * 100)
         assert len(volume) == 2  # sanity-check
         assert any(elt == 100 for elt in volume)  # sanity-check
