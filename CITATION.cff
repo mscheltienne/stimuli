@@ -1,4 +1,4 @@
-title: Simple-stimuli
+title: simple-stimuli
 type: software
 abstract: Simple auditory and visual stimuli that do not require PsychoPy.
 authors:
@@ -9,10 +9,6 @@ authors:
       Human Neuroscience Platform, Fondation Campus
       Biotech Geneva, Geneva, Switzerland
     orcid: 'https://orcid.org/0000-0001-8316-7436'
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.6614890
-    description: Version DOI
 license: MIT
 repository-code: https://github.com/mscheltienne/simple-stimuli
 message: >-
