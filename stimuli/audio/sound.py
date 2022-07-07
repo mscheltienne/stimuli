@@ -116,6 +116,7 @@ class Sound(BaseSound):
         the _set_signal method.
         """
         assert signal.ndim in (1, 2)
+        signal = signal.astype(np.float64)
         if signal.ndim == 2:
             assert signal.shape[1] in (1, 2)
             if signal.shape[1] == 1:
