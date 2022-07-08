@@ -2,6 +2,7 @@ from itertools import product
 
 import numpy as np
 import pytest
+from scipy.io import wavfile
 
 from ... import logger
 from .. import Noise, Sound, SoundAM, Tone
@@ -184,3 +185,31 @@ def test_duration(tmp_path, caplog, SoundClass):
     sound_loaded.duration = 101
     assert "The duration property" in caplog.text
     assert sound_loaded.duration == sound.duration
+
+
+def test_io_dtypes(tmp_path):
+    """Test I/O with different dtypes."""
+    signal = np.random.randint(1, 10, size=44100)
+    fname = tmp_path / "test.wav"
+
+    # supported for .wav
+    for dtype in (
+        np.int8,
+        np.int16,
+        np.int32,
+        np.int64,
+        np.float32,
+        np.float64,
+    ):
+        data = signal.astype(dtype)
+        wavfile.write(fname, 44100, data)
+        sound = Sound(fname)
+        assert sound.signal.dtype == np.float64
+        sound.crop(0, 0.1)
+        sound.play()
+
+    # unsupported for .wav
+    data = signal.astype(np.float16)
+    wavfile.write(fname, 44100, data)
+    with pytest.raises(ValueError, match="Unsupported bit depth"):
+        sound = Sound(fname)
