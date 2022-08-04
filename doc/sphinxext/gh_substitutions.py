@@ -20,9 +20,9 @@ def gh_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
         # direct link mode
         slug = text
     else:
-        slug = 'issues/' + text
-    text = '#' + text
-    ref = 'https://github.com/mscheltienne/simple-stimuli/' + slug
+        slug = "issues/" + text
+    text = "#" + text
+    ref = "https://github.com/mscheltienne/simple-stimuli/" + slug
     set_classes(options)
     node = reference(rawtext, text, refuri=ref, **options)
     return [node], []
@@ -30,5 +30,5 @@ def gh_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
 
 def setup(app):
     """Do setup."""
-    app.add_role('gh', gh_role)
+    app.add_role("gh", gh_role)
     return

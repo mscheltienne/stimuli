@@ -57,7 +57,7 @@ intersphinx_mapping = {
 intersphinx_timeout = 5
 
 # -- Autodoc -----------------------------------------------------------------
-autodoc_typehints = 'none'
+autodoc_typehints = "none"
 
 # -- Napoleon ----------------------------------------------------------------
 napoleon_google_docstring = False
