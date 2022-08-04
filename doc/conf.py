@@ -43,6 +43,8 @@ nitpicky = True
 html_theme = "furo"
 html_static_path = ["_static"]
 
+# Documentation to change footer icons:
+# https://pradyunsg.me/furo/customisation/footer/#changing-footer-icons
 html_theme_options = {
     "footer_icons": [
         {
