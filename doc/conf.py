@@ -3,10 +3,6 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).parent / "sphinxext"))
 
 import stimuli
 
@@ -34,7 +30,7 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    "gh_substitutions",
+    "sphinx_issues",
 ]
 
 templates_path = ["_templates"]
@@ -65,3 +61,6 @@ autodoc_typehints = "none"
 # -- Napoleon ----------------------------------------------------------------
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
+
+# -- Sphinx-issues -----------------------------------------------------------
+issues_github_path = "mscheltienne/simple-stimuli"
