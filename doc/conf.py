@@ -45,6 +45,9 @@ nitpicky = True
 html_theme = "furo"
 html_static_path = ["_static"]
 
+# -- Autodoc -----------------------------------------------------------------
+autodoc_typehints = "none"
+
 # -- Intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
     "numpy": ("https://numpy.org/devdocs", None),
@@ -54,9 +57,6 @@ intersphinx_mapping = {
     "sounddevice": ("https://python-sounddevice.readthedocs.io/", None),
 }
 intersphinx_timeout = 5
-
-# -- Autodoc -----------------------------------------------------------------
-autodoc_typehints = "none"
 
 # -- Napoleon ----------------------------------------------------------------
 napoleon_google_docstring = False
