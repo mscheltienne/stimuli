@@ -1,5 +1,5 @@
-Welcome to simple-stimuli's documentation!
-==========================================
+Simple-stimuli
+==============
 
 .. toctree::
    :hidden:
@@ -10,6 +10,26 @@ Simple-stimuli is a Python package for delivery of simple auditory and visuals
 stimuli which does not require `PsychoPy <https://www.psychopy.org/>`_. For
 complex paradigm and use cases, `PsychoPy <https://www.psychopy.org/>`_ and its
 builder should be preferred.
+
+Install
+-------
+
+Simple-stimuli is available on `Pypi <https://pypi.org/project/stimuli/>`_ and
+on `conda-forge <https://anaconda.org/conda-forge/stimuli>`_.
+
+Pypi
+~~~~
+
+.. code-block::
+
+    pip install stimuli
+
+Conda
+~~~~~
+
+.. code-block::
+
+    conda install -c conda-forge stimuli
 
 Citation
 --------
