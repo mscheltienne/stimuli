@@ -57,7 +57,7 @@ window_size : tuple | None
 docdict[
     "visual_color"
 ] = """The color is provided as a matplotlib string or a
-(B, G, R) tuple of int8 set between 0 and 255."""
+``(B, G, R)`` tuple of int8 set between 0 and 255."""
 docdict[
     "visual_position"
 ] = """

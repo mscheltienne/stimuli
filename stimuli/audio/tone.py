@@ -14,7 +14,12 @@ from .base import BaseSound
 class Tone(BaseSound):
     """Pure tone stimulus at the frequency f (Hz).
 
-    The equation is sin(2*pi*f*time).
+    The equation is:
+
+    .. code-block::
+
+        sin(2*pi*f*time).
+
     Example: A 440 - La 440 - Tone(f=440)
 
     Parameters
@@ -24,6 +29,11 @@ class Tone(BaseSound):
     %(audio_duration)s
     frequency : float
         Pure tone frequency. The default is 440 Hz (La - A440).
+
+    Examples
+    --------
+    ``A 440``, also called ``La 440``, corresponds to a pure tone at a
+    frequency of 440 Hz.
     """
 
     def __init__(

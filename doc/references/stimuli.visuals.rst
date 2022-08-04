@@ -3,9 +3,15 @@
 Basic visuals
 =============
 
+Fixation cross
+--------------
+
 .. autoclass:: Cross
     :members:
     :inherited-members:
+
+Text
+----
 
 .. autoclass:: Text
     :members:
@@ -14,9 +20,15 @@ Basic visuals
 Feedback visuals
 ================
 
+Filling bar
+-----------
+
 .. autoclass:: FillingBar
     :members:
     :inherited-members:
+
+Moving bar
+----------
 
 .. autoclass:: MovingBar
     :members:
