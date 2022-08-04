@@ -4,7 +4,7 @@ Simple-stimuli
 .. toctree::
    :hidden:
 
-   api
+   references/index
    cli
 
 Simple-stimuli is a Python package for delivery of simple auditory and visuals
