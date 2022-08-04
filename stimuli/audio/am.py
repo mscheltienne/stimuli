@@ -29,12 +29,14 @@ class SoundAM(BaseSound):
     frequency_modulation : int
         Modulatiom frequency in Hz.
     method : ``'conventional'`` | ``'dsbsc'``
-        ``'conventional'``, also called classical AM, the eq. used is:
+        ``'conventional'`` is also called classical AM, the eq. used is::
+
                 signal = (1 - M(t)) * cos(2*pi*fc*t)
                 M(t) = cos(2*pi*fm*t)
 
-        ``'dsbsc'`` also called double side band suppressed carrier, the eq.
-        used is:
+        ``'dsbsc'`` is also called double side band suppressed carrier, the eq.
+        used is::
+
                 signal = M(t)*cos(2*pi*fc*t)
                 M(t) = sin(2*pi*fm*t)
     """
