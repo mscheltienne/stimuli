@@ -1,12 +1,9 @@
 Basic visuals
 =============
 
-:py:mod:`stimuli.visuals`
-
 .. currentmodule:: stimuli.visuals
 
 .. autosummary::
-    :toctree:
 
     Cross
     Text
@@ -14,8 +11,9 @@ Basic visuals
 Feedback visuals
 ================
 
+.. currentmodule:: stimuli.visuals
+
 .. autosummary::
-    :toctree:
 
     FillingBar
     MovingBar
