@@ -57,3 +57,7 @@ intersphinx_timeout = 5
 
 # -- Autodoc -----------------------------------------------------------------
 autodoc_typehints = 'none'
+
+# -- Napoleon ----------------------------------------------------------------
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
