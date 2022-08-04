@@ -11,6 +11,33 @@ stimuli which does not require `PsychoPy <https://www.psychopy.org/>`_. For
 complex paradigm and use cases, `PsychoPy <https://www.psychopy.org/>`_ and its
 builder should be preferred.
 
+Citation
+--------
+
+If you use this package, please cite using the information in
+`CITATION.cff <https://github.com/mscheltienne/simple-stimuli/blob/main/CITATION.cff>`_.
+
+APA
+~~~
+
+.. code-block::
+    :name: APA
+
+    Scheltienne, M. simple-stimuli [Computer software]. https://github.com/mscheltienne/simple-stimuli
+
+BibTex
+~~~~~~
+
+.. code-block::
+    :name: BibTex
+
+    @software{Scheltienne_simple-stimuli,
+    author = {Scheltienne, Mathieu},
+    license = {MIT},
+    title = {{simple-stimuli}},
+    url = {https://github.com/mscheltienne/simple-stimuli}
+    }
+
 License
 -------
 
