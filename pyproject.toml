@@ -33,7 +33,9 @@ classifiers = [
     'Natural Language :: English',
     'License :: OSI Approved :: MIT License',
     'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
     'Topic :: Scientific/Engineering',
+    'Topic :: Software Development',
 ]
 dependencies = [
     'matplotlib',
@@ -48,6 +50,10 @@ dependencies = [
 build = [
     'build',
     'twine',
+]
+doc = [
+    'furo',
+    'sphinx',
 ]
 style = [
     'black',
