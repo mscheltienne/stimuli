@@ -5,6 +5,7 @@ Simple-stimuli
    :hidden:
 
    references/index
+   cli
 
 Simple-stimuli is a Python package for delivery of simple auditory and visuals
 stimuli which does not require `PsychoPy <https://www.psychopy.org/>`_. For
