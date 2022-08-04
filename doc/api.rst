@@ -1,6 +1,5 @@
-###
 API
-###
+===
 
 .. automodule:: stimuli
    :no-members:
@@ -8,10 +7,10 @@ API
 
 This is the application programming interface (API) reference for classes
 (``CamelCase`` names) and functions (``underscore_case`` names) of
-Simple-stimuli.
+simple-stimuli.
 
 Audio
-=====
+-----
 
 .. currentmodule:: stimuli.audio
 
@@ -24,7 +23,7 @@ Audio
    Tone
 
 Basic visuals
-=============
+-------------
 
 .. currentmodule:: stimuli.visuals
 
@@ -35,7 +34,7 @@ Basic visuals
    Text
 
 Feedback visuals
-================
+----------------
 
 .. autosummary::
    :toctree: generated/
