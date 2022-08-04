@@ -1,7 +1,4 @@
 name: build
-# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#concurrency
-# https://docs.github.com/en/developers/webhooks-and-events/events/github-event-types#pullrequestevent
-# workflow name, PR number (empty on push), push ref (empty on PR)
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
   cancel-in-progress: true
@@ -13,7 +10,7 @@ on:
 
 jobs:
   build:
-    timeout-minutes: 30
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -39,7 +36,7 @@ jobs:
       - name: Test package install
         run: python -c "import stimuli; print(stimuli.__version__)"
       - name: Remove package install
-        run: python -m pip uninstall -y stimuli
+        run: python -m pip uninstall -yq stimuli
       - name: Build package
         run: python -m build
       - name: Install sdist
@@ -47,10 +44,10 @@ jobs:
       - name: Test sdist install
         run: python -c "import stimuli; print(stimuli.__version__)"
       - name: Remove sdist install
-        run: python -m pip uninstall -y stimuli
+        run: python -m pip uninstall -yq stimuli
       - name: Install wheel
         run: pip install ./dist/*.whl
       - name: Test wheel install
         run: python -c "import stimuli; print(stimuli.__version__)"
       - name: Remove wheel install
-        run: python -m pip uninstall -y stimuli
+        run: python -m pip uninstall -yq stimuli
