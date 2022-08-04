@@ -105,7 +105,7 @@ extend_skip_glob = [
 
 [tool.pydocstyle]
 convention = 'numpy'
-ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot)'
+ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot|Slot)'
 match = '^(?!setup|__init__|test_).*\.py'
 match-dir = '^stimuli.*'
 add_ignore = 'D100,D104,D107'
