@@ -3,6 +3,11 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent / "sphinxext"))
+
 import stimuli
 
 # -- Project information -----------------------------------------------------
@@ -24,6 +29,7 @@ needs_sphinx = "5.0"
 # ones.
 extensions = [
     "sphinx.ext.intersphinx",
+    "gh_substitutions",
 ]
 
 templates_path = ["_templates"]
