@@ -28,6 +28,8 @@ needs_sphinx = "5.0"
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "gh_substitutions",
 ]
@@ -50,3 +52,6 @@ intersphinx_mapping = {
     "sounddevice": ("https://python-sounddevice.readthedocs.io/", None),
 }
 intersphinx_timeout = 5
+
+# -- Autodoc -----------------------------------------------------------------
+autodoc_typehints = 'none'
