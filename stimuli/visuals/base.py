@@ -64,7 +64,10 @@ class BaseVisual(ABC):
 
     def close(self) -> None:
         """Close the visual."""
-        cv2.destroyWindow(self._window_name)
+        try:
+            cv2.destroyWindow(self._window_name)
+        except Exception:
+            pass
 
     @fill_doc
     def draw_background(self, color: Union[str, Tuple[int, int, int]]) -> None:
