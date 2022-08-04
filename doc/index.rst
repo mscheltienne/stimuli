@@ -16,10 +16,3 @@ License
 
 ``simple-stimuli`` is licensed under the `MIT <https://opensource.org/licenses/MIT>`_ license.
 A full copy of the license can be found `on GitHub <https://github.com/mscheltienne/simple-stimuli/blob/main/LICENSE>`_.
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
