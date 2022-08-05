@@ -64,6 +64,7 @@ html_theme_options = {
 
 # -- Autodoc -----------------------------------------------------------------
 autodoc_typehints = "none"
+autodoc_member_order = "groupwise"
 
 # -- Intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
