@@ -55,6 +55,7 @@ doc = [
     'furo',
     'sphinx',
     'sphinx-copybutton',
+    'sphinx-design',
     'sphinx-issues',
 ]
 style = [
