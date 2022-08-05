@@ -45,18 +45,23 @@ class MovingBar(BaseFeedbackVisual):
         position : float
             Relative position of the bar along the given axis.
             Along the vertical axis:
-                - -1: corresponds to the top of the window.
-                - 1: corresponds to the bottom of the window.
+
+            * ``-1``: corresponds to the top of the window.
+            * ``1``: corresponds to the bottom of the window.
+
             Along the horizontal axis:
-                - -1: corresponds to the left of the window.
-                - 1: corresponds to the right of the window.
-            0 corresponds to the center of the window.
+
+            * ``-1``: corresponds to the left of the window.
+            * ``1``: corresponds to the right of the window.
+
+            ``0`` corresponds to the center of the window.
         axis : int | str
             Axis along which the bar is moving:
-                - 0 | 'vertical' | 'v'
-                    horizontal bar along vertical axis.
-                - 1 | 'horizontal' | 'h'
-                    vertical bar along horizontal axis.
+
+            * ``0`` | ``'vertical'``   | ``'v'``  - horizontal bar along
+              vertical axis.
+            * ``1`` | ``'horizontal'`` | ``'h'``  - vertical bar along
+              horizontal axis.
 
         Notes
         -----
