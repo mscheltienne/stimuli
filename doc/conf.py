@@ -43,6 +43,7 @@ nitpicky = True
 # -- Options for HTML output -------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]
+html_title = "Simple-stimuli"
 
 # Documentation to change footer icons:
 # https://pradyunsg.me/furo/customisation/footer/#changing-footer-icons
