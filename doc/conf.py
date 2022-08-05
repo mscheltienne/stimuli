@@ -27,10 +27,10 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autosummary",
-    "sphinx_copybutton",
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
+    "sphinx_copybutton",
     "sphinx_issues",
 ]
 
