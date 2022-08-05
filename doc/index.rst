@@ -53,10 +53,10 @@ BibTex
     :name: BibTex
 
     @software{Scheltienne_simple-stimuli,
-    author = {Scheltienne, Mathieu},
-    license = {MIT},
-    title = {{simple-stimuli}},
-    url = {https://github.com/mscheltienne/simple-stimuli}
+      author = {Scheltienne, Mathieu},
+      license = {MIT},
+      title = {{simple-stimuli}},
+      url = {https://github.com/mscheltienne/simple-stimuli}
     }
 
 License
