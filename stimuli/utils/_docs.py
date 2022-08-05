@@ -51,9 +51,9 @@ docdict[
     "visual_window_size"
 ] = """
 window_size : tuple | None
-    Either None to automatically select a window size based on the
+    Either ``None`` to automatically select a window size based on the
     available monitors, or a 2-length of positive integer sequence as
-    (width, height)."""
+    ``(width, height)`` in pixels."""
 docdict[
     "visual_color"
 ] = """The color is provided as a matplotlib string or a
