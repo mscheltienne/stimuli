@@ -70,8 +70,12 @@ test = [
 ]
 all = [
     'stimuli[build]',
+    'stimuli[doc]',
     'stimuli[style]',
     'stimuli[test]',
+]
+full = [
+    'stimuli[all]',
 ]
 
 [project.urls]
