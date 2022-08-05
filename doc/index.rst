@@ -18,19 +18,19 @@ Install
 Simple-stimuli is available on `Pypi <https://pypi.org/project/stimuli/>`_ and
 on `conda-forge <https://anaconda.org/conda-forge/stimuli>`_.
 
-Pypi
-~~~~
+.. tab-set::
 
-.. code-block::
+    .. tab-item:: Pypi
 
-    pip install stimuli
+        .. code-block:: bash
 
-Conda
-~~~~~
+            pip install stimuli
 
-.. code-block::
+    .. tab-item:: Conda
 
-    conda install -c conda-forge stimuli
+        .. code-block:: bash
+
+            conda install -c conda-forge stimuli
 
 Citation
 --------
@@ -38,26 +38,26 @@ Citation
 If you use this package, please cite using the information in
 `CITATION.cff <https://github.com/mscheltienne/simple-stimuli/blob/main/CITATION.cff>`_.
 
-APA
-~~~
+.. tab-set::
 
-.. code-block::
-    :name: APA
+    .. tab-item:: APA
 
-    Scheltienne, M. simple-stimuli [Computer software]. https://github.com/mscheltienne/simple-stimuli
+        .. code-block::
+            :name: APA
 
-BibTex
-~~~~~~
+            Scheltienne, M. simple-stimuli [Computer software]. https://github.com/mscheltienne/simple-stimuli
 
-.. code-block::
-    :name: BibTex
+    .. tab-item:: BibTex
 
-    @software{Scheltienne_simple-stimuli,
-      author = {Scheltienne, Mathieu},
-      license = {MIT},
-      title = {{simple-stimuli}},
-      url = {https://github.com/mscheltienne/simple-stimuli}
-    }
+        .. code-block::
+            :name: BibTex
+
+            @software{Scheltienne_simple-stimuli,
+              author = {Scheltienne, Mathieu},
+              license = {MIT},
+              title = {{simple-stimuli}},
+              url = {https://github.com/mscheltienne/simple-stimuli}
+            }
 
 License
 -------
