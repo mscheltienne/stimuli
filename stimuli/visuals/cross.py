@@ -58,13 +58,14 @@ class Cross(BaseVisual):
         thickness : int
             Number of pixels used to draw the thickness of the cross.
         color : str | tuple
-            Color used to fill the cross. %(visual_color)s
+            Color used to fill the cross.
         position : str | tuple
             Position of the center of the cross. See notes for additional
             information.
 
         Notes
         -----
+        %(visual_color)s
         %(visual_position)s
         """
         length = Cross._check_length(length, self._window_size)

@@ -47,7 +47,7 @@ class Text(BaseVisual):
         fontScale : int
             Font scale factor multiplied by the font-specific base size.
         color : str | tuple
-            Color used to write the text. %(visual_color)s
+            Color used to write the text.
         thickness : int
             Text line thickness in pixel.
         lineType : int (cv2.LINE)
@@ -58,6 +58,7 @@ class Text(BaseVisual):
 
         Notes
         -----
+        %(visual_color)s
         %(visual_position)s
         """
         _check_type(text, (str,), "text")

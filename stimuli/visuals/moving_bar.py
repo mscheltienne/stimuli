@@ -41,7 +41,7 @@ class MovingBar(BaseFeedbackVisual):
         %(visual_length)s
         %(visual_width)s
         color : str | tuple
-            Color used to draw the bar. %(visual_color)s
+            Color used to draw the bar.
         position : float
             Relative position of the bar along the given axis.
             Along the vertical axis:
@@ -57,6 +57,10 @@ class MovingBar(BaseFeedbackVisual):
                     horizontal bar along vertical axis.
                 - 1 | 'horizontal' | 'h'
                     vertical bar along horizontal axis.
+
+        Notes
+        -----
+        %(visual_color)s
         """
         if self._backup_img is None:
             self._backup_img = deepcopy(self._img)

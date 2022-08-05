@@ -79,7 +79,11 @@ class BaseVisual(ABC):
         Parameters
         ----------
         color : str | tuple
-            Color used to draw the background. %(visual_color)s
+            Color used to draw the background.
+
+        Notes
+        -----
+        %(visual_color)s
         """
         color = BaseVisual._check_color(color)
         self._img = np.full(

@@ -56,15 +56,15 @@ window_size : tuple | None
     ``(width, height)`` in pixels."""
 docdict[
     "visual_color"
-] = """The color is provided as a matplotlib string or a
-``(B, G, R)`` tuple of int8 set between 0 and 255."""
+] = """A color is provided as matplotlib string or as ``(B, G, R)`` tuple of
+int8 set between 0 and 255."""
 docdict[
     "visual_position"
 ] = """
 The position of the object can be either defined as the string 'center' or
 'centered' to position the object in the center of the window; or as a 2-length
-tuple of positive integer. The position is defined in opencv coordinates, with
-(0, 0) being the top left corner of the window."""
+tuple of positive integer. The position is defined in pixels in opencv
+coordinates, with (0, 0) being the top left corner of the window."""
 docdict[
     "visual_length"
 ] = """
