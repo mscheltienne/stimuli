@@ -25,6 +25,7 @@ needs_sphinx = "5.0"
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.autosummary",
     "sphinx_copybutton",
     "sphinx.ext.githubpages",
@@ -79,3 +80,6 @@ napoleon_numpy_docstring = True
 
 # -- Sphinx-issues -----------------------------------------------------------
 issues_github_path = "mscheltienne/simple-stimuli"
+
+# -- Auto-section-labels -----------------------------------------------------
+autosectionlabel_prefix_document = False
