@@ -9,7 +9,7 @@
 
 .. NOTE: changes from first-time contributors should be added to the TOP of
    the relevant section (Enhancements / Bugs / API changes), and should look
-   like this (where xxxx is the pull request number):
+   like this (where xx is the pull request number):
 
        - description of enhancement/bugfix/API change (:pr:`xx` by
        `Firstname Lastname`_)
@@ -24,7 +24,7 @@ Version 0.5
 Enhancements
 ~~~~~~~~~~~~
 
-- ***
+- Add the documentation build (by `Mathieu Scheltienne`_ in :pr:`6`)
 
 Bugs
 ~~~~
