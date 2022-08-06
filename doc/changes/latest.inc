@@ -20,12 +20,8 @@ Enhancements
 Bugs
 ~~~~
 
-- ***
-
 API and behavior changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
-- ***
 
 Authors
 ~~~~~~~
