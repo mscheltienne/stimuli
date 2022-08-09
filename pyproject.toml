@@ -53,6 +53,7 @@ build = [
 ]
 doc = [
     'furo',
+    'numpydoc',
     'sphinx',
     'sphinx-copybutton',
     'sphinx-design',

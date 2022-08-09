@@ -29,8 +29,8 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    "numpydoc",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_issues",
@@ -78,12 +78,25 @@ intersphinx_mapping = {
 }
 intersphinx_timeout = 5
 
-# -- Napoleon ----------------------------------------------------------------
-napoleon_google_docstring = False
-napoleon_numpy_docstring = True
-
 # -- Sphinx-issues -----------------------------------------------------------
 issues_github_path = "mscheltienne/simple-stimuli"
 
 # -- Auto-section-labels -----------------------------------------------------
 autosectionlabel_prefix_document = False
+
+# -- NumpyDoc ----------------------------------------------------------------
+
+error_ignores = {
+    "GL01",  # docstring should start in the line immediately after the quotes
+    "EX01",  # section 'Examples' not found
+    "ES01",  # no extended summary found
+    "SA01",  # section 'See Also' not found
+    "RT02",  # The first line of the Returns section should contain only the type, unless multiple values are being returned  # noqa
+}
+
+numpydoc_class_members_toctree = False
+numpydoc_attributes_as_param_list = False
+numpydoc_xref_param_type = True
+numpydoc_xref_aliases = {
+    "Path": "pathlib.Path",
+}
