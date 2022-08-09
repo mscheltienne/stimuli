@@ -6,7 +6,7 @@
 
 import stimuli
 
-# -- Project information -----------------------------------------------------
+# -- project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "simple-stimuli"
@@ -14,7 +14,7 @@ copyright = "2022, Mathieu Scheltienne"
 author = "Mathieu Scheltienne"
 release = stimuli.__version__
 
-# -- General configuration ---------------------------------------------------
+# -- general configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -42,7 +42,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # Sphinx will warn about all references where the target cannot be found.
 nitpicky = True
 
-# -- Options for HTML output -------------------------------------------------
+# -- options for HTML output -------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]
 html_title = "Simple-stimuli"
@@ -64,11 +64,11 @@ html_theme_options = {
     ],
 }
 
-# -- Autodoc -----------------------------------------------------------------
+# -- autodoc -----------------------------------------------------------------
 autodoc_typehints = "none"
 autodoc_member_order = "groupwise"
 
-# -- Intersphinx -------------------------------------------------------------
+# -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
     "numpy": ("https://numpy.org/devdocs", None),
     "python": ("https://docs.python.org/3", None),
@@ -78,13 +78,13 @@ intersphinx_mapping = {
 }
 intersphinx_timeout = 5
 
-# -- Sphinx-issues -----------------------------------------------------------
+# -- sphinx-issues -----------------------------------------------------------
 issues_github_path = "mscheltienne/simple-stimuli"
 
-# -- Auto-section-labels -----------------------------------------------------
+# -- autosectionlabels -------------------------------------------------------
 autosectionlabel_prefix_document = False
 
-# -- NumpyDoc ----------------------------------------------------------------
+# -- numpydoc ----------------------------------------------------------------
 
 # https://numpydoc.readthedocs.io/en/latest/validation.html#validation-checks
 error_ignores = {
