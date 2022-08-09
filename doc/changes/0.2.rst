@@ -20,7 +20,7 @@ Enhancements
 API and behavior changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Add a CLI entry-point to display a fixation:class: `~stimuli.visuals.Cross` named ``stimuli_cross`` (by `Mathieu Scheltienne`_)
+- Add a CLI entry-point to display a fixation :class:`~stimuli.visuals.Cross` named ``stimuli_cross`` (by `Mathieu Scheltienne`_)
 
 - Rename ``ASSR`` auditory stimuli to :class:`~stimuli.audio.SoundAM` (by `Mathieu Scheltienne`_)
 
