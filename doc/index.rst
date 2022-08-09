@@ -1,3 +1,5 @@
+.. include:: ./links.inc
+
 Simple-stimuli
 ==============
 
@@ -9,15 +11,14 @@ Simple-stimuli
    changes/index
 
 Simple-stimuli is a Python package for delivery of simple auditory and visuals
-stimuli which does not require `PsychoPy <https://www.psychopy.org/>`_. For
-complex paradigm and use cases, `PsychoPy <https://www.psychopy.org/>`_ and its
-builder should be preferred.
+stimuli which does not require `PsychoPy`_. For complex paradigm and use cases,
+`PsychoPy`_ and its builder should be preferred.
 
 Install
 -------
 
-Simple-stimuli is available on `Pypi <https://pypi.org/project/stimuli/>`_ and
-on `conda-forge <https://anaconda.org/conda-forge/stimuli>`_.
+Simple-stimuli is available on `Pypi <project pypi_>`_ and
+on `conda-forge <project conda_>`_.
 
 .. tab-set::
 
@@ -37,7 +38,7 @@ Citation
 --------
 
 If you use this package, please cite using the information in
-`CITATION.cff <https://github.com/mscheltienne/simple-stimuli/blob/main/CITATION.cff>`_.
+`CITATION.cff <project citation_>`_.
 
 .. tab-set::
 
@@ -63,5 +64,5 @@ If you use this package, please cite using the information in
 License
 -------
 
-``simple-stimuli`` is licensed under the `MIT <https://opensource.org/licenses/MIT>`_ license.
-A full copy of the license can be found `on GitHub <https://github.com/mscheltienne/simple-stimuli/blob/main/LICENSE>`_.
+``simple-stimuli`` is licensed under the `MIT license`_.
+A full copy of the license can be found `on GitHub <project license_>`_.
