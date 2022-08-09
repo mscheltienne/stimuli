@@ -82,7 +82,7 @@ intersphinx_timeout = 5
 issues_github_path = "mscheltienne/simple-stimuli"
 
 # -- autosectionlabels -------------------------------------------------------
-autosectionlabel_prefix_document = False
+autosectionlabel_prefix_document = True
 
 # -- numpydoc ----------------------------------------------------------------
 

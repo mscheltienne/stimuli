@@ -3,7 +3,7 @@ Command-Line-Interface
 
 Simple-stimuli supports the following CLI entry-points:
 
-- :ref:`stimuli_cross`
+- :ref:`cli:stimuli_cross`
 
 In a terminal, use the ``--help`` flag to get additional information on the
 arguments.
