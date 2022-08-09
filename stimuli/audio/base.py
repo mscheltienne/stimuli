@@ -65,6 +65,11 @@ class BaseSound(ABC):
         """Play the sound.
 
         This function creates and terminates an audio stream.
+
+        Parameters
+        ----------
+        blocking : bool
+            If True, playing the sounds blocks the interpreter.
         """
         _check_type(blocking, (bool,), "blocking")
         logger.debug("Play requested with blocking set to %s.", blocking)
@@ -81,7 +86,9 @@ class BaseSound(ABC):
         sd.stop()
 
     def save(self, fname: Union[str, Path], overwrite: bool = False) -> None:
-        """Save a sound signal into a .wav file with scipy.io.wavfile.write().
+        """Save a sound signal into a .wav file.
+
+        The saving is handled by :func:`scipy.io.wavfile.write`.
 
         Parameters
         ----------

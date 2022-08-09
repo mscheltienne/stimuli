@@ -100,3 +100,22 @@ numpydoc_xref_param_type = True
 numpydoc_xref_aliases = {
     "Path": "pathlib.Path",
 }
+numpydoc_xref_ignore = {
+    "of",
+    "shape",
+}
+
+numpydoc_validate = True
+numpydoc_validation_checks = {"all"} | set(error_ignores)
+numpydoc_validation_exclude = {  # set of regex
+    # we currently don't document these properly (probably okay)
+    r"\.__getitem__",
+    r"\.__contains__",
+    r"\.__hash__",
+    r"\.__mul__",
+    r"\.__sub__",
+    r"\.__add__",
+    r"\.__iter__",
+    r"\.__div__",
+    r"\.__neg__",
+}
