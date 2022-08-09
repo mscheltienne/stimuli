@@ -108,8 +108,7 @@ numpydoc_xref_ignore = {
 
 numpydoc_validate = True
 numpydoc_validation_checks = {"all"} | set(error_ignores)
-numpydoc_validation_exclude = {  # set of regex
-    # we currently don't document these properly (probably okay)
+numpydoc_validation_exclude = {  # regex to ignore during docstring check
     r"\.__getitem__",
     r"\.__contains__",
     r"\.__hash__",
