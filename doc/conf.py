@@ -86,6 +86,7 @@ autosectionlabel_prefix_document = False
 
 # -- NumpyDoc ----------------------------------------------------------------
 
+# https://numpydoc.readthedocs.io/en/latest/validation.html#validation-checks
 error_ignores = {
     "GL01",  # docstring should start in the line immediately after the quotes
     "EX01",  # section 'Examples' not found
