@@ -7,6 +7,8 @@
    - "Bugs" for bug fixes
    - "API changes" for backward-incompatible changes
 
+.. include:: authors.inc
+
 .. _latest:
 
 Version 0.5
@@ -26,4 +28,4 @@ API and behavior changes
 Authors
 ~~~~~~~
 
-* Mathieu Scheltienne
+* `Mathieu Scheltienne`_

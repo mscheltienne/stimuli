@@ -1,0 +1,6 @@
+Changelog
+=========
+
+.. toctree::
+
+    latest.rst
