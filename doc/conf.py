@@ -20,6 +20,10 @@ release = stimuli.__version__
 # If your documentation needs a minimal Sphinx version, state it here.
 needs_sphinx = "5.0"
 
+# The document name of the “root” document, that is, the document that contains
+# the root toctree directive.
+root_doc = "index"
+
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
@@ -41,6 +45,9 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Sphinx will warn about all references where the target cannot be found.
 nitpicky = True
+
+# A list of ignored prefixes for module index sorting.
+modindex_common_prefix = ["stimuli."]
 
 # -- options for HTML output -------------------------------------------------
 html_theme = "furo"
