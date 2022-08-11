@@ -35,6 +35,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     "numpydoc",
+    "sphinxcontrib.bibtex",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_issues",
@@ -126,3 +127,6 @@ numpydoc_validation_exclude = {  # regex to ignore during docstring check
     r"\.__div__",
     r"\.__neg__",
 }
+
+# -- sphinxcontrib-bibtex ----------------------------------------------------
+bibtex_bibfiles = ["./references.bib"]

@@ -55,6 +55,7 @@ doc = [
     'furo',
     'numpydoc',
     'sphinx',
+    'sphinxcontrib-bibtex',
     'sphinx-copybutton',
     'sphinx-design',
     'sphinx-issues',
