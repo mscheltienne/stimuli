@@ -4,6 +4,7 @@
 [![tests](https://github.com/mscheltienne/simple-stimuli/actions/workflows/pytest.yml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/pytest.yml)
 [![build](https://github.com/mscheltienne/simple-stimuli/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/build.yml)
 [![doc](https://github.com/mscheltienne/simple-stimuli/actions/workflows/doc.yml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/doc.yml)
+
 [![PyPI version](https://badge.fury.io/py/stimuli.svg)](https://badge.fury.io/py/stimuli)
 [![Downloads](https://static.pepy.tech/personalized-badge/stimuli?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads)](https://pepy.tech/project/stimuli)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
