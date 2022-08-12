@@ -36,6 +36,9 @@ jobs:
         with:
           repository: LABSN/sound-ci-helpers
           path: sound-ci-helpers
+      - name: Update APT
+        if: ${{ matrix.os == 'ubuntu'}}
+        run: sudo apt update
       - name: Create virtual sound card
         if: ${{ matrix.os != 'macos'}}
         run: ./sound-ci-helpers/auto.sh
