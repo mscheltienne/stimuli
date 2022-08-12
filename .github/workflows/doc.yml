@@ -21,18 +21,16 @@ jobs:
         with:
           path: main
       - name: Checkout tool repository
-        if: ${{ matrix.os != 'macos'}}
         uses: actions/checkout@v3
         with:
           repository: LABSN/sound-ci-helpers
           path: sound-ci-helpers
       - name: Create virtual sound card
-        if: ${{ matrix.os != 'macos'}}
         run: ./sound-ci-helpers/auto.sh
-      - name: Setup Python ${{ matrix.python-version }}
+      - name: Setup Python 3.9
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.9
           architecture: 'x64'
       - name: Install package
         run: |
