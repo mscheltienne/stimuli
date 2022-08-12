@@ -45,8 +45,6 @@ jobs:
         with:
           name: doc-dev
           path: ./doc-build/dev
-      - name: Debug
-        run: ls -l ./doc-build/dev
 
   deploy:
     needs: build
@@ -61,5 +59,3 @@ jobs:
         with:
           name: doc-dev
           path: ./doc-build/dev
-      - name: Debug
-        run: ls -l ./doc-build/dev
