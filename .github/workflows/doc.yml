@@ -39,6 +39,4 @@ jobs:
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
           python -m pip install --progress-bar off main/.[doc]
       - name: Build doc
-        run: |
-          cd ./main/doc
-          make html
+        run: sphinx-build main/doc doc -b html -W --keep-going
