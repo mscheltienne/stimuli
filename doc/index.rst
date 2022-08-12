@@ -6,7 +6,7 @@ Simple-stimuli
 .. toctree::
    :hidden:
 
-   references/index
+   api/index
    cli
    changes/index
 
