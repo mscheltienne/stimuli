@@ -72,7 +72,7 @@ instance/
 doc/_build/
 doc/generated/
 doc/auto_examples/
-doc/references/generated/
+doc/api/generated/
 
 # PyBuilder
 target/
