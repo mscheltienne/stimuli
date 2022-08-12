@@ -40,6 +40,5 @@ jobs:
           python -m pip install --progress-bar off main/.[doc]
       - name: Build doc
         run: |
-          set -e
           cd ./main/doc
           make html
