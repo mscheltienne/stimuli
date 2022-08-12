@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    timeout-minutes: 30
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -49,6 +49,7 @@ jobs:
         run: ls -l ./doc-build/dev
 
   deploy:
+    needs: build
     timeout-minutes: 10
     runs-on: ubuntu-latest
     defaults:
