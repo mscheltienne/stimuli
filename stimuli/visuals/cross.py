@@ -37,20 +37,6 @@ class Cross(BaseVisual):
         The rectangles are defined by length and thickness.
         The rectangles are positioned to form a cross.
 
-        - Horizontal rectangle
-        P1 --------------
-        |                |
-         -------------- P2
-
-        - Vertical rectangle
-        P1 --
-        |    |
-        |    |
-        |    |
-        |    |
-        |    |
-         -- P2
-
         Parameters
         ----------
         length : int
@@ -58,13 +44,14 @@ class Cross(BaseVisual):
         thickness : int
             Number of pixels used to draw the thickness of the cross.
         color : str | tuple
-            Color used to fill the cross. %(visual_color)s
+            Color used to fill the cross.
         position : str | tuple
             Position of the center of the cross. See notes for additional
             information.
 
         Notes
         -----
+        %(visual_color)s
         %(visual_position)s
         """
         length = Cross._check_length(length, self._window_size)
@@ -75,6 +62,9 @@ class Cross(BaseVisual):
         )
 
         # Horizontal rectangle
+        # P1 --------------
+        # |                |
+        #  -------------- P2
         xP1 = position[0] - length // 2
         yP1 = position[1] - thickness // 2
         xP2 = xP1 + length
@@ -82,6 +72,13 @@ class Cross(BaseVisual):
         cv2.rectangle(self._img, (xP1, yP1), (xP2, yP2), color, -1)
 
         # Vertical rectangle
+        # P1 --
+        # |    |
+        # |    |
+        # |    |
+        # |    |
+        # |    |
+        #  -- P2
         xP1 = position[0] - thickness // 2
         yP1 = position[1] - length // 2
         xP2 = xP1 + thickness

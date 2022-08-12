@@ -22,17 +22,14 @@ _PSDS = {
 class Noise(BaseSound):  # noqa: E501
     """Colored noise stimulus.
 
-    This class is based on the StackOverflow answer from Bob:
-    https://stackoverflow.com/questions/67085963/generate-colors-of-noise-in-python/67127726#67127726
-
     Parameters
     ----------
     %(audio_volume)s
     %(audio_sample_rate)s
     %(audio_duration)s
     color : str
-        The noise color. Available colors are: "white", "pink",
-        "blue", "violet" and "brown".
+        The noise color. Available colors are: ``'white'``, ``'pink'``,
+        ``'blue'``, ``'violet'`` and ``'brown'``.
     """
 
     def __init__(

@@ -47,22 +47,29 @@ class FillingBar(BaseFeedbackVisual):
         %(visual_width)s
         margin : int
             Margin in pixel between the filling bar and the containing bar.
-            The containing bar (length x width) is set as:
-                (length+margin, width+margin)
+            The containing bar ``(length x width)`` is set as
+            ``(length+margin, width+margin)``.
         color : str | tuple
-            Color used to draw the bar background. %(visual_color)s
-        color : str | tuple
-            Color used to fill the bar. %(visual_color)s
+            Color used to draw the bar background.
+        fill_color : str | tuple
+            Color used to fill the bar.
         fill_perc : float
             Percentage between 0 and 1 of bar filling.
-                - 0: not filled
-                - 1: fully filled
+
+            * ``0``: not filled
+            * ``1``: fully filled
+
             As the bar fills on both side simultaneously, the percentage filled
-            is length//2 * fill_perc.
+            is ``length//2 * fill_perc``.
         axis : int | str
             Axis along which the bar is moving:
-                - 0 | 'vertical' | 'v'      - vertical bar
-                - 1 | 'horizontal' | 'h'    - horizontal bar
+
+            * ``0`` | ``'vertical'``   | ``'v'``  - vertical bar
+            * ``1`` | ``'horizontal'`` | ``'h'``  - horizontal bar
+
+        Notes
+        -----
+        %(visual_color)s
         """
         if self._backup_img is None:
             self._backup_img = deepcopy(self._img)

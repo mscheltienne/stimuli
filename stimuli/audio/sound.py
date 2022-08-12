@@ -44,7 +44,7 @@ class Sound(BaseSound):
     def crop(
         self, tmin: Optional[float] = None, tmax: Optional[float] = None
     ) -> None:
-        """Crop the sound between tmin and tmax.
+        """Crop the sound between ``tmin`` and ``tmax``.
 
         Parameters
         ----------
@@ -56,7 +56,7 @@ class Sound(BaseSound):
         Notes
         -----
         The time-based selection selects the samples in the closed interval
-        [tmin, tmax].
+        ``[tmin, tmax]``.
         """
         logger.debug("Cropping the signal between %s and %s.", tmin, tmax)
         self._tmin, self._tmax = Sound._check_tmin_tmax(

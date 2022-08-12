@@ -14,10 +14,10 @@ from .base import BaseSound
 class SoundAM(BaseSound):
     """Amplitude modulated sound.
 
-    Composed of a carrier frequency fc which is amplitude modulated at fm.
-    By default, an Auditory Steady State Response stimuli composed of a 1000 Hz
-    carrier frequency modulated at 40 Hz through conventional modulation is
-    created.
+    Composed of a carrier frequency ``fc`` which is amplitude modulated at
+    ``fm``. By default, an Auditory Steady State Response stimuli composed of
+    a ``1000`` Hz carrier frequency modulated at ``40`` Hz through conventional
+    modulation is created.
 
     Parameters
     ----------
@@ -28,14 +28,15 @@ class SoundAM(BaseSound):
         Carrier frequency in Hz.
     frequency_modulation : int
         Modulatiom frequency in Hz.
-    method : str
-        Either 'conventional' or 'dsbsc'.
-        - 'conventional':
-            Also called classical AM, the eq. used is:
+    method : ``'conventional'`` | ``'dsbsc'``
+        ``'conventional'`` is also called classical AM, the eq. used is::
+
                 signal = (1 - M(t)) * cos(2*pi*fc*t)
                 M(t) = cos(2*pi*fm*t)
-        - 'dsbsc':
-            Also called double side band suppressed carrier, the eq. used is:
+
+        ``'dsbsc'`` is also called double side band suppressed carrier, the eq.
+        used is::
+
                 signal = M(t)*cos(2*pi*fc*t)
                 M(t) = sin(2*pi*fm*t)
     """

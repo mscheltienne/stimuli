@@ -51,12 +51,12 @@ class BaseVisual(ABC):
         self._background = (0, 0, 0)
 
     def show(self, wait: int = 1) -> None:
-        """Show the visual with cv2.imshow() and cv2.waitKey().
+        """Show the visual with ``cv2.imshow()`` and ``cv2.waitKey()``.
 
         Parameters
         ----------
         wait : int
-            Wait timer passed to cv2.waitKey() [ms].
+            Wait timer passed to ``cv2.waitKey()`` [ms].
         """
         _check_type(wait, ("int",), "wait")
         cv2.imshow(self._window_name, self._img)
@@ -79,7 +79,11 @@ class BaseVisual(ABC):
         Parameters
         ----------
         color : str | tuple
-            Color used to draw the background. %(visual_color)s
+            Color used to draw the background.
+
+        Notes
+        -----
+        %(visual_color)s
         """
         color = BaseVisual._check_color(color)
         self._img = np.full(

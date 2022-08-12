@@ -33,7 +33,9 @@ classifiers = [
     'Natural Language :: English',
     'License :: OSI Approved :: MIT License',
     'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
     'Topic :: Scientific/Engineering',
+    'Topic :: Software Development',
 ]
 dependencies = [
     'matplotlib',
@@ -49,6 +51,15 @@ build = [
     'build',
     'twine',
 ]
+doc = [
+    'furo',
+    'numpydoc',
+    'sphinx',
+    'sphinxcontrib-bibtex',
+    'sphinx-copybutton',
+    'sphinx-design',
+    'sphinx-issues',
+]
 style = [
     'black',
     'codespell',
@@ -62,8 +73,12 @@ test = [
 ]
 all = [
     'stimuli[build]',
+    'stimuli[doc]',
     'stimuli[style]',
     'stimuli[test]',
+]
+full = [
+    'stimuli[all]',
 ]
 
 [project.urls]

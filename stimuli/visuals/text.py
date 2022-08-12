@@ -42,15 +42,15 @@ class Text(BaseVisual):
         ----------
         text : str
             Text to display.
-        fontFace : int (cv2.FONT)
+        fontFace : int ``cv2.FONT``
             Font to use to write the text.
         fontScale : int
             Font scale factor multiplied by the font-specific base size.
         color : str | tuple
-            Color used to write the text. %(visual_color)s
+            Color used to write the text.
         thickness : int
             Text line thickness in pixel.
-        lineType : int (cv2.LINE)
+        lineType : int ``cv2.LINE``
             Type of line to use.
         position : str | tuple
             Position of the bottom left corner of the text. See notes for
@@ -58,6 +58,7 @@ class Text(BaseVisual):
 
         Notes
         -----
+        %(visual_color)s
         %(visual_position)s
         """
         _check_type(text, (str,), "text")
