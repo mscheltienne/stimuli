@@ -19,12 +19,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          path: main
+          path: ./main
       - name: Checkout tool repository
         uses: actions/checkout@v3
         with:
           repository: LABSN/sound-ci-helpers
-          path: sound-ci-helpers
+          path: ./sound-ci-helpers
       - name: Update APT
         run: sudo apt update
       - name: Create virtual sound card
@@ -39,4 +39,26 @@ jobs:
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
           python -m pip install --progress-bar off main/.[doc]
       - name: Build doc
-        run: sphinx-build ./main/doc ./doc/dev -W --keep-going
+        run: sphinx-build ./main/doc ./doc-build/dev -W --keep-going
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: doc-dev
+          path: ./doc-build/dev
+      - name: Debug
+        run: ls -l ./doc-build/dev
+
+  deploy:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: doc-dev
+          path: ./doc-build/dev
+      - name: Debug
+        run: ls -l ./doc-build/dev
