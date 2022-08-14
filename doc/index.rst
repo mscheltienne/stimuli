@@ -37,6 +37,12 @@ on `conda-forge <project conda_>`_.
 
             conda install -c conda-forge stimuli
 
+    .. tab-item:: Source
+
+        .. code-block:: bash
+
+            pip install git+https://github.com/mscheltienne/simple-stimuli
+
 Citation
 --------
 
