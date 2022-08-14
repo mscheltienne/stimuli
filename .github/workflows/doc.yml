@@ -67,7 +67,7 @@ jobs:
           path: ./doc-build/dev
       - name: Deploy dev documentation
         run: |
-          # rm -R ./main/dev
+          rm -R ./main/dev
           mv ./doc-build/dev ./main/dev
           ls -l ./main
           ls -l ./main/dev
