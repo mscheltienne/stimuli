@@ -59,8 +59,24 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: gh-pages
+          path: ./main
       - name: Download documentation
         uses: actions/download-artifact@v3
         with:
           name: doc-dev
           path: ./doc-build/dev
+      - name: Deploy dev documentation
+        run: |
+          rm -R ./main/dev
+          mv ./doc-build/dev ./main/dev
+      - name: GIT commit and push all changed files
+        env:
+          CI_COMMIT_MESSAGE: Doc deployment
+          CI_COMMIT_AUTHOR: Continuous Integration
+        run: |
+          cd ./main
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "mscheltienne@users.noreply.github.com"
+          git pull
+          git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git push
