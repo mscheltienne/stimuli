@@ -69,6 +69,8 @@ jobs:
         run: |
           rm -R ./main/dev
           mv ./doc-build/dev ./main/dev
+          ls -l ./main
+          ls -l ./main/dev
       - name: GIT commit and push all changed files
         env:
           CI_COMMIT_MESSAGE: Doc deployment
