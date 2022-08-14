@@ -47,6 +47,7 @@ jobs:
           path: ./doc-build/dev
 
   deploy:
+    if: github.event_name == 'push'
     needs: build
     timeout-minutes: 10
     runs-on: ubuntu-latest
