@@ -71,7 +71,7 @@ jobs:
           mv ./doc-build/dev ./main/dev
       - name: GIT commit and push all changed files
         env:
-          CI_COMMIT_MESSAGE: [gh] doc deployment
+          CI_COMMIT_MESSAGE: '[gh] doc deployment'
           CI_COMMIT_AUTHOR: GitHub
         run: |
           cd ./main
