@@ -47,7 +47,7 @@ jobs:
           path: ./doc-build/dev
 
   deploy:
-    # if: github.event_name == 'push'
+    if: github.event_name == 'push'
     needs: build
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -73,7 +73,7 @@ jobs:
           ls -l ./main/dev
       - name: GIT commit and push all changed files
         env:
-          CI_COMMIT_MESSAGE: Doc deployment
+          CI_COMMIT_MESSAGE: [gh] doc deployment
           CI_COMMIT_AUTHOR: Continuous Integration
         run: |
           cd ./main
