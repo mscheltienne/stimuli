@@ -69,12 +69,10 @@ jobs:
         run: |
           rm -R ./main/dev
           mv ./doc-build/dev ./main/dev
-          ls -l ./main
-          ls -l ./main/dev
       - name: GIT commit and push all changed files
         env:
           CI_COMMIT_MESSAGE: [gh] doc deployment
-          CI_COMMIT_AUTHOR: Continuous Integration
+          CI_COMMIT_AUTHOR: GitHub
         run: |
           cd ./main
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
