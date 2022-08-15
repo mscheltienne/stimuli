@@ -80,21 +80,15 @@ def set_handler_log_level(
 
 
 @fill_doc
-def set_log_level(verbose: Union[bool, str, int, None]) -> int:
+def set_log_level(verbose: Union[bool, str, int, None]):
     """Set the log level for the logger.
 
     Parameters
     ----------
     %(verbose)s
-
-    Returns
-    -------
-    verbose : int
-        The verbose level converted to an integer.
     """
     verbose = _check_verbose(verbose)
     logger.setLevel(verbose)
-    return verbose
 
 
 class LoggerFormatter(logging.Formatter):
