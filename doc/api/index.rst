@@ -9,3 +9,4 @@ This is the reference for classes (``CamelCase`` names) and functions
     stimuli.audio.rst
     stimuli.visuals.basic.rst
     stimuli.visuals.feedback.rst
+    logging.rst
