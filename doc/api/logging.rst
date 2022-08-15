@@ -6,5 +6,4 @@ Logging
 .. autosummary::
     :toctree: generated/
 
-    logger
     set_log_level
