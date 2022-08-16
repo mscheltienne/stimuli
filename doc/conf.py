@@ -106,6 +106,8 @@ numpydoc_class_members_toctree = False
 numpydoc_attributes_as_param_list = False
 numpydoc_xref_param_type = True
 numpydoc_xref_aliases = {
+    # Python
+    "bool": ":class:`python:bool`",
     "Path": "pathlib.Path",
 }
 numpydoc_xref_ignore = {
