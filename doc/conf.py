@@ -84,6 +84,7 @@ intersphinx_mapping = {
     "sounddevice": ("https://python-sounddevice.readthedocs.io/", None),
 }
 intersphinx_timeout = 5
+intersphinx_disabled_reftypes = ["std:doc", "std:label"]
 
 # -- sphinx-issues -----------------------------------------------------------
 issues_github_path = "mscheltienne/simple-stimuli"
