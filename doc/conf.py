@@ -190,6 +190,7 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
 
 # -- sphinx-gallery ----------------------------------------------------------
 sphinx_gallery_conf = {
+    "abort_on_example_error": True,
     "backreferences_dir": "api/generated",
     "doc_module": (package,),
     "examples_dirs": "../tutorials",

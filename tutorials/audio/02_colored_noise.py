@@ -1,6 +1,7 @@
 """
+=============
 Colored noise
--------------
+=============
 
 A noise signal is produced by a stochastic process. The color of noise, also
 called the noise spectrum, refers to the power spectrum of a noise signal.
@@ -28,7 +29,7 @@ from stimuli.audio import Noise
 #%%
 # In this tutorial, we will create and plot the power spectrum of different
 # noise colors. ``simple-stimuli`` implements several noise color in
-# :class:`stimuli.audio.Noise`. Refer to the documentation of the ``color``
+# :class:`~stimuli.audio.Noise`. Refer to the documentation of the ``color``
 # argument for available colors.
 
 colors = ("white", "pink", "blue", "violet", "brown")
@@ -39,7 +40,7 @@ for color in colors:
 
 #%%
 # We can listen to each individual noise by playing each sound with
-# :meth:`stimuli.audio.Noise.play`.
+# :meth:`~stimuli.audio.Noise.play`.
 
 for sound in sounds.values():
     sound.play(blocking=True)
@@ -50,7 +51,7 @@ for sound in sounds.values():
 # been set identicaly on all audio channels, we can disregard the second
 # dimension and select only the first channel.
 
-plt.figure(figsize=(10, 10))
+plt.figure()
 for color in colors:
     signal = sounds[color].signal[:, 0]  # retrieve the signal
     # compute the one-dimensional discrete fourier transform
