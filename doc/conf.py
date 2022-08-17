@@ -148,7 +148,7 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
     Parameters
     ----------
     domain : str
-        One of 'py', 'c', 'cpp', 'javascript'
+        One of 'py', 'c', 'cpp', 'javascript'.
     info : dict
         With keys "module" and "fullname".
 
