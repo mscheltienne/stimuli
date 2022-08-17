@@ -15,8 +15,8 @@ import stimuli
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Simple-stimuli"
-copyright = f"{date.today().year}, Mathieu Scheltienne"
 author = "Mathieu Scheltienne"
+copyright = f"{date.today().year}, {author}"
 release = stimuli.__version__
 package = stimuli.__name__
 gh_url = "http://github.com/mscheltienne/simple-stimuli"
