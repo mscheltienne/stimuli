@@ -13,7 +13,7 @@ import stimuli
 # -- project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "simple-stimuli"
+project = "Simple-stimuli"
 copyright = "2022, Mathieu Scheltienne"
 author = "Mathieu Scheltienne"
 release = stimuli.__version__
@@ -58,7 +58,7 @@ modindex_common_prefix = [f"{package}."]
 # -- options for HTML output -------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]
-html_title = "Simple-stimuli"
+html_title = project
 
 # Documentation to change footer icons:
 # https://pradyunsg.me/furo/customisation/footer/#changing-footer-icons
@@ -92,7 +92,7 @@ intersphinx_mapping = {
 intersphinx_timeout = 5
 
 # -- sphinx-issues -----------------------------------------------------------
-issues_github_path = "mscheltienne/simple-stimuli"
+issues_github_path = gh_url.split("http://github.com/")[-1]
 
 # -- autosectionlabels -------------------------------------------------------
 autosectionlabel_prefix_document = True
