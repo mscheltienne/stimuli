@@ -2,7 +2,7 @@
 Colored noise
 -------------
 
-A noise signal is produced by a stocahstic process. The color of noise, also
+A noise signal is produced by a stochastic process. The color of noise, also
 called the noise spectrum, refers to the power spectrum of a noise signal.
 
 The practice of naming kinds of noise after colors started with white noise,
