@@ -142,6 +142,7 @@ bibtex_bibfiles = ["./references.bib"]
 # -- sphinx.ext.linkcode -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
 
+
 def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
     """Determine the URL corresponding to a Python object.
 
