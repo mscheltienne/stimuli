@@ -19,7 +19,7 @@ _PSDS = {
 
 
 @fill_doc
-class Noise(BaseSound):  # noqa: E501
+class Noise(BaseSound):
     """Colored noise stimulus.
 
     Parameters
