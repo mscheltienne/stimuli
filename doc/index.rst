@@ -8,6 +8,7 @@ Simple-stimuli
 
    api/index
    cli
+   auto_tutorials/index
    changes/index
 
 Simple-stimuli is a Python package for delivery of simple auditory and visuals

@@ -1,21 +1,22 @@
-# =============
-# Colored noise
-# =============
-#
-# A noise signal is produced by a stocahstic process. The color of noise, also
-# called the noise spectrum, refers to the power spectrum of a noise signal.
-#
-# The practice of naming kinds of noise after colors started with white noise,
-# a signal whose spectrum has equal power within any equal interval of
-# frequencies. That name was given by analogy with white light, which was
-# (incorrectly) assumed to have such a flat power spectrum over the visible
-# range. Other color names, such as ``pink``, ``red``, and ``blue`` were then
-# given to noise with other spectral profiles, often (but not always) in
-# reference to the color of light with similar spectra. Some of those names
-# have standard definitions in certain disciplines, while others are very
-# informal and poorly defined.
-#
-# Source: `Wikipedia <https://en.wikipedia.org/wiki/Colors_of_noise>`_
+"""
+Colored noise
+-------------
+
+A noise signal is produced by a stocahstic process. The color of noise, also
+called the noise spectrum, refers to the power spectrum of a noise signal.
+
+The practice of naming kinds of noise after colors started with white noise,
+a signal whose spectrum has equal power within any equal interval of
+frequencies. That name was given by analogy with white light, which was
+(incorrectly) assumed to have such a flat power spectrum over the visible
+range. Other color names, such as ``pink``, ``red``, and ``blue`` were then
+given to noise with other spectral profiles, often (but not always) in
+reference to the color of light with similar spectra. Some of those names
+have standard definitions in certain disciplines, while others are very
+informal and poorly defined.
+
+Source: `Wikipedia <https://en.wikipedia.org/wiki/Colors_of_noise>`_
+"""
 
 #%%
 
