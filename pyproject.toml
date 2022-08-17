@@ -53,6 +53,7 @@ build = [
 ]
 doc = [
     'furo',
+    'matplotlib',
     'numpydoc',
     'sphinx',
     'sphinxcontrib-bibtex',
