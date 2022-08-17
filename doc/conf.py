@@ -4,6 +4,10 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 
+import inspect
+from importlib import import_module
+from typing import Dict, Optional
+
 import stimuli
 
 # -- project information -----------------------------------------------------
@@ -13,6 +17,8 @@ project = "simple-stimuli"
 copyright = "2022, Mathieu Scheltienne"
 author = "Mathieu Scheltienne"
 release = stimuli.__version__
+package = stimuli.__name__
+gh_url = "http://github.com/mscheltienne/simple-stimuli"
 
 # -- general configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -32,7 +38,7 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.viewcode",
+    "sphinx.ext.linkcode",
     "numpydoc",
     "sphinxcontrib.bibtex",
     "sphinx_copybutton",
@@ -47,7 +53,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 nitpicky = True
 
 # A list of ignored prefixes for module index sorting.
-modindex_common_prefix = ["stimuli."]
+modindex_common_prefix = [f"{package}."]
 
 # -- options for HTML output -------------------------------------------------
 html_theme = "furo"
@@ -60,7 +66,7 @@ html_theme_options = {
     "footer_icons": [
         {
             "name": "GitHub",
-            "url": "https://github.com/mscheltienne/simple-stimuli",
+            "url": gh_url,
             "html": """
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
@@ -71,7 +77,7 @@ html_theme_options = {
     ],
 }
 
-# -- autodoc -----------------------------------------------------------------
+# -- autodoc --------------------------------------------------sphinx.ext.linkcode---------------
 autodoc_typehints = "none"
 autodoc_member_order = "groupwise"
 
@@ -131,3 +137,49 @@ numpydoc_validation_exclude = {  # regex to ignore during docstring check
 
 # -- sphinxcontrib-bibtex ----------------------------------------------------
 bibtex_bibfiles = ["./references.bib"]
+
+# -- sphinx.ext.linkcode -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
+
+def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
+    """Determine the URL corresponding to a Python object.
+
+    Parameters
+    ----------
+    domain : str
+        One of 'py', 'c', 'cpp', 'javascript'
+    info : dict
+        With keys "module" and "fullname".
+
+    Returns
+    -------
+    url : str | None
+        The code URL. If None, no link is added.
+    """
+    if domain != "py":
+        return None  # only document python objects
+
+    # retrieve pyobject and file
+    try:
+        module = import_module(info["module"])
+        pyobject = module
+        for elt in info["fullname"].split("."):
+            pyobject = getattr(pyobject, elt)
+        fname = inspect.getsourcefile(pyobject)
+    except Exception:
+        # Either the object could not be loaded or the file was not found.
+        # For instance, properties will raise.
+        return None
+
+    # retrieve start/stop lines
+    source, start_line = inspect.getsourcelines(pyobject)
+    lines = "L%d-L%d" % (start_line, start_line + len(source) - 1)
+
+    # create URL
+    if "dev" in release:
+        branch = "main"
+    else:
+        return None  # alternatively, link to a maint/version branch
+    fname = fname.split(f"/{package}/")[1]
+    url = f"{gh_url}/blob/{branch}/{package}/{fname}#{lines}"
+    return url
