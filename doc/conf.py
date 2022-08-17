@@ -44,6 +44,7 @@ extensions = [
     "sphinxcontrib.bibtex",
     "sphinx_copybutton",
     "sphinx_design",
+    "sphinx-gallery",
     "sphinx_issues",
 ]
 
