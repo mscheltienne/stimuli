@@ -5,6 +5,7 @@
 
 
 import inspect
+from datetime import date
 from importlib import import_module
 from typing import Dict, Optional
 
@@ -14,7 +15,7 @@ import stimuli
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Simple-stimuli"
-copyright = "2022, Mathieu Scheltienne"
+copyright = f"{date.today().year}, Mathieu Scheltienne"
 author = "Mathieu Scheltienne"
 release = stimuli.__version__
 package = stimuli.__name__
