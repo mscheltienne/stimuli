@@ -110,6 +110,7 @@ error_ignores = {
     "RT02",  # The first line of the Returns section should contain only the type, unless multiple values are being returned  # noqa
 }
 
+numpydoc_use_plots = True
 numpydoc_class_members_toctree = False
 numpydoc_attributes_as_param_list = False
 numpydoc_xref_param_type = True
@@ -168,7 +169,7 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
         pyobject = module
         for elt in info["fullname"].split("."):
             pyobject = getattr(pyobject, elt)
-        fname = inspect.getsourcefile(pyobject)
+        fname = inspect.getsourcefile(pyobject).replace("\\", "/")
     except Exception:
         # Either the object could not be loaded or the file was not found.
         # For instance, properties will raise.
