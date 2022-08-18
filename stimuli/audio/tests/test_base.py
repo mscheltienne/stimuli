@@ -2,6 +2,7 @@ import time
 
 import numpy as np
 import pytest
+from scipy.signal.windows import hamming
 
 from stimuli.audio import BaseSound
 
@@ -82,17 +83,37 @@ def _test_base(Sound):
     assert sound.sample_rate == 44100
     assert sound.duration == duration
     assert sound.times.size == sound.sample_rate * sound.duration
+    assert sound.times.size == sound.n_samples
     sound.sample_rate = 48000
     assert sound.sample_rate == 48000
     assert sound.duration == duration
     assert sound.times.size == sound.sample_rate * sound.duration
+    assert sound.times.size == sound.n_samples
     sound.duration = 0.5
     assert sound.sample_rate == 48000
     assert sound.duration == 0.5
     assert sound.times.size == sound.sample_rate * sound.duration
+    assert sound.times.size == sound.n_samples
 
 
 def _test_no_volume(Sound):
     """Test signal if volume is set to 0."""
     sound = Sound(0)
     assert np.allclose(sound.signal, np.zeros(sound.signal.shape))
+
+
+def _test_window(Sound):
+    """Test the application of a window."""
+    sound = Sound(10, duration=0.2)
+    signal_no_window = sound.signal.copy()
+    window = hamming(sound.n_samples)
+    sound.window = window
+    signal_window = sound.signal.copy()
+    assert not np.allclose(signal_window, signal_no_window)
+    assert np.allclose(
+        signal_window, np.multiply(signal_no_window.T, window).T
+    )
+    sound.window = None
+    assert np.allclose(signal_no_window, sound.signal)
+    sound.window = None
+    assert np.allclose(signal_no_window, sound.signal)
