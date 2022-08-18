@@ -59,6 +59,7 @@ doc = [
     'sphinxcontrib-bibtex',
     'sphinx-copybutton',
     'sphinx-design',
+    'sphinx-gallery',
     'sphinx-issues',
 ]
 style = [
