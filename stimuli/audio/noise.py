@@ -51,6 +51,7 @@ class Noise(BaseSound):
         noise_arr = Noise._noise_psd(self._rng, self._times.size, self._color)
         noise_arr /= np.max(np.abs(noise_arr))  # normalize
         self._signal = np.vstack((noise_arr, noise_arr)).T * self._volume / 100
+        super()._set_signal()
 
     # --------------------------------------------------------------------
     @staticmethod

@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from os import makedirs
 from pathlib import Path
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 import sounddevice as sd
@@ -36,11 +36,12 @@ class BaseSound(ABC):
         self._volume = BaseSound._check_volume(volume)
         self._sample_rate = BaseSound._check_sample_rate(sample_rate)
         self._duration = BaseSound._check_duration(duration)
+        self._window = None  # rectangular window applied by default
         self._set_times()
         self._set_signal()
 
     def _set_times(self) -> None:
-        """Update the time array annd the ._signal variable."""
+        """Update the time array and the ._signal variable."""
         logger.debug(
             "Setting the 'times' array with the duration %.2f "
             "[seconds] and the sampling rate %.1f [Hz].",
@@ -58,7 +59,8 @@ class BaseSound(ABC):
     def _set_signal(self) -> None:
         """Set the signal in the numpy array ._signal played by sounddevice."""
         # [:, 0] for left and [:, 1] for right
-        self._signal = np.zeros(shape=(self._times.size, 2))
+        if self._window is not None:
+            self._signal = np.multiply(self._window, self._signal.T).T
 
     # --------------------------------------------------------------------
     def play(self, blocking: bool = False) -> None:
@@ -211,3 +213,22 @@ class BaseSound(ABC):
     def times(self) -> NDArray[float]:
         """Times array."""
         return self._times
+
+    @property
+    def window(self) -> Optional[NDArray[float]]:
+        """Window applied to the signal."""
+        return self._window
+
+    @window.setter
+    def window(self, window: Optional[NDArray[float]]):
+        _check_type(window, (None, np.ndarray), "window")
+        if window is not None:
+            assert window.ndim == 1
+            assert window.size == self._times.size
+        self._window = window
+        self._set_signal()
+
+    @property
+    def n_samples(self) -> int:
+        """Number of samples."""
+        return self._times.size

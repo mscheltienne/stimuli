@@ -52,6 +52,7 @@ class Tone(BaseSound):
         tone_arr = np.sin(2 * np.pi * self._frequency * self._times)
         tone_arr /= np.max(np.abs(tone_arr))  # normalize
         self._signal = np.vstack((tone_arr, tone_arr)).T * self._volume / 100
+        super()._set_signal()
 
     # --------------------------------------------------------------------
     @staticmethod
