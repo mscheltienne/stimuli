@@ -3,7 +3,7 @@
 Base sounds
 ===========
 
-``simple-stimuli`` provides a common API accross audio stimuli. The audio
+``simple-stimuli`` provides a common API across audio stimuli. The audio
 stimuli can be either generated or loaded. A generated stimuli can be exported.
 The volume, duration and other properties can be set when creating the stimuli
 or updated between plays.
@@ -13,7 +13,7 @@ or updated between plays.
 
 from matplotlib import pyplot as plt
 
-from stimuli.audio import Tone, Sound
+from stimuli.audio import Sound, Tone
 
 #%%
 #
@@ -74,7 +74,7 @@ sound_loaded.play(blocking=True)
 # class. As such, the attributes that were specific to the original sound are
 # not present anymore and can not be updated anymore.
 
-print (hasattr(sound_loaded, "frequency"))
+print(hasattr(sound_loaded, "frequency"))
 
 #%%
 # Visualize a sound
