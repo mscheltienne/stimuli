@@ -79,8 +79,10 @@ html_theme_options = {
 }
 
 # -- autodoc -----------------------------------------------------------------
+autoclass_content = "class"
 autodoc_typehints = "none"
 autodoc_member_order = "groupwise"
+autodoc_warningiserror = True
 
 # -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
