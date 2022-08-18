@@ -81,6 +81,7 @@ class SoundAM(BaseSound):
             )
         arr /= np.max(np.abs(arr))  # normalize
         self._signal = np.vstack((arr, arr)).T * self._volume / 100
+        super()._set_signal()
 
     # --------------------------------------------------------------------
     @staticmethod

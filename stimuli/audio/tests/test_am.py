@@ -5,7 +5,7 @@ import pytest
 from scipy.signal import find_peaks
 
 from .. import SoundAM
-from .test_base import _test_base, _test_no_volume
+from .test_base import _test_base, _test_no_volume, _test_window
 
 
 def _check_frequency(signal, sample_rate, carrier, modulation, method):
@@ -136,3 +136,8 @@ def test_base():
 def test_no_volume():
     """Test signal if volume is set to 0."""
     _test_no_volume(SoundAM)
+
+
+def test_window():
+    """Test application of a window."""
+    _test_window(SoundAM)

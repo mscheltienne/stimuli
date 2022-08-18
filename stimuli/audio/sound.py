@@ -40,6 +40,7 @@ class Sound(BaseSound):
         tmax = None if self._tmax is None else self._tmax + 1  # +1 for slice
         slc = (slice(self._tmin, tmax), slice(None))
         self._signal = self._original_signal[slc] * self._volume / 100
+        super()._set_signal()
 
     def crop(
         self, tmin: Optional[float] = None, tmax: Optional[float] = None
