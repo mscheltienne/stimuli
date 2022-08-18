@@ -41,7 +41,7 @@ class BaseSound(ABC):
         self._set_signal()
 
     def _set_times(self) -> None:
-        """Update the time array annd the ._signal variable."""
+        """Update the time array and the ._signal variable."""
         logger.debug(
             "Setting the 'times' array with the duration %.2f "
             "[seconds] and the sampling rate %.1f [Hz].",
