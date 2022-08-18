@@ -78,7 +78,7 @@ html_theme_options = {
     ],
 }
 
-# -- autodoc --------------------------------------------------sphinx.ext.linkcode---------------
+# -- autodoc -----------------------------------------------------------------
 autodoc_typehints = "none"
 autodoc_member_order = "groupwise"
 
