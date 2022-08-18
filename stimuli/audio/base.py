@@ -227,3 +227,8 @@ class BaseSound(ABC):
             assert window.size == self._times.size
         self._window = window
         self._set_signal()
+
+    @property
+    def n_samples(self) -> int:
+        """Number of samples."""
+        return self._times.size
