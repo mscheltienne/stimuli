@@ -136,6 +136,7 @@ numpydoc_validation_exclude = {  # regex to ignore during docstring check
     r"\.__iter__",
     r"\.__div__",
     r"\.__neg__",
+    r"\.copy",
 }
 
 # -- sphinxcontrib-bibtex ----------------------------------------------------

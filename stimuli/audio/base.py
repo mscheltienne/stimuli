@@ -1,5 +1,6 @@
 """Base class for sound delivery."""
 
+import copy
 from abc import ABC, abstractmethod
 from os import makedirs
 from pathlib import Path
@@ -63,6 +64,20 @@ class BaseSound(ABC):
             self._signal = np.multiply(self._window, self._signal.T).T
 
     # --------------------------------------------------------------------
+    def copy(self, deep: bool = True):
+        """Copy the sound.
+
+        Parameters
+        ----------
+        deep : bool
+            If ``True``, `~copy.deepcopy` is used instead of `~copy.copy`.
+        """
+        _check_type(deep, (bool,), "deep")
+        if deep:
+            return copy.deepcopy(self)
+        else:
+            return copy.copy(self)
+
     def play(self, blocking: bool = False) -> None:
         """Play the sound.
 
@@ -81,11 +96,6 @@ class BaseSound(ABC):
             mapping=[1, 2],
             blocking=blocking,
         )
-
-    def stop(self) -> None:
-        """Stop the sounds played on the active audio stream."""
-        logger.debug("Stop requested.")
-        sd.stop()
 
     def save(self, fname: Union[str, Path], overwrite: bool = False) -> None:
         """Save a sound signal into a .wav file.
@@ -116,6 +126,11 @@ class BaseSound(ABC):
             self._sample_rate,
         )
         wavfile.write(fname, self._sample_rate, self._signal)
+
+    def stop(self) -> None:
+        """Stop the sounds played on the active audio stream."""
+        logger.debug("Stop requested.")
+        sd.stop()
 
     # --------------------------------------------------------------------
     @staticmethod
