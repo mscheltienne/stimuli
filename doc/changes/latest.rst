@@ -21,6 +21,8 @@ Enhancements
 
 - Add ``window`` property for auditory stimuli (by `Mathieu Scheltienne`_ in :pr:`12`)
 
+- Add ``copy`` method for auditory stimuli (by `Mathieu Scheltienne`_ in :pr:`13`)
+
 Bugs
 ~~~~
 

@@ -79,9 +79,11 @@ html_theme_options = {
     ],
 }
 
-# -- autodoc --------------------------------------------------sphinx.ext.linkcode---------------
+# -- autodoc -----------------------------------------------------------------
+autoclass_content = "class"
 autodoc_typehints = "none"
 autodoc_member_order = "groupwise"
+autodoc_warningiserror = True
 
 # -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
@@ -136,6 +138,7 @@ numpydoc_validation_exclude = {  # regex to ignore during docstring check
     r"\.__iter__",
     r"\.__div__",
     r"\.__neg__",
+    r"\.copy",
 }
 
 # -- sphinxcontrib-bibtex ----------------------------------------------------
