@@ -70,7 +70,8 @@ class BaseSound(ABC):
         Parameters
         ----------
         deep : bool
-            If ``True``, `~copy.deepcopy` is used instead of `~copy.copy`.
+            If ``True``, :func:`~copy.deepcopy` is used instead of
+            :func:`~copy.copy`.
         """
         _check_type(deep, (bool,), "deep")
         if deep:
