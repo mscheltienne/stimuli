@@ -75,6 +75,8 @@ def _test_base(Sound):
     sound3.play(blocking=True)
     assert np.allclose(sound.signal, sound2.signal)
     assert np.allclose(sound.signal, sound3.signal)
+    with pytest.raises(TypeError, match="must be an instance of"):
+        sound.copy(deep=1)
 
     # test volume setter
     assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
