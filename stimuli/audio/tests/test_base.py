@@ -68,6 +68,14 @@ def _test_base(Sound):
     sound.stop()
     assert time.time() - start <= duration
 
+    # test copy
+    sound2 = sound.copy(deep=False)
+    sound2.play(blocking=True)
+    sound3 = sound.copy(deep=True)
+    sound3.play(blocking=True)
+    assert np.allclose(sound.signal, sound2.signal)
+    assert np.allclose(sound.signal, sound3.signal)
+
     # test volume setter
     assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
     sound.volume = 20
