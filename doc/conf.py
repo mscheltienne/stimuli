@@ -56,6 +56,11 @@ nitpicky = True
 # A list of ignored prefixes for module index sorting.
 modindex_common_prefix = [f"{package}."]
 
+# The name of a reST role (builtin or Sphinx extension) to use as the default
+# role, that is, for text marked up `like this`. This can be set to 'py:obj' to
+# make `filter` a cross-reference to the Python function “filter”.
+default_role = "py:obj"
+
 # -- options for HTML output -------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]
