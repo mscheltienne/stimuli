@@ -111,7 +111,6 @@ issues_github_path = gh_url.split("http://github.com/")[-1]
 autosectionlabel_prefix_document = True
 
 # -- numpydoc ----------------------------------------------------------------
-numpydoc_use_plots = True
 numpydoc_class_members_toctree = False
 numpydoc_attributes_as_param_list = sys.platform != "linux"
 
