@@ -45,7 +45,6 @@ extensions = [
     "sphinxcontrib.bibtex",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx_gallery.gen_gallery",
     "sphinx_issues",
 ]
 
@@ -201,19 +200,3 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
     fname = fname.split(f"/{package}/")[1]
     url = f"{gh_url}/blob/{branch}/{package}/{fname}#{lines}"
     return url
-
-
-# -- sphinx-gallery ----------------------------------------------------------
-sphinx_gallery_conf = {
-    "abort_on_example_error": True,
-    "backreferences_dir": "api/generated",
-    "doc_module": (package,),
-    "examples_dirs": "../tutorials",
-    "gallery_dirs": "./auto_tutorials",
-    "image_scrapers": ("matplotlib",),
-    "line_numbers": False,
-    "matplotlib_animations": True,
-    "plot_gallery": True,
-    "reference_url": {package: None},
-    "remove_config_comments": True,
-}
