@@ -5,6 +5,7 @@
 
 
 import inspect
+import sys
 from datetime import date
 from importlib import import_module
 from typing import Dict, Optional
@@ -52,6 +53,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Sphinx will warn about all references where the target cannot be found.
 nitpicky = True
+nitpick_ignore = []
 
 # A list of ignored prefixes for module index sorting.
 modindex_common_prefix = [f"{package}."]
@@ -110,7 +112,7 @@ autosectionlabel_prefix_document = True
 
 # -- numpydoc ----------------------------------------------------------------
 numpydoc_class_members_toctree = False
-numpydoc_attributes_as_param_list = False
+numpydoc_attributes_as_param_list = sys.platform != "linux"
 
 # x-ref
 numpydoc_xref_param_type = True
