@@ -84,6 +84,9 @@ html_theme_options = {
     ],
 }
 
+# -- autosummary -------------------------------------------------------------
+autosummary_generate = True
+
 # -- autodoc -----------------------------------------------------------------
 autoclass_content = "class"
 autodoc_typehints = "none"
@@ -107,19 +110,11 @@ issues_github_path = gh_url.split("http://github.com/")[-1]
 autosectionlabel_prefix_document = True
 
 # -- numpydoc ----------------------------------------------------------------
-
-# https://numpydoc.readthedocs.io/en/latest/validation.html#validation-checks
-error_ignores = {
-    "GL01",  # docstring should start in the line immediately after the quotes
-    "EX01",  # section 'Examples' not found
-    "ES01",  # no extended summary found
-    "SA01",  # section 'See Also' not found
-    "RT02",  # The first line of the Returns section should contain only the type, unless multiple values are being returned  # noqa
-}
-
 numpydoc_use_plots = True
 numpydoc_class_members_toctree = False
 numpydoc_attributes_as_param_list = False
+
+# x-ref
 numpydoc_xref_param_type = True
 numpydoc_xref_aliases = {
     # Python
@@ -131,6 +126,15 @@ numpydoc_xref_ignore = {
     "shape",
 }
 
+# validation
+# https://numpydoc.readthedocs.io/en/latest/validation.html#validation-checks
+error_ignores = {
+    "GL01",  # docstring should start in the line immediately after the quotes
+    "EX01",  # section 'Examples' not found
+    "ES01",  # no extended summary found
+    "SA01",  # section 'See Also' not found
+    "RT02",  # The first line of the Returns section should contain only the type, unless multiple values are being returned  # noqa
+}
 numpydoc_validate = True
 numpydoc_validation_checks = {"all"} | set(error_ignores)
 numpydoc_validation_exclude = {  # regex to ignore during docstring check
