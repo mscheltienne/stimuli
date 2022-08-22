@@ -73,7 +73,10 @@ doc/_build/
 doc/generated/
 doc/auto_examples/
 doc/auto_tutorials/
+doc/examples/
+doc/tutorials/
 doc/api/generated/
+doc/backreferences
 
 # PyBuilder
 target/
