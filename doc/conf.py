@@ -203,10 +203,13 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
 
 # -- sphinx-gallery ----------------------------------------------------------
 sphinx_gallery_conf ={
-       "backreferences_dir": "generated/backreferences",
-       "doc_module": ("stimuli",),
-       "examples_dirs": ["../tutorials"],
-       "gallery_dirs": ["generated/tutorials"],
-       "line_numbers": False,
-       "remove_config_comments": True,
+    "backreferences_dir": "generated/backreferences",
+    "doc_module": ("stimuli",),
+    "examples_dirs": ["../tutorials"],
+    "exclude_implicit_doc": {},  # set
+    "filename_pattern": r"\d{2}_",
+    "gallery_dirs": ["generated/tutorials"],
+    "line_numbers": False,
+    "plot_gallery": True,
+    "remove_config_comments": True,
 }
