@@ -53,11 +53,14 @@ build = [
 ]
 doc = [
     'furo',
+    'matplotlib',
+    'memory-profiler',
     'numpydoc',
     'sphinx',
     'sphinxcontrib-bibtex',
     'sphinx-copybutton',
     'sphinx-design',
+    'sphinx-gallery',
     'sphinx-issues',
 ]
 style = [
