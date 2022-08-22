@@ -54,6 +54,7 @@ build = [
 doc = [
     'furo',
     'matplotlib',
+    'memory-profiler',
     'numpydoc',
     'sphinx',
     'sphinxcontrib-bibtex',
