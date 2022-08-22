@@ -89,10 +89,10 @@ html_theme_options = {
 autosummary_generate = True
 
 # -- autodoc -----------------------------------------------------------------
-autoclass_content = "class"
 autodoc_typehints = "none"
 autodoc_member_order = "groupwise"
 autodoc_warningiserror = True
+autoclass_content = "class"
 
 # -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
