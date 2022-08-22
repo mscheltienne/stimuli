@@ -201,8 +201,9 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
     url = f"{gh_url}/blob/{branch}/{package}/{fname}#{lines}"
     return url
 
+
 # -- sphinx-gallery ----------------------------------------------------------
-sphinx_gallery_conf ={
+sphinx_gallery_conf = {
     "backreferences_dir": "generated/backreferences",
     "doc_module": ("stimuli",),
     "examples_dirs": ["../tutorials"],
