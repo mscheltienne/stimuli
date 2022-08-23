@@ -10,6 +10,8 @@ from datetime import date
 from importlib import import_module
 from typing import Dict, Optional
 
+from sphinx_gallery.sorting import FileNameSortKey
+
 import stimuli
 
 # -- project information -----------------------------------------------------
@@ -215,4 +217,5 @@ sphinx_gallery_conf = {
     "plot_gallery": True,
     "reference_url": dict(stimuli=None),
     "remove_config_comments": True,
+    "within_subsection_order": FileNameSortKey,
 }
