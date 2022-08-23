@@ -61,3 +61,4 @@ for color in colors:
     plt.loglog(frequencies, dft)
 plt.legend(colors)
 plt.ylim([1e-3, None])
+plt.show()

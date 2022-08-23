@@ -67,6 +67,7 @@ window_times -= extension / sound.sample_rate
 window_times *= 1000
 # draw the window
 plt.plot(window_times, window, color="crimson")
+plt.show()
 
 #%%
 # Create a different window
@@ -88,6 +89,7 @@ plt.figure()
 plt.plot(window)
 plt.title("Window with onset/offset ramps")
 plt.xlabel("Samples")
+plt.show()
 
 #%%
 # Change the window
@@ -105,3 +107,4 @@ plt.title("Waveform - Ramp onset/offset window")
 
 # overlay the window
 plt.plot(sound.times * 1000, window / sound.volume, color="crimson")
+plt.show()
