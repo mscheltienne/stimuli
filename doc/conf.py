@@ -211,7 +211,7 @@ sphinx_gallery_conf = {
     "filename_pattern": r"\d{2}_",
     "gallery_dirs": ["generated/tutorials"],
     "line_numbers": False,
-    "show_memory": True,
+    "show_memory": sys.platform == "linux",
     "plot_gallery": True,
     "remove_config_comments": True,
 }
