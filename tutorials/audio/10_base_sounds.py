@@ -93,10 +93,14 @@ print(f"Sample rate of the loaded sound: {sound_loaded.sample_rate} Hz.")
 # The volume is normalized, with the loudest channel set to ``100``. The ratio
 # between channels is preserved.
 
-print("Volume of the original sound: %s"
-      % '({:.1f}, {:.1f})'.format(*sound.volume))
-print("Volume of the loaded sound: %s"
-      % '({:.1f}, {:.1f})'.format(*sound_loaded.volume))
+print(
+    "Volume of the original sound: %s"
+    % "({:.1f}, {:.1f})".format(*sound.volume)
+)
+print(
+    "Volume of the loaded sound: %s"
+    % "({:.1f}, {:.1f})".format(*sound_loaded.volume)
+)
 
 #%%
 # Visualize a sound
