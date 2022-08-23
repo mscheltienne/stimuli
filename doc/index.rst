@@ -12,11 +12,13 @@ Simple-stimuli
    changes/index
 
 Simple-stimuli is a Python package for delivery of simple auditory and visuals
-stimuli which does not require `PsychoPy`_. Instead, it uses ``opencv-python``
-for visual stimuli and ``sounddevice`` for auditory stimuli. For complex
-paradigm and use cases, `PsychoPy`_ and its builder should be preferred\
-:footcite:p:`peirce_psychopy2_2019,
-peirce_generating_2008,peirce_psychopypsychophysics_2007`.
+stimuli which does not require `PsychoPy`_\ :footcite:p:`peirce_psychopy2_2019,
+peirce_generating_2008,peirce_psychopypsychophysics_2007`. Instead, it uses
+``opencv-python`` for visual stimuli and ``sounddevice`` for auditory stimuli.
+For complex paradigm and use cases, `PsychoPy`_\
+:footcite:p:`peirce_psychopy2_2019,peirce_generating_2008,
+peirce_psychopypsychophysics_2007` and its builder
+should be preferred.
 
 Install
 -------
