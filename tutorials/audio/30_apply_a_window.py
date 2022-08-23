@@ -36,7 +36,7 @@ from stimuli.audio import Tone
 #%%
 # Create a pure tone
 # ------------------
-
+#
 # To create the stimuli, we create a :class:`~stimuli.audio.Tone` object with
 # a given volume and frequency.
 
