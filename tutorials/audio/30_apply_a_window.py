@@ -40,7 +40,7 @@ from stimuli.audio import Tone
 # To create the stimuli, we create a :class:`~stimuli.audio.Tone` object with
 # a given volume and frequency.
 
-sound = Tone(volume=10, frequency=200, duration=0.1)  # La - A440
+sound = Tone(volume=10, frequency=200, duration=0.1)
 
 #%%
 # By default, a generated signal will have a rectangular window applied. A
