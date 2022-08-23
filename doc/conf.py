@@ -213,5 +213,6 @@ sphinx_gallery_conf = {
     "line_numbers": False,
     "show_memory": sys.platform == "linux",
     "plot_gallery": True,
+    "reference_url": dict(stimuli=None),
     "remove_config_comments": True,
 }
