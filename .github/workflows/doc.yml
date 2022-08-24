@@ -51,6 +51,8 @@ jobs:
     needs: build
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         shell: bash
