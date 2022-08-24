@@ -55,26 +55,14 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-          path: ./main
       - name: Download documentation
         uses: actions/download-artifact@v3
         with:
           name: doc-dev
-          path: ./doc-build/dev
+          path: ./doc-dev
       - name: Deploy dev documentation
-        run: |
-          rm -R ./main/dev
-          mv ./doc-build/dev ./main/dev
-      - name: GIT commit and push all changed files
-        run: |
-          cd ./main
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull
-          git add ./dev
-          git commit -a -m "[gh] doc deployment"
-          git push
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc-dev
+          destination_dir: ./dev
