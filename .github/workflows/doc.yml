@@ -70,14 +70,11 @@ jobs:
           rm -R ./main/dev
           mv ./doc-build/dev ./main/dev
       - name: GIT commit and push all changed files
-        env:
-          CI_COMMIT_MESSAGE: '[gh] doc deployment'
-          CI_COMMIT_AUTHOR: 'github-actions[bot]'
         run: |
           cd ./main
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git pull
           git add ./dev
-          git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git commit -a -m "[gh] doc deployment"
           git push
