@@ -7,7 +7,7 @@
    - "Bugs" for bug fixes
    - "API changes" for backward-incompatible changes
 
-.. include:: authors.inc
+.. include:: ./authors.inc
 
 Version 0.4
 -----------
