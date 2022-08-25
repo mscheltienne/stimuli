@@ -126,7 +126,7 @@ sound.window = window
 plt.figure()
 plt.plot(sound.times * 1000, sound.signal[:, 0])
 plt.xlabel("Time (ms)")
-plt.title("Waveform - Ramp onset/offset window")
+plt.title("Waveform - Tukey window")
 
 # overlay the window
 plt.plot(sound.times * 1000, window / sound.volume, color="crimson")
