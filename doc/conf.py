@@ -70,6 +70,7 @@ default_role = "py:obj"
 html_theme = "furo"
 html_static_path = ["_static"]
 html_title = project
+html_show_sphinx = False
 
 # Documentation to change footer icons:
 # https://pradyunsg.me/furo/customisation/footer/#changing-footer-icons
