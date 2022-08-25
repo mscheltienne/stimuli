@@ -16,6 +16,7 @@
 .. _project citation: https://github.com/mscheltienne/simple-stimuli/blob/main/CITATION.cff
 .. _project license: https://github.com/mscheltienne/simple-stimuli/blob/main/LICENSE
 
+
 .. license
 
 .. _MIT license: https://opensource.org/licenses/MIT
@@ -24,3 +25,8 @@
 .. psychopy
 
 .. _psychopy: https://www.psychopy.org/
+
+
+.. scipy
+
+.. _scipy: https://scipy.org/

@@ -3,6 +3,8 @@
 Apply a window
 ==============
 
+.. include:: ../../../links.inc
+
 In signal processing and statistics, a window function (also known as an
 apodization function or tapering function) is a mathematical function that is
 zero-valued outside of some chosen interval, normally symmetric around the
@@ -24,6 +26,7 @@ apply a window to ramp up and ramp down the volume.
 
 import numpy as np
 from matplotlib import pyplot as plt
+from scipy.signal.windows import tukey
 
 from stimuli.audio import Tone
 
@@ -97,6 +100,26 @@ plt.show()
 #
 # We can change the applied window by setting the attribute ``window``.
 
+sound.window = window
+
+# draw the modified sound and the window
+plt.figure()
+plt.plot(sound.times * 1000, sound.signal[:, 0])
+plt.xlabel("Time (ms)")
+plt.title("Waveform - Ramp onset/offset window")
+
+# overlay the window
+plt.plot(sound.times * 1000, window / sound.volume, color="crimson")
+plt.show()
+
+#%%
+# Scipy windows
+# -------------
+#
+# `scipy`_ has many windows implemented in `scipy.signal.windows`. For instance
+# we can use a Tukey window with the function `~scipy.signal.windows.tukey`.
+
+window = tukey(sound.n_samples)
 sound.window = window
 
 # draw the modified sound and the window
