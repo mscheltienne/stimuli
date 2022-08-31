@@ -52,15 +52,13 @@ def test_copy_doc():
     def foo2(x, y):
         pass
 
-    assert "My doc." in foo2.__doc__
-
-    # test appending
     @copy_doc(foo)
-    def foo2(x, y):
-        """Appended."""
+    def foo3(x, y):
+        """Doc of foo3."""
         pass
 
-    assert "My doc.Appended." == foo2.__doc__
+    assert foo.__doc__ == foo2.__doc__
+    assert foo.__doc__ + "Doc of foo3." == foo3.__doc__
 
     # test copy of docstring from a function without docstring
     def foo(x, y):
