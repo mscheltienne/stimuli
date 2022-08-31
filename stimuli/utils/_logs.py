@@ -51,13 +51,15 @@ def add_file_handler(
     verbose: Optional[Union[bool, str, int]] = None,
 ) -> None:
     """Add a file handler to the logger.
+
     Parameters
     ----------
     fname : str | Path
+        Path to the file where the logging output is saved.
     mode : str
         Mode in which the file is opened.
     encoding : str | None
-        If not None, it is used to open the file with that encoding.
+        If not None, encoding used to open the file.
     %(verbose)s
     """
     verbose = _check_verbose(verbose)
