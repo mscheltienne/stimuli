@@ -54,7 +54,7 @@ jobs:
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Run pytest
-        run: pytest main/stimuli --cov-config=main/pyproject.toml
+        run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --cov-config=main/pyproject.toml
       - name: Upload to codecov
         if: ${{ matrix.os == 'ubuntu' && matrix.python-version == 3.9 }}
         uses: codecov/codecov-action@v3
