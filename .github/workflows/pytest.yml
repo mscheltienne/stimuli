@@ -52,7 +52,7 @@ jobs:
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
           python -m pip install --progress-bar off main/.[test]
       - name: Run pytest
-        run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --cov-config=main/pyproject.toml
+        run: pytest main/stimuli --cov-config=main/pyproject.toml
       - name: Upload to codecov
         if: ${{ matrix.os == 'ubuntu' && matrix.python-version == 3.9 }}
         uses: codecov/codecov-action@v3
