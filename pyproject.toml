@@ -137,11 +137,11 @@ filterwarnings = []
 branch = true
 cover_pylib = false
 source = [
-    'stimuli',
+    'main/stimuli',
 ]
 omit = [
     '**/__init__.py',
-    'stimuli/commands/*',
+    'main/stimuli/commands/*',
     '**/tests/**',
 ]
 
