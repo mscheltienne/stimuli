@@ -20,6 +20,13 @@ def test_fill_doc():
 
     assert "verbose : int | str | bool | None" in foo.__doc__
 
+    # test filling empty-docstring
+    @fill_doc
+    def foo():
+        pass
+
+    assert foo.__doc__ is None
+
     # test filling docstring with invalid key
     with pytest.raises(RuntimeError, match="Error documenting"):
 
@@ -38,9 +45,7 @@ def test_copy_doc():
     """Test decorator to copy docstring."""
     # test copy of docstring
     def foo(x, y):
-        """
-        My doc.
-        """
+        """My doc."""
         pass
 
     @copy_doc(foo)
@@ -48,6 +53,14 @@ def test_copy_doc():
         pass
 
     assert "My doc." in foo2.__doc__
+
+    # test appending
+    @copy_doc(foo)
+    def foo2(x, y):
+        """Appended."""
+        pass
+
+    assert "My doc.Appended." == foo2.__doc__
 
     # test copy of docstring from a function without docstring
     def foo(x, y):
