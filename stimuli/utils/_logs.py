@@ -1,7 +1,6 @@
 import logging
 import sys
-from typing import Callable, Optional, Union
-
+from typing import Callable, Optional, TextIO, Union
 from ._checks import _check_verbose
 from ._docs import fill_doc
 
@@ -25,13 +24,14 @@ def init_logger(verbose: Optional[Union[bool, str, int]] = None) -> None:
 
 @fill_doc
 def add_stream_handler(
-    stream, verbose: Optional[Union[bool, str, int]] = None
+    stream: TextIO, verbose: Optional[Union[bool, str, int]] = None
 ) -> None:
     """Add a stream handler to the logger.
 
     Parameters
     ----------
-    stream : The output stream, e.g. sys.stdout
+    stream : TextIO
+        The output stream, e.g. ``sys.stdout``.
     %(verbose)s
     """
     verbose = _check_verbose(verbose)
@@ -50,6 +50,7 @@ def add_file_handler(
     Parameters
     ----------
     fname : str | Path
+        Path to the file in which the logging output is saved.
     mode : str
         Mode in which the file is opened.
     %(verbose)s
