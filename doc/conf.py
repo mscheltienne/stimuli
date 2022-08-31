@@ -124,6 +124,7 @@ numpydoc_xref_aliases = {
     # Python
     "bool": ":class:`python:bool`",
     "Path": "pathlib.Path",
+    "TextIO": "io.TextIOBase",
 }
 numpydoc_xref_ignore = {
     "of",
