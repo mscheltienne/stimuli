@@ -92,6 +92,7 @@ source = 'https://github.com/mscheltienne/simple-stimuli'
 tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
 
 [project.scripts]
+stimuli-sys_info = 'stimuli.commands.sys_info:run'
 stimuli_cross = 'stimuli.commands.stimuli_cross:run'
 
 [tool.setuptools]
