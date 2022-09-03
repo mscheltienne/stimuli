@@ -215,9 +215,9 @@ sphinx_gallery_conf = {
     "filename_pattern": r"\d{2}_",
     "gallery_dirs": ["generated/tutorials"],
     "line_numbers": False,
-    "show_memory": sys.platform == "linux",
     "plot_gallery": True,
     "reference_url": dict(stimuli=None),
     "remove_config_comments": True,
+    "show_memory": sys.platform == "linux",
     "within_subsection_order": FileNameSortKey,
 }
