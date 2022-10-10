@@ -39,9 +39,9 @@ classifiers = [
 ]
 dependencies = [
     'matplotlib',
-    'psutil',
     'numpy>=1.21',
     'opencv-python',
+    'psutil',
     'scipy',
     'screeninfo',
     'sounddevice',
