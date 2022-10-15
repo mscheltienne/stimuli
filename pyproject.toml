@@ -65,6 +65,7 @@ doc = [
     'sphinx-issues',
 ]
 style = [
+    'bibclean',
     'black',
     'codespell',
     'isort',
