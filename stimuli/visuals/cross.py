@@ -97,7 +97,7 @@ class Cross(BaseVisual):
     @staticmethod
     def _check_thickness(thickness: int, length: int) -> int:
         """Check that the thickness is valid."""
-        length = _ensure_int(thickness, "thickness")
+        thickness = _ensure_int(thickness, "thickness")
         assert 0 < thickness
         assert thickness < length
         return thickness
