@@ -166,7 +166,7 @@ class BaseSound(ABC):
     def _check_file(fname: Union[str, Path], must_exists: bool) -> Path:
         """Check if the fname is valid."""
         SUPPORTED = (".wav",)
-        _ensure_path(fname, "fname", must_exists)
+        _ensure_path(fname, must_exists)
         assert fname.suffix in SUPPORTED
         return fname
 
