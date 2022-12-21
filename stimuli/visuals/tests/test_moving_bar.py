@@ -62,9 +62,9 @@ def test_invalid_arguments():
     """Test invalid arguments."""
     visual = MovingBar(window_name="test", window_size=(500, 500))
 
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putBar("long", 20, "white", 0, 0)
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putBar(100, "long", "white", 0, 0)
     with pytest.raises(TypeError, match="must be an instance of"):
         visual.putBar(100, 20, "white", "center", 0)

@@ -70,11 +70,11 @@ def test_invalid_arguments():
     """Test invalid arguments."""
     visual = FillingBar(window_name="test", window_size=(500, 500))
 
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putBar("long", 20, 3, "white", "teal", 0.5, 0)
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putBar(100, "long", 3, "white", "teal", 0.5, 0)
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putBar(100, 20, "small", "white", "teal", 0.5, 0)
 
     with pytest.raises(AssertionError):

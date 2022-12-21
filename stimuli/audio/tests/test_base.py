@@ -33,8 +33,8 @@ def test_check_sample_rate():
     """Check the sample rate static checker."""
     fs = BaseSound._check_sample_rate(44100)
     assert fs == 44100
-    with pytest.raises(TypeError, match="must be an instance of int"):
-        BaseSound._check_sample_rate(44100.0)
+    fs = BaseSound._check_sample_rate(44100.0)
+    assert fs == 44100
     with pytest.raises(AssertionError):
         BaseSound._check_sample_rate(-101)
 

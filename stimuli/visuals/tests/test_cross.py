@@ -35,9 +35,9 @@ def test_invalid_arguments():
     """Test invalid arguments."""
     visual = Cross(window_name="test", window_size=(500, 500))
 
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putCross(length="long", thickness=10, color="white")
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putCross(length=100, thickness="large", color="white")
 
     with pytest.raises(AssertionError):
