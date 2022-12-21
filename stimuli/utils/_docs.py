@@ -33,8 +33,8 @@ volume : float | tuple
 docdict[
     "audio_sample_rate"
 ] = """
-sample_rate : int
-    Sampling frequency of the sound. The default is 44100 kHz."""
+sample_rate : float
+    Sampling frequency of the sound. The default is 44100 Hz."""
 docdict[
     "audio_duration"
 ] = """
