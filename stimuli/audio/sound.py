@@ -119,7 +119,7 @@ class Sound(BaseSound):
         the _set_signal method.
         """
         assert signal.ndim in (1, 2)
-        signal = signal.astype(np.float32)
+        signal = signal.astype(np.float64)
         if signal.ndim == 2:
             assert signal.shape[1] in (1, 2)
             if signal.shape[1] == 1:
@@ -139,6 +139,7 @@ class Sound(BaseSound):
         if all(elt != 0 for elt in volume):
             signal /= np.max(np.abs(signal), axis=0)
             np.nan_to_num(signal, copy=False, nan=0.0)  # sanity-check
+        signal = signal.astype(np.float32)
         return signal, volume
 
     @staticmethod
