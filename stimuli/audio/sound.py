@@ -24,7 +24,7 @@ class Sound(BaseSound):
 
     def __init__(self, fname: Union[str, Path]):
         self._fname = _ensure_path(fname, must_exist=True)
-        assert fname.suffix in (".wav",)
+        assert self._fname.suffix in (".wav",)
 
         sample_rate, original_signal = wavfile.read(self._fname)
         self._original_signal, volume = Sound._check_signal(original_signal)
