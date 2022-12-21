@@ -18,10 +18,9 @@ Enhancements
 ~~~~~~~~~~~~
 
 - Add the documentation build (by `Mathieu Scheltienne`_ in :pr:`6`)
-
 - Add ``window`` property for auditory stimuli (by `Mathieu Scheltienne`_ in :pr:`12`)
-
 - Add ``copy`` method for auditory stimuli (by `Mathieu Scheltienne`_ in :pr:`13`)
+- Improve error checking for integers and paths
 
 Bugs
 ~~~~

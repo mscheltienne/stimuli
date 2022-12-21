@@ -3,7 +3,7 @@ from typing import Optional, Tuple, Union
 
 import cv2
 
-from ..utils._checks import _check_type
+from ..utils._checks import _check_type, _ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseFeedbackVisual
 
@@ -145,8 +145,8 @@ class FillingBar(BaseFeedbackVisual):
         length: int, margin: int, axis: int, window_size: Tuple[int, int]
     ) -> Tuple[int, int]:
         """Check that the length and margin are valid."""
-        _check_type(length, ("int",), length)
-        _check_type(margin, ("int",), margin)
+        length = _ensure_int(length, "length")
+        margin = _ensure_int(margin, "margin")
         assert 0 < length
         assert 0 < margin
         assert margin < length
@@ -162,8 +162,8 @@ class FillingBar(BaseFeedbackVisual):
         window_size: Tuple[int, int],
     ) -> Tuple[int, int]:
         """Check that the width is valid."""
-        _check_type(width, ("int",), width)
-        _check_type(margin, ("int",), margin)
+        width = _ensure_int(width, "width")
+        margin = _ensure_int(margin, "margin")
         assert 0 < width
         assert width < length
         assert margin < width

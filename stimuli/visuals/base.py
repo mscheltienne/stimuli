@@ -8,7 +8,7 @@ import screeninfo
 from matplotlib import colors
 from numpy.typing import NDArray
 
-from ..utils._checks import _check_type
+from ..utils._checks import _check_type, _ensure_int
 from ..utils._docs import fill_doc
 from ..utils._logs import logger
 
@@ -58,7 +58,7 @@ class BaseVisual(ABC):
         wait : int
             Wait timer passed to ``cv2.waitKey()`` [ms].
         """
-        _check_type(wait, ("int",), "wait")
+        wait = _ensure_int(wait, "wait")
         cv2.imshow(self._window_name, self._img)
         cv2.waitKey(wait)
 
@@ -123,7 +123,7 @@ class BaseVisual(ABC):
             window_size = (width, height)
 
         for size in window_size:
-            _check_type(size, ("int",))
+            size = _ensure_int(size)
         assert len(window_size) == 2
         assert all(0 < size for size in window_size)
         return window_size
@@ -209,5 +209,7 @@ class BaseFeedbackVisual(BaseVisual):
             axis = axis.lower().strip()
             assert axis in ["horizontal", "h", "vertical", "v"]
             axis = 0 if axis.startswith("v") else 1
+        else:
+            axis = _ensure_int(axis)
         assert axis in (0, 1)
         return axis

@@ -2,7 +2,7 @@ from typing import Optional, Tuple, Union
 
 import cv2
 
-from ..utils._checks import _check_type
+from ..utils._checks import _check_type, _ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseVisual
 
@@ -89,7 +89,7 @@ class Cross(BaseVisual):
     @staticmethod
     def _check_length(length: int, window_size: Tuple[int, int]) -> int:
         """Check that the length is valid."""
-        _check_type(length, ("int",), "length")
+        length = _ensure_int(length, "length")
         assert 0 < length
         assert all(length <= size for size in window_size)
         return length
@@ -97,7 +97,7 @@ class Cross(BaseVisual):
     @staticmethod
     def _check_thickness(thickness: int, length: int) -> int:
         """Check that the thickness is valid."""
-        _check_type(thickness, ("int",), "thickness")
+        length = _ensure_int(thickness, "thickness")
         assert 0 < thickness
         assert thickness < length
         return thickness
