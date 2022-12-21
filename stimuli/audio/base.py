@@ -62,6 +62,7 @@ class BaseSound(ABC):
         # [:, 0] for left and [:, 1] for right
         if self._window is not None:
             self._signal = np.multiply(self._window, self._signal.T).T
+        self._signal = self._signal.astype(np.float32)
 
     # --------------------------------------------------------------------
     def copy(self, deep: bool = True):

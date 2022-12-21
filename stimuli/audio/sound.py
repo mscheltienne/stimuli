@@ -101,7 +101,8 @@ class Sound(BaseSound):
         Returns
         -------
         signal : array
-            Signal that has been normalized channel-wise.
+            Signal that has been normalized channel-wise and converted to
+            float32.
         volume : tuple
             A 2-float tuple representing the (L, R) volume before channel-wise
             normalization. The volume is normalized between 0 and 100.
@@ -117,7 +118,7 @@ class Sound(BaseSound):
         the _set_signal method.
         """
         assert signal.ndim in (1, 2)
-        signal = signal.astype(np.float64)
+        signal = signal.astype(np.float32)
         if signal.ndim == 2:
             assert signal.shape[1] in (1, 2)
             if signal.shape[1] == 1:
