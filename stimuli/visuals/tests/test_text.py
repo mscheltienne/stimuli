@@ -42,15 +42,15 @@ def test_invalid_arguments():
 
     with pytest.raises(TypeError, match="must be an instance of"):
         visual.putText(101)
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putText("101", fontFace="arial")
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putText("101", fontScale="large")
     with pytest.raises(TypeError, match="must be an instance of"):
         visual.putText("101", color=101)
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putText("101", thickness="large")
-    with pytest.raises(TypeError, match="must be an instance of"):
+    with pytest.raises(TypeError, match="must be an integer"):
         visual.putText("101", lineType="large")
 
     with pytest.raises(AssertionError):

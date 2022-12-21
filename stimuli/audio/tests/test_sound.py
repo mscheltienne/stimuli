@@ -204,7 +204,7 @@ def test_io_dtypes(tmp_path):
         data = signal.astype(dtype)
         wavfile.write(fname, 44100, data)
         sound = Sound(fname)
-        assert sound.signal.dtype == np.float64
+        assert sound.signal.dtype == np.float32
         sound.crop(0, 0.1)
         sound.play()
 

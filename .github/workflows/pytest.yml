@@ -18,10 +18,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, macos, windows]
+        os: [ubuntu-20.04, macos-latest, windows-latest]
         python-version: [3.8, 3.9, "3.10", "3.11"]
     name: ${{ matrix.os }} - py${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: bash
@@ -36,9 +36,6 @@ jobs:
         with:
           repository: LABSN/sound-ci-helpers
           path: sound-ci-helpers
-      - name: Update APT
-        if: ${{ matrix.os == 'ubuntu'}}
-        run: sudo apt update
       - name: Create virtual sound card
         if: ${{ matrix.os != 'macos'}}
         run: ./sound-ci-helpers/auto.sh

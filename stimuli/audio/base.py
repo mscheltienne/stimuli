@@ -12,7 +12,7 @@ from numpy.typing import NDArray
 from scipy.io import wavfile
 
 from .. import logger
-from ..utils._checks import _check_type, _ensure_int, _ensure_path
+from ..utils._checks import _check_type, _ensure_path
 from ..utils._docs import fill_doc
 
 
@@ -31,7 +31,7 @@ class BaseSound(ABC):
     def __init__(
         self,
         volume: Union[float, Tuple[float, float]],
-        sample_rate: int = 44100,
+        sample_rate: float = 44100,
         duration: float = 1,
     ):
         self._volume = BaseSound._check_volume(volume)
@@ -62,6 +62,7 @@ class BaseSound(ABC):
         # [:, 0] for left and [:, 1] for right
         if self._window is not None:
             self._signal = np.multiply(self._window, self._signal.T).T
+        self._signal = self._signal.astype(np.float32)
 
     # --------------------------------------------------------------------
     def copy(self, deep: bool = True):
@@ -111,7 +112,8 @@ class BaseSound(ABC):
         overwrite : bool
             If True, file with the same name are overwritten.
         """
-        fname = BaseSound._check_file(fname, must_exists=False)
+        fname = _ensure_path(fname, must_exist=False)
+        assert fname.suffix in (".wav",)
         if overwrite is False and fname.exists():
             raise RuntimeError(
                 "The file %s already exist. Set argument "
@@ -149,9 +151,9 @@ class BaseSound(ABC):
         return np.array(volume)
 
     @staticmethod
-    def _check_sample_rate(sample_rate: int) -> int:
-        """Check if the sample rate is a positive integer."""
-        sample_rate = _ensure_int(sample_rate, "sample_rate")
+    def _check_sample_rate(sample_rate: float) -> float:
+        """Check if the sample rate is a positive number."""
+        _check_type(sample_rate, ("numeric",), "sample_rate")
         assert 0 < sample_rate
         return sample_rate
 
@@ -161,14 +163,6 @@ class BaseSound(ABC):
         _check_type(duration, ("numeric",), item_name="duration")
         assert 0 < duration
         return duration
-
-    @staticmethod
-    def _check_file(fname: Union[str, Path], must_exists: bool) -> Path:
-        """Check if the fname is valid."""
-        SUPPORTED = (".wav",)
-        _ensure_path(fname, "fname", must_exists)
-        assert fname.suffix in SUPPORTED
-        return fname
 
     # --------------------------------------------------------------------
     @property

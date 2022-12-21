@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
@@ -25,8 +25,6 @@ jobs:
         with:
           repository: LABSN/sound-ci-helpers
           path: ./sound-ci-helpers
-      - name: Update APT
-        run: sudo apt update
       - name: Create virtual sound card
         run: ./sound-ci-helpers/auto.sh
       - name: Setup Python 3.9
