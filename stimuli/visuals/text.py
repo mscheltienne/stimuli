@@ -2,7 +2,7 @@ from typing import Optional, Tuple, Union
 
 import cv2
 
-from ..utils._checks import _check_type
+from ..utils._checks import _check_type, _ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseVisual
 
@@ -64,10 +64,10 @@ class Text(BaseVisual):
         _check_type(text, (str,), "text")
         if len(text.strip()) == 0:
             return None
-        _check_type(fontFace, ("int",), "fontFace")
-        _check_type(fontScale, ("int",), "fontScale")
-        _check_type(thickness, ("int",), "thickness")
-        _check_type(lineType, ("int",), "lineType")
+        fontFace = _ensure_int(fontFace, "fontFace")
+        fontScale = _ensure_int(fontScale, "fontScale")
+        thickness = _ensure_int(thickness, "thickness")
+        lineType = _ensure_int(lineType, "lineType")
         textWidth, textHeight = cv2.getTextSize(
             text, fontFace, fontScale, thickness
         )[0]

@@ -12,7 +12,7 @@ from numpy.typing import NDArray
 from scipy.io import wavfile
 
 from .. import logger
-from ..utils._checks import _check_type
+from ..utils._checks import _check_type, _ensure_int, _ensure_path
 from ..utils._docs import fill_doc
 
 
@@ -151,7 +151,7 @@ class BaseSound(ABC):
     @staticmethod
     def _check_sample_rate(sample_rate: int) -> int:
         """Check if the sample rate is a positive integer."""
-        _check_type(sample_rate, ("int",), item_name="sample_rate")
+        sample_rate = _ensure_int(sample_rate, "sample_rate")
         assert 0 < sample_rate
         return sample_rate
 
@@ -165,13 +165,9 @@ class BaseSound(ABC):
     @staticmethod
     def _check_file(fname: Union[str, Path], must_exists: bool) -> Path:
         """Check if the fname is valid."""
-        SUPPORTED = ".wav"
-
-        _check_type(fname, ("path-like",))
-        fname = Path(fname)
+        SUPPORTED = (".wav",)
+        _ensure_path(fname, "fname", must_exists)
         assert fname.suffix in SUPPORTED
-        if must_exists:
-            assert fname.exists()
         return fname
 
     # --------------------------------------------------------------------

@@ -3,7 +3,7 @@ from typing import Optional, Tuple, Union
 
 import cv2
 
-from ..utils._checks import _check_type
+from ..utils._checks import _check_type, _ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseFeedbackVisual
 
@@ -125,7 +125,7 @@ class MovingBar(BaseFeedbackVisual):
         length: int, axis: int, window_size: Tuple[int, int]
     ) -> int:
         """Check that the length is valid."""
-        _check_type(length, ("int",), "length")
+        length = _ensure_int(length, "length")
         assert 0 < length
         assert length <= window_size[axis]
         return length
@@ -135,7 +135,7 @@ class MovingBar(BaseFeedbackVisual):
         width: int, length: int, axis: int, window_size: Tuple[int, int]
     ) -> int:
         """Check that the width is valid."""
-        _check_type(width, ("int",), "width")
+        width = _ensure_int(width, "width")
         assert 0 < width
         assert width <= length
         assert width <= window_size[(axis + 1) % 2]
