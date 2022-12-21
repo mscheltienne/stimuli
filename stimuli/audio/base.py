@@ -112,7 +112,8 @@ class BaseSound(ABC):
         overwrite : bool
             If True, file with the same name are overwritten.
         """
-        fname = BaseSound._check_file(fname, must_exists=False)
+        fname = _ensure_path(fname, must_exist=False)
+        assert fname.suffix in (".wav",)
         if overwrite is False and fname.exists():
             raise RuntimeError(
                 "The file %s already exist. Set argument "
@@ -162,13 +163,6 @@ class BaseSound(ABC):
         _check_type(duration, ("numeric",), item_name="duration")
         assert 0 < duration
         return duration
-
-    @staticmethod
-    def _check_file(fname: Union[str, Path], must_exists: bool) -> Path:
-        """Check if the fname is valid."""
-        _ensure_path(fname, must_exists)
-        assert fname.suffix in (".wav",)
-        return fname
 
     # --------------------------------------------------------------------
     @property
