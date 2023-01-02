@@ -40,3 +40,5 @@ jobs:
           python -m pip install --progress-bar off sounddevice
       - name: Display system information
         run: python -m sounddevice
+      - name: Try to play a sound
+        run: python -c "import sounddevice as sd; import numpy as np; sd.play(np.random.randn(96000, 2))"
