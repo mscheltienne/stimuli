@@ -1,3 +1,5 @@
+import time
+
 import sounddevice as sd
 import numpy as np
 
@@ -8,5 +10,6 @@ def test_1():
 
 
 def test_2():
-    sound = Tone(100)
+    sound = Tone(10, duration=0.2)
     sound.play()
+    time.sleep(0.2)
