@@ -47,4 +47,4 @@ jobs:
       - name: Try to play a sound
         run: python -c "from stimuli.audio import Tone; sound = Tone(100); sound.play()"
       - name: Try with pytest
-        run: pytest debug/test_debug.py
+        run: pytest main/debug/test_debug.py
