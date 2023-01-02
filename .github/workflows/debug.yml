@@ -41,4 +41,4 @@ jobs:
       - name: Display system information
         run: python -m sounddevice
       - name: Try to play a sound
-        run: python -c "import sounddevice as sd; import numpy as np; sd.play(np.random.randn(96000, 2))"
+        run: python -c "import sounddevice as sd; import numpy as np; sd.play(np.random.randn(96000, 2), samplerate=48000, mapping=[1,2])"
