@@ -46,3 +46,5 @@ jobs:
         run: python -m pip install --progress-bar off main/.[test]
       - name: Try to play a sound
         run: python -c "from stimuli.audio import Tone; sound = Tone(100); sound.play()"
+      - name: Try with pytest
+        run: pytest debug/test_debug.py
