@@ -51,4 +51,4 @@ jobs:
       - name: Try with pytest
         run: pytest main/debug/test_debug.py
       - name: Try part of the test suit
-        run: pytest main/stimuli/audio/tests
+        run: pytest main/stimuli
