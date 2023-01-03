@@ -37,10 +37,18 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
-          python -m pip install --progress-bar off main/.[test]
+          python -m pip install --progress-bar off numpy sounddevice
       - name: Display audio devices
         run: python -m sounddevice
+      - name: Try to play a sound
+        run: python -c "import sounddevice as sd; import numpy as np; sd.play(np.random.randn(96000, 2), samplerate=48000, mapping=[1,2])"
+      - name: Install package
+        run: python -m pip install --progress-bar off main/.[test]
       - name: Display system information
         run: stimuli-sys_info --developer
-      - name: Try pytest
+      - name: Try to play a sound
+        run: python -c "from stimuli.audio import Tone; sound = Tone(100); sound.play()"
+      - name: Try with pytest
+        run: pytest main/debug/test_debug.py
+      - name: Try part of the test suit
         run: pytest main/stimuli
