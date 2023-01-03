@@ -56,7 +56,6 @@ def sys_info(fid: Optional[IO] = None, developer: bool = False):
             "test",
             "style",
         )
-        print(requires(package))
         for key in keys:
             dependencies = [
                 elt.split(";")[0].rstrip()
