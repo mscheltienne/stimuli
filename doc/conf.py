@@ -100,10 +100,10 @@ autoclass_content = "class"
 
 # -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = {
-    "numpy": ("https://numpy.org/devdocs", None),
+    "numpy": ("https://numpy.org/doc/stable", None),
     "python": ("https://docs.python.org/3", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
-    "scipy": ("https://scipy.github.io/devdocs", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy", None),
     "sounddevice": ("https://python-sounddevice.readthedocs.io/", None),
 }
 intersphinx_timeout = 5
