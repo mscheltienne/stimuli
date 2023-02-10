@@ -112,6 +112,7 @@ extend-exclude = '''
       __pycache__
     | \.github
     | setup.py
+    | tutorials/
 )
 '''
 
@@ -122,6 +123,7 @@ line_length = 79
 py_version = 38
 extend_skip_glob = [
     'setup.py',
+    'tutorials/*',
 ]
 
 [tool.pydocstyle]
