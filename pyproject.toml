@@ -88,8 +88,8 @@ full = [
 ]
 
 [project.urls]
-homepage = 'https://github.com/mscheltienne/simple-stimuli'
-documentation = 'https://github.com/mscheltienne/simple-stimuli'
+homepage = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
+documentation = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
 source = 'https://github.com/mscheltienne/simple-stimuli'
 tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
 
