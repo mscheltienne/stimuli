@@ -135,9 +135,7 @@ class FillingBar(BaseFeedbackVisual):
                 xP2 = xP1 + 2 * fill_perc
                 yP2 = yP1 + self._width
 
-            cv2.rectangle(
-                self._img, (xP1, yP1), (xP2, yP2), self._fill_color, -1
-            )
+            cv2.rectangle(self._img, (xP1, yP1), (xP2, yP2), self._fill_color, -1)
 
     # --------------------------------------------------------------------
     @staticmethod

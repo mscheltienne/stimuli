@@ -99,9 +99,7 @@ class BaseVisual(ABC):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_window_size(
-        window_size: Optional[Tuple[int, int]]
-    ) -> Tuple[int, int]:
+    def _check_window_size(window_size: Optional[Tuple[int, int]]) -> Tuple[int, int]:
         """Check if the window size is valid.
 
         If None, set it as the minimum (width, height) supported by any
@@ -111,12 +109,8 @@ class BaseVisual(ABC):
 
         if window_size is None:
             try:
-                width = min(
-                    monitor.width for monitor in screeninfo.get_monitors()
-                )
-                height = min(
-                    monitor.height for monitor in screeninfo.get_monitors()
-                )
+                width = min(monitor.width for monitor in screeninfo.get_monitors())
+                height = min(monitor.height for monitor in screeninfo.get_monitors())
             except Exception as error:
                 logger.error("No monitor found.")
                 raise error
@@ -129,9 +123,7 @@ class BaseVisual(ABC):
         return window_size
 
     @staticmethod
-    def _check_color(
-        color: Union[str, Tuple[int, int, int]]
-    ) -> Tuple[int, int, int]:
+    def _check_color(color: Union[str, Tuple[int, int, int]]) -> Tuple[int, int, int]:
         """Check if a color is valid and converts it to BGR."""
         _check_type(color, (str, tuple), "color")
         if isinstance(color, str):

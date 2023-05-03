@@ -105,7 +105,7 @@ include = ['stimuli*']
 exclude = ['stimuli*tests']
 
 [tool.black]
-line-length = 79
+line-length = 88
 target-version = ['py38']
 include = '\.pyi?$'
 extend-exclude = '''
@@ -120,7 +120,7 @@ extend-exclude = '''
 [tool.isort]
 profile = 'black'
 multi_line_output = 3
-line_length = 79
+line_length = 88
 py_version = 38
 extend_skip_glob = [
     'setup.py',

@@ -15,9 +15,7 @@ def test_check_volume():
     assert np.allclose(volume, np.array([25, 50]))
     volume = BaseSound._check_volume((0, 100))
     assert np.allclose(volume, np.array([0, 100]))
-    with pytest.raises(
-        TypeError, match="must be an instance of numeric or tuple"
-    ):
+    with pytest.raises(TypeError, match="must be an instance of numeric or tuple"):
         BaseSound._check_volume([25, 50])
     with pytest.raises(AssertionError):
         volume = BaseSound._check_volume((25, 50, 75))
@@ -120,9 +118,7 @@ def _test_window(Sound):
     sound.window = window
     signal_window = sound.signal.copy()
     assert not np.allclose(signal_window, signal_no_window)
-    assert np.allclose(
-        signal_window, np.multiply(signal_no_window.T, window).T
-    )
+    assert np.allclose(signal_window, np.multiply(signal_no_window.T, window).T)
     sound.window = None
     assert np.allclose(signal_no_window, sound.signal)
     sound.window = None

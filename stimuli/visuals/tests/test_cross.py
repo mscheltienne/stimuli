@@ -49,18 +49,10 @@ def test_invalid_arguments():
     with pytest.raises(AssertionError):
         visual.putCross(length=100, thickness=200, color="white")
     with pytest.raises(AssertionError):
-        visual.putCross(
-            length=100, thickness=10, color="white", position=(10, 10, 10)
-        )
+        visual.putCross(length=100, thickness=10, color="white", position=(10, 10, 10))
     with pytest.raises(AssertionError):
-        visual.putCross(
-            length=100, thickness=10, color="white", position=(-10, 10)
-        )
+        visual.putCross(length=100, thickness=10, color="white", position=(-10, 10))
     with pytest.raises(AssertionError):
-        visual.putCross(
-            length=100, thickness=10, color="white", position=(1, 1)
-        )
+        visual.putCross(length=100, thickness=10, color="white", position=(1, 1))
     with pytest.raises(AssertionError):
-        visual.putCross(
-            length=100, thickness=10, color="white", position=(499, 250)
-        )
+        visual.putCross(length=100, thickness=10, color="white", position=(499, 250))

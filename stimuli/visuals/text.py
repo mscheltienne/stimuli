@@ -68,9 +68,7 @@ class Text(BaseVisual):
         fontScale = _ensure_int(fontScale, "fontScale")
         thickness = _ensure_int(thickness, "thickness")
         lineType = _ensure_int(lineType, "lineType")
-        textWidth, textHeight = cv2.getTextSize(
-            text, fontFace, fontScale, thickness
-        )[0]
+        textWidth, textHeight = cv2.getTextSize(text, fontFace, fontScale, thickness)[0]
         position = Text._check_position(
             position,
             textWidth,

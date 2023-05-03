@@ -137,9 +137,7 @@ class BaseSound(ABC):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_volume(
-        volume: Union[float, Tuple[float, float]]
-    ) -> NDArray[float]:
+    def _check_volume(volume: Union[float, Tuple[float, float]]) -> NDArray[float]:
         """Check that the volume provided by the user is valid."""
         _check_type(volume, ("numeric", tuple), "volume")
         if not isinstance(volume, tuple):
@@ -183,9 +181,7 @@ class BaseSound(ABC):
     @property
     def sample_rate(self) -> int:
         """Sound's sampling rate [Hz]."""
-        logger.debug(
-            "'self._sample_rate' is set to %.1f [Hz].", self._sample_rate
-        )
+        logger.debug("'self._sample_rate' is set to %.1f [Hz].", self._sample_rate)
         return self._sample_rate
 
     @sample_rate.setter
@@ -198,9 +194,7 @@ class BaseSound(ABC):
     @property
     def duration(self) -> float:
         """Sound's duration [seconds]."""
-        logger.debug(
-            "'self._duration' is set to %.2f [seconds].", self._duration
-        )
+        logger.debug("'self._duration' is set to %.2f [seconds].", self._duration)
         return self._duration
 
     @duration.setter

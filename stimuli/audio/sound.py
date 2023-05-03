@@ -43,9 +43,7 @@ class Sound(BaseSound):
         self._signal = self._original_signal[slc] * self._volume / 100
         super()._set_signal()
 
-    def crop(
-        self, tmin: Optional[float] = None, tmax: Optional[float] = None
-    ) -> None:
+    def crop(self, tmin: Optional[float] = None, tmax: Optional[float] = None) -> None:
         """Crop the sound between ``tmin`` and ``tmax``.
 
         Parameters
@@ -65,8 +63,7 @@ class Sound(BaseSound):
             tmin, tmax, self._original_times
         )
         logger.debug(
-            "'tmin' corresponds to the idx %i and 'tmax' corresponds "
-            "to the idx %i.",
+            "'tmin' corresponds to the idx %i and 'tmax' corresponds " "to the idx %i.",
             self._tmin,
             self._tmax,
         )

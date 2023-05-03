@@ -26,9 +26,7 @@ def test_text(fontFace, fontScale, color, thickness, lineType, position):
     assert visual.window_size == (500, 500)
     assert visual._window_center == (250, 250)
     assert np.count_nonzero(visual.img) == 0
-    visual.putText(
-        "101", fontFace, fontScale, color, thickness, lineType, position
-    )
+    visual.putText("101", fontFace, fontScale, color, thickness, lineType, position)
 
 
 def test_base():

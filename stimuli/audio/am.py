@@ -50,9 +50,7 @@ class SoundAM(BaseSound):
         frequency_modulation: float = 40,
         method: str = "conventional",
     ):
-        self._frequency_carrier = SoundAM._check_frequency_carrier(
-            frequency_carrier
-        )
+        self._frequency_carrier = SoundAM._check_frequency_carrier(frequency_carrier)
         self._frequency_modulation = SoundAM._check_frequency_modulation(
             frequency_modulation
         )
@@ -65,20 +63,12 @@ class SoundAM(BaseSound):
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         if self._method == "conventional":
-            amplitude = 1 - np.cos(
-                2 * np.pi * self._frequency_modulation * self._times
-            )
-            arr = amplitude * np.cos(
-                2 * np.pi * self._frequency_carrier * self._times
-            )
+            amplitude = 1 - np.cos(2 * np.pi * self._frequency_modulation * self._times)
+            arr = amplitude * np.cos(2 * np.pi * self._frequency_carrier * self._times)
 
         elif self._method == "dsbsc":
-            amplitude = np.sin(
-                2 * np.pi * self._frequency_modulation * self._times
-            )
-            arr = amplitude * np.sin(
-                2 * np.pi * self._frequency_carrier * self._times
-            )
+            amplitude = np.sin(2 * np.pi * self._frequency_modulation * self._times)
+            arr = amplitude * np.sin(2 * np.pi * self._frequency_carrier * self._times)
         arr /= np.max(np.abs(arr))  # normalize
         self._signal = np.vstack((arr, arr)).T * self._volume / 100
         super()._set_signal()
@@ -87,9 +77,7 @@ class SoundAM(BaseSound):
     @staticmethod
     def _check_frequency_carrier(frequency_carrier: float) -> float:
         """Check if the carrier frequency is positive."""
-        _check_type(
-            frequency_carrier, ("numeric",), item_name="frequency_carrier"
-        )
+        _check_type(frequency_carrier, ("numeric",), item_name="frequency_carrier")
         assert 0 < frequency_carrier
         return frequency_carrier
 
@@ -116,12 +104,8 @@ class SoundAM(BaseSound):
 
     @frequency_carrier.setter
     def frequency_carrier(self, frequency_carrier: float):
-        logger.debug(
-            "Setting 'frequency_carrier' to %.2f [Hz].", frequency_carrier
-        )
-        self._frequency_carrier = SoundAM._check_frequency_carrier(
-            frequency_carrier
-        )
+        logger.debug("Setting 'frequency_carrier' to %.2f [Hz].", frequency_carrier)
+        self._frequency_carrier = SoundAM._check_frequency_carrier(frequency_carrier)
         self._set_signal()
 
     @property

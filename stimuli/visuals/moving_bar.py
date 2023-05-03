@@ -75,9 +75,7 @@ class MovingBar(BaseFeedbackVisual):
         self._position = MovingBar._check_position(position)
         self._axis = BaseFeedbackVisual._check_axis(axis)
 
-        self._length = MovingBar._check_length(
-            length, self._axis, self._window_size
-        )
+        self._length = MovingBar._check_length(length, self._axis, self._window_size)
         self._width = MovingBar._check_width(
             width, self._length, self._axis, self._window_size
         )
@@ -121,9 +119,7 @@ class MovingBar(BaseFeedbackVisual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_length(
-        length: int, axis: int, window_size: Tuple[int, int]
-    ) -> int:
+    def _check_length(length: int, axis: int, window_size: Tuple[int, int]) -> int:
         """Check that the length is valid."""
         length = _ensure_int(length, "length")
         assert 0 < length
@@ -163,8 +159,7 @@ class MovingBar(BaseFeedbackVisual):
             return int(window_center[idx] * (1 - abs(position)))
         elif 0 < position <= 1:
             return int(
-                window_center[idx]
-                + (window_size[idx] - window_center[idx]) * position
+                window_center[idx] + (window_size[idx] - window_center[idx]) * position
             )
 
     # --------------------------------------------------------------------
@@ -175,9 +170,7 @@ class MovingBar(BaseFeedbackVisual):
 
     @length.setter
     def length(self, length):
-        self._length = MovingBar._check_length(
-            length, self._axis, self._window_size
-        )
+        self._length = MovingBar._check_length(length, self._axis, self._window_size)
         self._reset()
         self._putBar()
 

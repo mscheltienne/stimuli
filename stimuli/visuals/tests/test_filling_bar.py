@@ -19,9 +19,7 @@ from .test_base import _test_base
         (0, 1, "v", "h"),
     ),
 )
-def test_filling_bar(
-    length, width, margin, color, fill_color, fill_perc, axis
-):
+def test_filling_bar(length, width, margin, color, fill_color, fill_perc, axis):
     """Test a filling bar visual."""
     visual = FillingBar(window_name="test", window_size=(500, 500))
     assert visual.window_name == "test"
