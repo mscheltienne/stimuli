@@ -23,12 +23,12 @@ should be preferred.
 Install
 -------
 
-Simple-stimuli is available on `Pypi <project pypi_>`_ and
+Simple-stimuli is available on `PyPI <project pypi_>`_ and
 on `conda-forge <project conda_>`_.
 
 .. tab-set::
 
-    .. tab-item:: Pypi
+    .. tab-item:: PyPI
 
         .. code-block:: bash
 
