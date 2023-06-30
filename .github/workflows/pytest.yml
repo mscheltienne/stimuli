@@ -7,6 +7,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+  - cron: '0 8 * * 1'
 
 jobs:
   pytest:
@@ -27,13 +29,13 @@ jobs:
         with:
           path: main
       - name: Checkout tool repository
-        if: ${{ matrix.os != 'macos'}}
+        if: ${{ matrix.os != 'macos-latest'}}
         uses: actions/checkout@v3
         with:
           repository: LABSN/sound-ci-helpers
           path: sound-ci-helpers
       - name: Create virtual sound card
-        if: ${{ matrix.os != 'macos'}}
+        if: ${{ matrix.os != 'macos-latest'}}
         run: ./sound-ci-helpers/auto.sh
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -49,7 +51,7 @@ jobs:
       - name: Run pytest
         run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --cov-config=main/pyproject.toml
       - name: Upload to codecov
-        if: ${{ matrix.os == 'ubuntu' && matrix.python-version == 3.9 }}
+        if: ${{ matrix.os == 'ubuntu-20.04' && matrix.python-version == 3.9 }}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
