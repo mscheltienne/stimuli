@@ -33,7 +33,7 @@ jobs:
           repository: LABSN/sound-ci-helpers
           path: sound-ci-helpers
       - name: Create virtual sound card
-        if: ${{ matrix.os != 'macos'}}
+        if: ${{ matrix.os != 'macos-latest'}}
         run: ./sound-ci-helpers/auto.sh
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
