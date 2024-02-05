@@ -52,7 +52,7 @@ jobs:
         run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --cov-config=main/pyproject.toml
       - name: Upload to codecov
         if: ${{ matrix.os == 'ubuntu-20.04' && matrix.python-version == 3.9 }}
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: ./coverage.xml
