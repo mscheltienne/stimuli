@@ -49,7 +49,7 @@ jobs:
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Run pytest
-        run: pytest template --cov=template --cov-report=xml --cov-config=pyproject.toml
+        run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --cov-config=main/pyproject.toml
       - name: Upload to codecov
         uses: codecov/codecov-action@v3
         with:
