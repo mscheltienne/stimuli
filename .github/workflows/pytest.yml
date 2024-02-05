@@ -2,13 +2,13 @@ name: pytest
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
   cancel-in-progress: true
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request:
   push:
     branches: [main]
   workflow_dispatch:
   schedule:
-  - cron: '0 8 * * 1'
+    - cron: '0 8 * * 1'
 
 jobs:
   pytest:
@@ -16,10 +16,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, "3.10", "3.11"]
+        os: [ubuntu, macos, windows]
+        python-version: [3.9, "3.10", "3.11", "3.12"]
     name: ${{ matrix.os }} - py${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     defaults:
       run:
         shell: bash
@@ -44,19 +44,16 @@ jobs:
           architecture: 'x64'
       - name: Install package
         run: |
-          python -m pip install --progress-bar off --upgrade pip setuptools wheel
+          python -m pip install --progress-bar off --upgrade pip setuptools
           python -m pip install --progress-bar off main/.[test]
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Run pytest
-        run: pytest main/stimuli --cov=main/stimuli --cov-report=xml --cov-config=main/pyproject.toml
+        run: pytest template --cov=template --cov-report=xml --cov-config=pyproject.toml
       - name: Upload to codecov
-        if: ${{ matrix.os == 'ubuntu-20.04' && matrix.python-version == 3.9 }}
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: ./coverage.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          flags: unittests  # optional
+          name: codecov-umbrella  # optional
+          verbose: true  # optional (default = false)
