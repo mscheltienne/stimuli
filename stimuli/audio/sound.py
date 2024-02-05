@@ -1,7 +1,6 @@
 """Sound loaded from a file."""
 
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -43,7 +42,7 @@ class Sound(BaseSound):
         self._signal = self._original_signal[slc] * self._volume / 100
         super()._set_signal()
 
-    def crop(self, tmin: Optional[float] = None, tmax: Optional[float] = None) -> None:
+    def crop(self, tmin: float | None = None, tmax: float | None = None) -> None:
         """Crop the sound between ``tmin`` and ``tmax``.
 
         Parameters
@@ -141,7 +140,7 @@ class Sound(BaseSound):
 
     @staticmethod
     def _check_tmin_tmax(
-        tmin: Optional[float], tmax: Optional[float], times: NDArray[float]
+        tmin: float | None, tmax: float | None, times: NDArray[float]
     ) -> tuple[int, int]:
         """Check tmin/tmax and convert to idx."""
         check_type(tmin, ("numeric", None), "tmin")

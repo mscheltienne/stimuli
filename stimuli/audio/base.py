@@ -4,7 +4,6 @@ import copy
 from abc import ABC, abstractmethod
 from os import makedirs
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import sounddevice as sd
@@ -215,12 +214,12 @@ class BaseSound(ABC):
         return self._times
 
     @property
-    def window(self) -> Optional[NDArray[float]]:
+    def window(self) -> NDArray[float] | None:
         """Window applied to the signal."""
         return self._window
 
     @window.setter
-    def window(self, window: Optional[NDArray[float]]):
+    def window(self, window: NDArray[float] | None):
         check_type(window, (None, np.ndarray), "window")
         if window is not None:
             assert window.ndim == 1

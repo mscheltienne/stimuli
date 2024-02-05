@@ -1,5 +1,3 @@
-from typing import Optional
-
 import cv2
 
 from ..utils._checks import check_type, ensure_int
@@ -20,7 +18,7 @@ class Cross(BaseVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[tuple[int, int]] = None,
+        window_size: tuple[int, int] | None = None,
     ):
         super().__init__(window_name, window_size)
 

@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Optional
 
 import cv2
 import numpy as np
@@ -27,7 +26,7 @@ class BaseVisual(ABC):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[tuple[int, int]] = None,
+        window_size: tuple[int, int] | None = None,
     ):
         check_type(window_name, (str,), "window_name")
 
@@ -99,7 +98,7 @@ class BaseVisual(ABC):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_window_size(window_size: Optional[tuple[int, int]]) -> tuple[int, int]:
+    def _check_window_size(window_size: tuple[int, int] | None) -> tuple[int, int]:
         """Check if the window size is valid.
 
         If None, set it as the minimum (width, height) supported by any
@@ -177,7 +176,7 @@ class BaseFeedbackVisual(BaseVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[tuple[int, int]] = None,
+        window_size: tuple[int, int] | None = None,
     ):
         super().__init__(window_name, window_size)
         self._backup_img = None
