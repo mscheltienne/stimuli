@@ -86,7 +86,7 @@ style = [
   'codespell[toml]>=2.2.4',
   'isort',
   'pydocstyle[toml]',
-  'ruff',
+  'ruff>=0.1.8',
   'toml-sort',
   'yamllint',
 ]
@@ -124,8 +124,10 @@ branch = true
 cover_pylib = false
 omit = [
   '**/__init__.py',
+  '**/conftest.py',
   '**/stimuli/_version.py',
   '**/stimuli/commands/*',
+  '**/stimuli/utils/_fixes.py',
   '**/tests/**',
 ]
 

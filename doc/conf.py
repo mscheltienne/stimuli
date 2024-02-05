@@ -5,10 +5,11 @@
 
 
 import inspect
+import subprocess
 import sys
 from datetime import date
 from importlib import import_module
-from typing import Dict, Optional
+from typing import Optional
 
 from sphinx_gallery.sorting import FileNameSortKey
 
@@ -162,7 +163,7 @@ bibtex_bibfiles = ["./references.bib"]
 # https://www.sphinx-doc.org/en/master/usage/extensions/linkcode.html
 
 
-def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
+def linkcode_resolve(domain: str, info: dict[str, str]) -> Optional[str]:
     """Determine the URL corresponding to a Python object.
 
     Parameters
@@ -207,17 +208,37 @@ def linkcode_resolve(domain: str, info: Dict[str, str]) -> Optional[str]:
 
 
 # -- sphinx-gallery ----------------------------------------------------------
+if sys.platform.startswith("win"):
+    try:
+        subprocess.check_call(["optipng", "--version"])
+        compress_images = ("images", "thumbnails")
+    except Exception:
+        compress_images = ()
+else:
+    compress_images = ("images", "thumbnails")
+
 sphinx_gallery_conf = {
     "backreferences_dir": "generated/backreferences",
+    "compress_images": compress_images,
     "doc_module": ("stimuli",),
     "examples_dirs": ["../tutorials"],
     "exclude_implicit_doc": {},  # set
     "filename_pattern": r"\d{2}_",
     "gallery_dirs": ["generated/tutorials"],
     "line_numbers": False,
-    "plot_gallery": True,
+    "plot_gallery": "True",  # str, to enable overwrite from CLI without warning
     "reference_url": dict(stimuli=None),
     "remove_config_comments": True,
     "show_memory": sys.platform == "linux",
     "within_subsection_order": FileNameSortKey,
 }
+
+# -- linkcheck -------------------------------------------------------------------------
+linkcheck_anchors = False  # saves a bit of time
+linkcheck_timeout = 15  # some can be quite slow
+linkcheck_retries = 3
+linkcheck_ignore = []  # will be compiled to regex
+
+# -- sphinx_copybutton -----------------------------------------------------------------
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
