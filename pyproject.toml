@@ -46,7 +46,7 @@ maintainers = [
 name = 'stimuli'
 readme = 'README.md'
 requires-python = '>=3.10'
-version = '0.5.0.dev'
+version = '0.5.0'
 
 [project.optional-dependencies]
 all = [
@@ -90,8 +90,8 @@ style = [
   'yamllint',
 ]
 test = [
-  'pytest',
   'pytest-cov',
+  'pytest>=8.0.0',
 ]
 
 [project.scripts]
@@ -149,7 +149,7 @@ match-dir = '^stimuli.*'
 
 [tool.pytest.ini_options]
 addopts = '--durations 20 --junit-xml=junit-results.xml --verbose'
-minversion = '6.0'
+minversion = '8.0'
 
 [tool.ruff]
 extend-exclude = [

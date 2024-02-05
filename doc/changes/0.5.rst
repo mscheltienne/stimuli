@@ -22,11 +22,10 @@ Enhancements
 - Add ``copy`` method for auditory stimuli (by `Mathieu Scheltienne`_ in :pr:`13`)
 - Improve error checking for integers and paths
 
-Bugs
-~~~~
-
 API and behavior changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Remove support for python version inferior to 3.10 (by `Mathieu Scheltienne`_ in :pr:`27`)
 
 Authors
 ~~~~~~~
