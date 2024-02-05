@@ -13,6 +13,7 @@ from ._checks import check_type
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from typing import IO
 
 
 def sys_info(fid: IO | None = None, developer: bool = False):
