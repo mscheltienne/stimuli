@@ -10,7 +10,7 @@ from numpy.typing import NDArray
 
 from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
-from ..utils._logs import logger
+from ..utils.logs import logger
 
 
 @fill_doc
