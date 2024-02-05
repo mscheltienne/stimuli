@@ -2,7 +2,7 @@ name: doc
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
   cancel-in-progress: true
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request:
   push:
     branches: [main]
@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     timeout-minutes: 10
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -27,10 +27,10 @@ jobs:
           path: ./sound-ci-helpers
       - name: Create virtual sound card
         run: ./sound-ci-helpers/auto.sh
-      - name: Setup Python 3.9
+      - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: 3.11
           architecture: 'x64'
       - name: Install package
         run: |
@@ -39,14 +39,14 @@ jobs:
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Build doc
-        run: sphinx-build ./main/doc ./doc-build/dev -W --keep-going
+        run: make -C main/doc html
       - name: Prune sphinx environment
-        run: sudo rm -R ./doc-build/dev/.doctrees
+        run: rm -R ./main/doc/_build/html/.doctrees
       - name: Upload documentation
         uses: actions/upload-artifact@v4
         with:
           name: doc-dev
-          path: ./doc-build/dev
+          path: ./main/doc/_build/html
 
   deploy:
     if: github.event_name == 'push'
