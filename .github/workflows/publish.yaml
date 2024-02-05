@@ -11,34 +11,26 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          path: main
-      - name: Checkout tool repository
-        uses: actions/checkout@v4
-        with:
-          repository: LABSN/sound-ci-helpers
-          path: sound-ci-helpers
-      - name: Create virtual sound card
-        run: ./sound-ci-helpers/auto.sh
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           architecture: 'x64'
+      - name: Create virtual sound card
+        uses: LABSN/sound-ci-helpers@v1
       - name: Install dependencies
         run: |
           python -m pip install --progress-bar off --upgrade pip setuptools wheel
-          python -m pip install --progress-bar off main/.[build,stubs]
+          python -m pip install --progress-bar off .[build,stubs]
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Generate stub files
-        run: python main/tools/stubgen.py
+        run: python tools/stubgen.py
       - name: Build and publish
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN  }}
         run: |
-          cd main
           python -m build
           twine check dist/*
           twine upload dist/*
