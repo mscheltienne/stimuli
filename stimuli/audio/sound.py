@@ -1,15 +1,14 @@
 """Sound loaded from a file."""
 
 from pathlib import Path
-from typing import Optional, Tuple, Union
 
 import numpy as np
 from numpy.typing import NDArray
 from scipy.io import wavfile
 
-from .. import logger
-from ..utils._checks import _check_type, _ensure_path
+from ..utils._checks import check_type, ensure_path
 from ..utils._docs import copy_doc
+from ..utils.logs import logger
 from .base import BaseSound
 
 
@@ -22,8 +21,8 @@ class Sound(BaseSound):
         Path to the supported audio file to load.
     """
 
-    def __init__(self, fname: Union[str, Path]):
-        self._fname = _ensure_path(fname, must_exist=True)
+    def __init__(self, fname: str | Path):
+        self._fname = ensure_path(fname, must_exist=True)
         assert self._fname.suffix in (".wav",)
 
         sample_rate, original_signal = wavfile.read(self._fname)
@@ -43,7 +42,7 @@ class Sound(BaseSound):
         self._signal = self._original_signal[slc] * self._volume / 100
         super()._set_signal()
 
-    def crop(self, tmin: Optional[float] = None, tmax: Optional[float] = None) -> None:
+    def crop(self, tmin: float | None = None, tmax: float | None = None) -> None:
         """Crop the sound between ``tmin`` and ``tmax``.
 
         Parameters
@@ -88,7 +87,7 @@ class Sound(BaseSound):
     @staticmethod
     def _check_signal(
         signal: NDArray[float],
-    ) -> Tuple[NDArray[float], Tuple[float, float]]:
+    ) -> tuple[NDArray[float], tuple[float, float]]:
         """Check that the sound is either mono or stereo.
 
         Parameters
@@ -141,11 +140,11 @@ class Sound(BaseSound):
 
     @staticmethod
     def _check_tmin_tmax(
-        tmin: Optional[float], tmax: Optional[float], times: NDArray[float]
-    ) -> Tuple[int, int]:
+        tmin: float | None, tmax: float | None, times: NDArray[float]
+    ) -> tuple[int, int]:
         """Check tmin/tmax and convert to idx."""
-        _check_type(tmin, ("numeric", None), "tmin")
-        _check_type(tmax, ("numeric", None), "tmax")
+        check_type(tmin, ("numeric", None), "tmin")
+        check_type(tmax, ("numeric", None), "tmax")
         tmin = 0 if tmin is None else tmin
         tmin = tmin if np.isfinite(tmin) else 0
         tmax = times[-1] if tmax is None else tmax

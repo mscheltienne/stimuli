@@ -4,16 +4,15 @@ import copy
 from abc import ABC, abstractmethod
 from os import makedirs
 from pathlib import Path
-from typing import Optional, Tuple, Union
 
 import numpy as np
 import sounddevice as sd
 from numpy.typing import NDArray
 from scipy.io import wavfile
 
-from .. import logger
-from ..utils._checks import _check_type, _ensure_path
+from ..utils._checks import check_type, ensure_path
 from ..utils._docs import fill_doc
+from ..utils.logs import logger
 
 
 @fill_doc
@@ -30,7 +29,7 @@ class BaseSound(ABC):
     @abstractmethod
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: float = 44100,
         duration: float = 1,
     ):
@@ -74,7 +73,7 @@ class BaseSound(ABC):
             If ``True``, :func:`~copy.deepcopy` is used instead of
             :func:`~copy.copy`.
         """
-        _check_type(deep, (bool,), "deep")
+        check_type(deep, (bool,), "deep")
         if deep:
             return copy.deepcopy(self)
         else:
@@ -90,7 +89,7 @@ class BaseSound(ABC):
         blocking : bool
             If True, playing the sounds blocks the interpreter.
         """
-        _check_type(blocking, (bool,), "blocking")
+        check_type(blocking, (bool,), "blocking")
         logger.debug("Play requested with blocking set to %s.", blocking)
         sd.play(
             self._signal,
@@ -99,7 +98,7 @@ class BaseSound(ABC):
             blocking=blocking,
         )
 
-    def save(self, fname: Union[str, Path], overwrite: bool = False) -> None:
+    def save(self, fname: str | Path, overwrite: bool = False) -> None:
         """Save a sound signal into a .wav file.
 
         The saving is handled by :func:`scipy.io.wavfile.write`.
@@ -112,7 +111,7 @@ class BaseSound(ABC):
         overwrite : bool
             If True, file with the same name are overwritten.
         """
-        fname = _ensure_path(fname, must_exist=False)
+        fname = ensure_path(fname, must_exist=False)
         assert fname.suffix in (".wav",)
         if overwrite is False and fname.exists():
             raise RuntimeError(
@@ -137,34 +136,34 @@ class BaseSound(ABC):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_volume(volume: Union[float, Tuple[float, float]]) -> NDArray[float]:
+    def _check_volume(volume: float | tuple[float, float]) -> NDArray[float]:
         """Check that the volume provided by the user is valid."""
-        _check_type(volume, ("numeric", tuple), "volume")
+        check_type(volume, ("numeric", tuple), "volume")
         if not isinstance(volume, tuple):
             volume = (volume, volume)
         assert len(volume) in (1, 2)
         for vol in volume:
-            _check_type(vol, ("numeric",))
+            check_type(vol, ("numeric",))
         assert all(0 <= v <= 100 for v in volume)
         return np.array(volume)
 
     @staticmethod
     def _check_sample_rate(sample_rate: float) -> float:
         """Check if the sample rate is a positive number."""
-        _check_type(sample_rate, ("numeric",), "sample_rate")
+        check_type(sample_rate, ("numeric",), "sample_rate")
         assert 0 < sample_rate
         return sample_rate
 
     @staticmethod
     def _check_duration(duration: float) -> float:
         """Check if the duration is positive."""
-        _check_type(duration, ("numeric",), item_name="duration")
+        check_type(duration, ("numeric",), item_name="duration")
         assert 0 < duration
         return duration
 
     # --------------------------------------------------------------------
     @property
-    def volume(self) -> Union[float, Tuple[float, float]]:
+    def volume(self) -> float | tuple[float, float]:
         """Sound's volume(s) [AU]."""
         logger.debug("'self._volume' is set to %s [AU].", self._volume)
         volume = tuple(self._volume)
@@ -173,7 +172,7 @@ class BaseSound(ABC):
         return volume
 
     @volume.setter
-    def volume(self, volume: Union[float, Tuple[float, float]]):
+    def volume(self, volume: float | tuple[float, float]):
         logger.debug("Setting 'volume' to %s [AU].", volume)
         self._volume = BaseSound._check_volume(volume)
         self._set_signal()
@@ -215,13 +214,13 @@ class BaseSound(ABC):
         return self._times
 
     @property
-    def window(self) -> Optional[NDArray[float]]:
+    def window(self) -> NDArray[float] | None:
         """Window applied to the signal."""
         return self._window
 
     @window.setter
-    def window(self, window: Optional[NDArray[float]]):
-        _check_type(window, (None, np.ndarray), "window")
+    def window(self, window: NDArray[float] | None):
+        check_type(window, (None, np.ndarray), "window")
         if window is not None:
             assert window.ndim == 1
             assert window.size == self._times.size

@@ -1,12 +1,10 @@
 """Colored noise sound."""
 
-from typing import Tuple, Union
-
 import numpy as np
 
-from .. import logger
-from ..utils._checks import _check_type, _check_value
+from ..utils._checks import check_type, check_value
 from ..utils._docs import copy_doc, fill_doc
+from ..utils.logs import logger
 from .base import BaseSound
 
 _PSDS = {
@@ -34,13 +32,13 @@ class Noise(BaseSound):
 
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: int = 44100,
         duration: float = 1,
         color: str = "white",
     ):
-        _check_type(color, (str,), "color")
-        _check_value(color, _PSDS)
+        check_type(color, (str,), "color")
+        check_value(color, _PSDS)
         self._color = color
         self._rng = np.random.default_rng()
         self.name = f"{color} noise"
@@ -74,7 +72,7 @@ class Noise(BaseSound):
     @color.setter
     def color(self, color: str):
         logger.debug("Setting 'color' to %s.", color)
-        _check_type(color, (str,), "color")
-        _check_value(color, _PSDS)
+        check_type(color, (str,), "color")
+        check_value(color, _PSDS)
         self._color = color
         self._set_signal()

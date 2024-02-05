@@ -4,83 +4,101 @@ Inspired from mne: https://mne.tools/stable/index.html
 Inspired from mne.utils.docs.py by Eric Larson <larson.eric.d@gmail.com>
 """
 
+from __future__ import annotations  # c.f. PEP 563, PEP 649
+
 import sys
-from typing import Callable, List
+from typing import TYPE_CHECKING
 
-# ------------------------- Documentation dictionary -------------------------
-docdict = dict()
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from typing import Any
 
-# ---------------------------------- verbose ---------------------------------
-docdict[
-    "verbose"
-] = """
-verbose : int | str | bool | None
-    Sets the verbosity level. The verbosity increases gradually between
-    ``"CRITICAL"``, ``"ERROR"``, ``"WARNING"``, ``"INFO"`` and ``"DEBUG"``.
-    If None is provided, the verbosity is set to ``"WARNING"``.
-    If a bool is provided, the verbosity is set to ``"WARNING"`` for ``False``
-    and to ``"INFO"`` for ``True``."""
+# -- Documentation dictionary ----------------------------------------------------------
+docdict: dict[str, str] = dict()
 
-# ----------------------------------- audio ----------------------------------
-docdict[
-    "audio_volume"
-] = """
+# -- A ---------------------------------------------------------------------------------
+docdict["audio_duration"] = """
+duration : float
+    Duration of the sound. The default is 1 second."""
+
+docdict["audio_sample_rate"] = """
+sample_rate : float
+    Sampling frequency of the sound. The default is 44100 Hz."""
+
+docdict["audio_volume"] = """
 volume : float | tuple
     If an int or a float is provided, the sound will use only one channel
     (mono). If a 2-length tuple is provided, the sound will use 2
     channels (stereo). The volume of each channel is given between 0 and 100.
     For stereo, the volume is given as (L, R)."""
-docdict[
-    "audio_sample_rate"
-] = """
-sample_rate : float
-    Sampling frequency of the sound. The default is 44100 Hz."""
-docdict[
-    "audio_duration"
-] = """
-duration : float
-    Duration of the sound. The default is 1 second."""
 
-# ----------------------------------- visual ----------------------------------
-docdict[
-    "visual_window_name"
-] = """
-window_name : str
-    Name of the window in which the visual is displayed."""
-docdict[
-    "visual_window_size"
-] = """
-window_size : tuple | None
-    Either ``None`` to automatically select a window size based on the
-    available monitors, or a 2-length of positive integer sequence as
-    ``(width, height)`` in pixels."""
+# -- B ---------------------------------------------------------------------------------
+# -- C ---------------------------------------------------------------------------------
+# -- D ---------------------------------------------------------------------------------
+# -- E ---------------------------------------------------------------------------------
+# -- F ---------------------------------------------------------------------------------
+# -- G ---------------------------------------------------------------------------------
+# -- H ---------------------------------------------------------------------------------
+# -- I ---------------------------------------------------------------------------------
+# -- J ---------------------------------------------------------------------------------
+# -- K ---------------------------------------------------------------------------------
+# -- L ---------------------------------------------------------------------------------
+# -- M ---------------------------------------------------------------------------------
+# -- N ---------------------------------------------------------------------------------
+# -- O ---------------------------------------------------------------------------------
+# -- P ---------------------------------------------------------------------------------
+# -- Q ---------------------------------------------------------------------------------
+# -- R ---------------------------------------------------------------------------------
+# -- S ---------------------------------------------------------------------------------
+# -- T ---------------------------------------------------------------------------------
+# -- U ---------------------------------------------------------------------------------
+# -- V ---------------------------------------------------------------------------------
+docdict["verbose"] = """
+verbose : int | str | bool | None
+    Sets the verbosity level. The verbosity increases gradually between ``"CRITICAL"``,
+    ``"ERROR"``, ``"WARNING"``, ``"INFO"`` and ``"DEBUG"``. If None is provided, the
+    verbosity is set to ``"WARNING"``. If a bool is provided, the verbosity is set to
+    ``"WARNING"`` for False and to ``"INFO"`` for True."""
+
 docdict[
     "visual_color"
 ] = """A color is provided as matplotlib string or as ``(B, G, R)`` tuple of
 int8 set between 0 and 255."""
-docdict[
-    "visual_position"
-] = """
+
+docdict["visual_length"] = """
+length : int
+    Number of pixels used to draw the length of the bar."""
+
+docdict["visual_position"] = """
 The position of the object can be either defined as the string 'center' or
 'centered' to position the object in the center of the window; or as a 2-length
 tuple of positive integer. The position is defined in pixels in opencv
 coordinates, with (0, 0) being the top left corner of the window."""
-docdict[
-    "visual_length"
-] = """
-length : int
-    Number of pixels used to draw the length of the bar."""
-docdict[
-    "visual_width"
-] = """
+
+docdict["visual_width"] = """
 width : int
     Number of pixels used to draw the width of the bar."""
 
-# ------------------------- Documentation functions --------------------------
-docdict_indented = dict()
+docdict["visual_window_name"] = """
+window_name : str
+    Name of the window in which the visual is displayed."""
+
+docdict["visual_window_size"] = """
+window_size : tuple | None
+    Either ``None`` to automatically select a window size based on the
+    available monitors, or a 2-length of positive integer sequence as
+    ``(width, height)`` in pixels."""
+
+# -- W ---------------------------------------------------------------------------------
+# -- X ---------------------------------------------------------------------------------
+# -- Y ---------------------------------------------------------------------------------
+# -- Z ---------------------------------------------------------------------------------
+
+# -- Documentation functions -----------------------------------------------------------
+docdict_indented: dict[int, dict[str, str]] = dict()
 
 
-def fill_doc(f: Callable) -> Callable:
+def fill_doc(f: Callable[..., Any]) -> Callable[..., Any]:
     """Fill a docstring with docdict entries.
 
     Parameters
@@ -123,19 +141,19 @@ def fill_doc(f: Callable) -> Callable:
     return f
 
 
-def _indentcount_lines(lines: List[str]) -> int:
+def _indentcount_lines(lines: list[str]) -> int:
     """Minimum indent for all lines in line list.
 
-    >>> lines = [' one', '  two', '   three']
+    >>> lines = [" one", "  two", "   three"]
     >>> indentcount_lines(lines)
     1
     >>> lines = []
     >>> indentcount_lines(lines)
     0
-    >>> lines = [' one']
+    >>> lines = [" one"]
     >>> indentcount_lines(lines)
     1
-    >>> indentcount_lines(['    '])
+    >>> indentcount_lines(["    "])
     0
     """
     indent = sys.maxsize
@@ -148,14 +166,14 @@ def _indentcount_lines(lines: List[str]) -> int:
     return indent
 
 
-def copy_doc(source: Callable) -> Callable:
+def copy_doc(source: Callable[..., Any]) -> Callable[..., Any]:
     """Copy the docstring from another function (decorator).
 
-    The docstring of the source function is prepepended to the docstring of the
-    function wrapped by this decorator.
+    The docstring of the source function is prepepended to the docstring of the function
+    wrapped by this decorator.
 
-    This is useful when inheriting from a class and overloading a method. This
-    decorator can be used to copy the docstring of the original method.
+    This is useful when inheriting from a class and overloading a method. This decorator
+    can be used to copy the docstring of the original method.
 
     Parameters
     ----------
@@ -176,17 +194,17 @@ def copy_doc(source: Callable) -> Callable:
     >>> class B(A):
     ...     @copy_doc(A.m1)
     ...     def m1():
-    ...         ''' this gets appended'''
+    ...         '''this gets appended'''
     ...         pass
     >>> print(B.m1.__doc__)
     Docstring for m1 this gets appended
     """
 
-    def wrapper(func):
+    def wrapper(func: Callable[..., Any]) -> Callable[..., Any]:
         if source.__doc__ is None or len(source.__doc__) == 0:
             raise RuntimeError(
-                f"The docstring from {source.__name__} could not be copied "
-                "because it was empty."
+                f"The docstring from {source.__name__} could not be copied because it "
+                "was empty."
             )
         doc = source.__doc__
         if func.__doc__ is not None:

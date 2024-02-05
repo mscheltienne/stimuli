@@ -1,9 +1,8 @@
 from copy import deepcopy
-from typing import Optional, Tuple, Union
 
 import cv2
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseFeedbackVisual
 
@@ -21,7 +20,7 @@ class MovingBar(BaseFeedbackVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: tuple[int, int] | None = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -30,9 +29,9 @@ class MovingBar(BaseFeedbackVisual):
         self,
         length: int,
         width: int,
-        color: Union[str, Tuple[int, int, int]],
+        color: str | tuple[int, int, int],
         position: float = 0,
-        axis: Union[int, str] = 0,
+        axis: int | str = 0,
     ):
         """Draw the bar on top of the current visual.
 
@@ -119,19 +118,19 @@ class MovingBar(BaseFeedbackVisual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_length(length: int, axis: int, window_size: Tuple[int, int]) -> int:
+    def _check_length(length: int, axis: int, window_size: tuple[int, int]) -> int:
         """Check that the length is valid."""
-        length = _ensure_int(length, "length")
+        length = ensure_int(length, "length")
         assert 0 < length
         assert length <= window_size[axis]
         return length
 
     @staticmethod
     def _check_width(
-        width: int, length: int, axis: int, window_size: Tuple[int, int]
+        width: int, length: int, axis: int, window_size: [int, int]
     ) -> int:
         """Check that the width is valid."""
-        width = _ensure_int(width, "width")
+        width = ensure_int(width, "width")
         assert 0 < width
         assert width <= length
         assert width <= window_size[(axis + 1) % 2]
@@ -140,7 +139,7 @@ class MovingBar(BaseFeedbackVisual):
     @staticmethod
     def _check_position(position: float) -> float:
         """Check that the position given is between -1 and 1."""
-        _check_type(position, ("numeric",), "position")
+        check_type(position, ("numeric",), "position")
         assert -1 <= position <= 1
         return position
 
@@ -148,8 +147,8 @@ class MovingBar(BaseFeedbackVisual):
     def _convert_position_to_pixel(
         position: float,
         axis: int,
-        window_size: Tuple[int, int],
-        window_center: Tuple[int, int],
+        window_size: tuple[int, int],
+        window_center: tuple[int, int],
     ) -> int:
         """Convert the position [-1, 1] to an absolute position in pixel."""
         idx = (axis + 1) % 2
@@ -188,7 +187,7 @@ class MovingBar(BaseFeedbackVisual):
         self._putBar()
 
     @property
-    def color(self) -> Tuple[int, int, int]:
+    def color(self) -> tuple[int, int, int]:
         """Color of the bar in BGR color space."""
         return self._color
 

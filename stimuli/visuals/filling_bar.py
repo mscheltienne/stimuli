@@ -1,9 +1,8 @@
 from copy import deepcopy
-from typing import Optional, Tuple, Union
 
 import cv2
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseFeedbackVisual
 
@@ -24,7 +23,7 @@ class FillingBar(BaseFeedbackVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: tuple[int, int] | None = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -34,10 +33,10 @@ class FillingBar(BaseFeedbackVisual):
         length: int,
         width: int,
         margin: int,
-        color: Union[str, Tuple[int, int, int]],
-        fill_color: Union[str, Tuple[int, int, int]],
+        color: str | tuple[int, int, int],
+        fill_color: str | tuple[int, int, int],
         fill_perc: float = 0,
-        axis: Union[int, str] = 0,
+        axis: int | str = 0,
     ) -> None:
         """Draw the bar on top of the current visual.
 
@@ -140,11 +139,11 @@ class FillingBar(BaseFeedbackVisual):
     # --------------------------------------------------------------------
     @staticmethod
     def _check_length_margin(
-        length: int, margin: int, axis: int, window_size: Tuple[int, int]
-    ) -> Tuple[int, int]:
+        length: int, margin: int, axis: int, window_size: tuple[int, int]
+    ) -> tuple[int, int]:
         """Check that the length and margin are valid."""
-        length = _ensure_int(length, "length")
-        margin = _ensure_int(margin, "margin")
+        length = ensure_int(length, "length")
+        margin = ensure_int(margin, "margin")
         assert 0 < length
         assert 0 < margin
         assert margin < length
@@ -157,11 +156,11 @@ class FillingBar(BaseFeedbackVisual):
         margin: int,
         length: int,
         axis: int,
-        window_size: Tuple[int, int],
-    ) -> Tuple[int, int]:
+        window_size: tuple[int, int],
+    ) -> tuple[int, int]:
         """Check that the width is valid."""
-        width = _ensure_int(width, "width")
-        margin = _ensure_int(margin, "margin")
+        width = ensure_int(width, "width")
+        margin = ensure_int(margin, "margin")
         assert 0 < width
         assert width < length
         assert margin < width
@@ -171,7 +170,7 @@ class FillingBar(BaseFeedbackVisual):
     @staticmethod
     def _check_fill_perc(fill_perc: float) -> float:
         """Check that the fill length is a percentage between 0 and 1."""
-        _check_type(fill_perc, ("numeric",), fill_perc)
+        check_type(fill_perc, ("numeric",), fill_perc)
         assert 0 <= fill_perc <= 1
         return fill_perc
 
@@ -220,7 +219,7 @@ class FillingBar(BaseFeedbackVisual):
         self._putBar()
 
     @property
-    def color(self) -> Tuple[int, int, int]:
+    def color(self) -> tuple[int, int, int]:
         """Color used for the bar background in BGR color space."""
         return self._color
 
@@ -231,7 +230,7 @@ class FillingBar(BaseFeedbackVisual):
         self._putBar()
 
     @property
-    def fill_color(self) -> Tuple[int, int, int]:
+    def fill_color(self) -> tuple[int, int, int]:
         """Color used to fill the bar in BGR color space."""
         return self._fill_color
 

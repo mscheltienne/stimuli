@@ -1,12 +1,10 @@
 """Pure tone sound."""
 
-from typing import Tuple, Union
-
 import numpy as np
 
-from .. import logger
-from ..utils._checks import _check_type
+from ..utils._checks import check_type
 from ..utils._docs import copy_doc, fill_doc
+from ..utils.logs import logger
 from .base import BaseSound
 
 
@@ -38,7 +36,7 @@ class Tone(BaseSound):
 
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: int = 44100,
         duration: float = 1,
         frequency: float = 440,
@@ -58,7 +56,7 @@ class Tone(BaseSound):
     @staticmethod
     def _check_frequency(frequency: float) -> float:
         """Check if the frequency is positive."""
-        _check_type(frequency, ("numeric",), item_name="frequency")
+        check_type(frequency, ("numeric",), item_name="frequency")
         assert 0 < frequency
         return frequency
 

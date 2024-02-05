@@ -1,12 +1,10 @@
 """Amplitude modulated sound."""
 
-from typing import Tuple, Union
-
 import numpy as np
 
-from .. import logger
-from ..utils._checks import _check_type, _check_value
+from ..utils._checks import check_type, check_value
 from ..utils._docs import copy_doc, fill_doc
+from ..utils.logs import logger
 from .base import BaseSound
 
 
@@ -43,7 +41,7 @@ class SoundAM(BaseSound):
 
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: int = 44100,
         duration: float = 1,
         frequency_carrier: float = 1000,
@@ -54,8 +52,8 @@ class SoundAM(BaseSound):
         self._frequency_modulation = SoundAM._check_frequency_modulation(
             frequency_modulation
         )
-        _check_type(method, (str,), "method")
-        _check_value(method, ("conventional", "dsbsc"), "AM method")
+        check_type(method, (str,), "method")
+        check_value(method, ("conventional", "dsbsc"), "AM method")
         self._method = method
         self.name = f"AM {self._method}"
         super().__init__(volume, sample_rate, duration)
@@ -77,14 +75,14 @@ class SoundAM(BaseSound):
     @staticmethod
     def _check_frequency_carrier(frequency_carrier: float) -> float:
         """Check if the carrier frequency is positive."""
-        _check_type(frequency_carrier, ("numeric",), item_name="frequency_carrier")
+        check_type(frequency_carrier, ("numeric",), item_name="frequency_carrier")
         assert 0 < frequency_carrier
         return frequency_carrier
 
     @staticmethod
     def _check_frequency_modulation(frequency_modulation: float) -> float:
         """Check if the modulation frequency is positive."""
-        _check_type(
+        check_type(
             frequency_modulation,
             ("numeric",),
             item_name="frequency_modulation",
@@ -137,7 +135,7 @@ class SoundAM(BaseSound):
     @method.setter
     def method(self, method: str):
         logger.debug("Setting 'method' to %s.", method)
-        _check_type(method, (str,), "method")
-        _check_value(method, ("conventional", "dsbsc"), "AM method")
+        check_type(method, (str,), "method")
+        check_value(method, ("conventional", "dsbsc"), "AM method")
         self._method = method
         self._set_signal()

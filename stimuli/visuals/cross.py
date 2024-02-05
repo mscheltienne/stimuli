@@ -1,8 +1,6 @@
-from typing import Optional, Tuple, Union
-
 import cv2
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseVisual
 
@@ -20,7 +18,7 @@ class Cross(BaseVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: tuple[int, int] | None = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -29,8 +27,8 @@ class Cross(BaseVisual):
         self,
         length: int,
         thickness: int,
-        color: Union[str, Tuple[int, int, int]],
-        position: Union[str, Tuple[int, int]] = "centered",
+        color: str | tuple[int, int, int],
+        position: str | tuple[int, int] = "centered",
     ) -> None:
         """Draw a cross composed of 2 rectangles.
 
@@ -87,9 +85,9 @@ class Cross(BaseVisual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_length(length: int, window_size: Tuple[int, int]) -> int:
+    def _check_length(length: int, window_size: tuple[int, int]) -> int:
         """Check that the length is valid."""
-        length = _ensure_int(length, "length")
+        length = ensure_int(length, "length")
         assert 0 < length
         assert all(length <= size for size in window_size)
         return length
@@ -97,29 +95,29 @@ class Cross(BaseVisual):
     @staticmethod
     def _check_thickness(thickness: int, length: int) -> int:
         """Check that the thickness is valid."""
-        thickness = _ensure_int(thickness, "thickness")
+        thickness = ensure_int(thickness, "thickness")
         assert 0 < thickness
         assert thickness < length
         return thickness
 
     @staticmethod
     def _check_position(
-        position: Union[str, Tuple[int, int]],
+        position: str | tuple[int, int],
         length: int,
-        window_size: Tuple[int, int],
-        window_center: Tuple[int, int],
-    ) -> Tuple[int, int]:
+        window_size: tuple[int, int],
+        window_center: tuple[int, int],
+    ) -> tuple[int, int]:
         """Check that the cross position is coherent with the window size.
 
         The position of the cross is given as the center of the cross.
         """
-        _check_type(position, (str, tuple), "position")
+        check_type(position, (str, tuple), "position")
         if isinstance(position, str):
             position = position.lower().strip()
             assert position in ["centered", "center"]
             position = window_center
         for pos in position:
-            _check_type(pos, ("int",))
+            check_type(pos, ("int-like",))
         assert len(position) == 2
         assert 0 <= position[0] - length // 2
         assert position[0] - length // 2 + length <= window_size[0]

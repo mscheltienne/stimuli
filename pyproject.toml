@@ -1,168 +1,186 @@
 [build-system]
-requires = ['setuptools >= 64.0.0']
 build-backend = 'setuptools.build_meta'
+requires = ['setuptools >= 64.0.0']
 
 [project]
-name = 'stimuli'
-version = '0.5.0.dev'
-description = 'Simple auditory and visual stimuli avoiding PsychoPy.'
-readme = 'README.md'
-license = {file = 'LICENSE'}
-requires-python = '>=3.8'
 authors = [
-    {name = 'Mathieu Scheltienne', email = 'mathieu.scheltienne@fcbg.ch'},
-]
-maintainers = [
-    {name = 'Mathieu Scheltienne', email = 'mathieu.scheltienne@fcbg.ch'},
-]
-keywords = [
-    'audio',
-    'auditory',
-    'python',
-    'stimuli',
-    'visual',
+  {email = 'mathieu.scheltienne@fcbg.ch', name = 'Mathieu Scheltienne'},
 ]
 classifiers = [
-    'Operating System :: Microsoft :: Windows',
-    'Operating System :: Unix',
-    'Operating System :: MacOS',
-    'Programming Language :: Python :: 3 :: Only',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.10',
-    'Natural Language :: English',
-    'License :: OSI Approved :: MIT License',
-    'Intended Audience :: Science/Research',
-    'Intended Audience :: Developers',
-    'Topic :: Scientific/Engineering',
-    'Topic :: Software Development',
+  'Intended Audience :: Developers',
+  'Intended Audience :: Science/Research',
+  'License :: OSI Approved :: MIT License',
+  'Natural Language :: English',
+  'Operating System :: MacOS',
+  'Operating System :: Microsoft :: Windows',
+  'Operating System :: Unix',
+  'Programming Language :: Python :: 3 :: Only',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
+  'Topic :: Scientific/Engineering',
+  'Topic :: Software Development',
 ]
 dependencies = [
-    'matplotlib',
-    'numpy>=1.21',
-    'opencv-python',
-    'psutil',
-    'scipy',
-    'screeninfo',
-    'sounddevice',
+  'matplotlib',
+  'numpy>=1.21',
+  'opencv-python',
+  'packaging',
+  'psutil',
+  'scipy',
+  'screeninfo',
+  'sounddevice',
 ]
+description = 'Simple auditory and visual stimuli avoiding PsychoPy.'
+keywords = [
+  'audio',
+  'auditory',
+  'python',
+  'stimuli',
+  'visual',
+]
+license = {file = 'LICENSE'}
+maintainers = [
+  {email = 'mathieu.scheltienne@fcbg.ch', name = 'Mathieu Scheltienne'},
+]
+name = 'stimuli'
+readme = 'README.md'
+requires-python = '>=3.10'
+version = '0.5.0.dev'
 
 [project.optional-dependencies]
+all = [
+  'stimuli[build]',
+  'stimuli[doc]',
+  'stimuli[stubs]',
+  'stimuli[style]',
+  'stimuli[test]',
+]
 build = [
-    'build',
-    'twine',
+  'build',
+  'twine',
 ]
 doc = [
-    'furo',
-    'matplotlib',
-    'memory-profiler',
-    'numpydoc',
-    'sphinx',
-    'sphinxcontrib-bibtex',
-    'sphinx-copybutton',
-    'sphinx-design',
-    'sphinx-gallery',
-    'sphinx-issues',
-]
-style = [
-    'bibclean',
-    'black',
-    'codespell',
-    'isort',
-    'pydocstyle[toml]',
-    'ruff',
-]
-test = [
-    'pytest',
-    'pytest-cov',
-]
-all = [
-    'stimuli[build]',
-    'stimuli[doc]',
-    'stimuli[style]',
-    'stimuli[test]',
+  'furo',
+  'matplotlib',
+  'memory-profiler',
+  'numpydoc',
+  'sphinx',
+  'sphinx-copybutton',
+  'sphinx-design',
+  'sphinx-gallery',
+  'sphinx-issues',
+  'sphinxcontrib-bibtex',
 ]
 full = [
-    'stimuli[all]',
+  'stimuli[all]',
 ]
-
-[project.urls]
-homepage = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
-documentation = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
-source = 'https://github.com/mscheltienne/simple-stimuli'
-tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
+stubs = [
+  'isort',
+  'mypy',
+  'ruff>=0.1.8',
+]
+style = [
+  'bibclean',
+  'codespell[toml]>=2.2.4',
+  'isort',
+  'pydocstyle[toml]',
+  'ruff>=0.1.8',
+  'toml-sort',
+  'yamllint',
+]
+test = [
+  'pytest',
+  'pytest-cov',
+]
 
 [project.scripts]
 stimuli-sys_info = 'stimuli.commands.sys_info:run'
 stimuli_cross = 'stimuli.commands.stimuli_cross:run'
 
-[tool.setuptools]
-include-package-data = false
+[project.urls]
+documentation = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
+homepage = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
+source = 'https://github.com/mscheltienne/simple-stimuli'
+tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
 
-[tool.setuptools.packages.find]
-include = ['stimuli*']
-exclude = ['stimuli*tests']
+[tool.codespell]
+check-filenames = true
+check-hidden = true
+ignore-words = '.codespellignore'
+skip = 'build,.git,.mypy_cache,.pytest_cache'
 
-[tool.black]
-line-length = 88
-target-version = ['py38']
-include = '\.pyi?$'
-extend-exclude = '''
-(
-      __pycache__
-    | \.github
-    | setup.py
-    | tutorials/
-)
-'''
-
-[tool.isort]
-profile = 'black'
-multi_line_output = 3
-line_length = 88
-py_version = 38
-extend_skip_glob = [
-    'setup.py',
-    'tutorials/*',
+[tool.coverage.report]
+exclude_lines = [
+  'if __name__ == .__main__.:',
+  'if TYPE_CHECKING:',
+  'pragma: no cover',
 ]
-
-[tool.pydocstyle]
-convention = 'numpy'
-ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot|Slot)'
-match = '^(?!setup|__init__|test_).*\.py'
-match-dir = '^stimuli.*'
-add_ignore = 'D100,D104,D107'
-
-[tool.ruff]
-line-length = 88
-extend-exclude = [
-    "doc",
-    "setup.py",
-]
-
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
-
-[tool.pytest.ini_options]
-minversion = '6.0'
-addopts = '--durations 20 --junit-xml=junit-results.xml --verbose'
-filterwarnings = []
+precision = 2
 
 [tool.coverage.run]
 branch = true
 cover_pylib = false
 omit = [
-    '**/__init__.py',
-    '**/stimuli/_version.py',
-    '**/stimuli/commands/*',
-    '**/tests/**',
+  '**/__init__.py',
+  '**/conftest.py',
+  '**/stimuli/_version.py',
+  '**/stimuli/commands/*',
+  '**/stimuli/utils/_fixes.py',
+  '**/tests/**',
 ]
 
-[tool.coverage.report]
-exclude_lines = [
-    'pragma: no cover',
-    'if __name__ == .__main__.:',
-    'if TYPE_CHECKING:',
+[tool.isort]
+extend_skip_glob = [
+  'setup.py',
+  'tutorials/*',
 ]
-precision = 2
+line_length = 88
+multi_line_output = 3
+profile = 'black'
+py_version = 310
+
+[tool.pydocstyle]
+add_ignore = 'D100,D104,D107'
+convention = 'numpy'
+ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot|Slot)'
+match = '^(?!setup|__init__|test_).*\.py'
+match-dir = '^stimuli.*'
+
+[tool.pytest.ini_options]
+addopts = '--durations 20 --junit-xml=junit-results.xml --verbose'
+minversion = '6.0'
+
+[tool.ruff]
+extend-exclude = [
+  'doc',
+  'setup.py',
+]
+line-length = 88
+target-version = 'py310'
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+ignore = []
+select = ["A", "B", "E", "F", "UP", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+'*' = [
+  "B904", # 'Within an except clause, raise exceptions with raise ... from ...'
+]
+'*.pyi' = ['E501']
+'__init__.py' = ['F401']
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+exclude = ['stimuli*tests']
+include = ['stimuli*']
+
+[tool.tomlsort]
+all = true
+ignore_case = true
+trailing_comma_inline_array = true
