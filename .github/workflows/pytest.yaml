@@ -46,6 +46,8 @@ jobs:
         run: |
           python -m pip install --progress-bar off --upgrade pip setuptools
           python -m pip install --progress-bar off main/.[test]
+      - name: DEBUG
+        run: python3 -m sounddevice
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Run pytest
