@@ -3,7 +3,7 @@ from typing import Optional
 
 import cv2
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseFeedbackVisual
 
@@ -121,7 +121,7 @@ class MovingBar(BaseFeedbackVisual):
     @staticmethod
     def _check_length(length: int, axis: int, window_size: tuple[int, int]) -> int:
         """Check that the length is valid."""
-        length = _ensure_int(length, "length")
+        length = ensure_int(length, "length")
         assert 0 < length
         assert length <= window_size[axis]
         return length
@@ -131,7 +131,7 @@ class MovingBar(BaseFeedbackVisual):
         width: int, length: int, axis: int, window_size: [int, int]
     ) -> int:
         """Check that the width is valid."""
-        width = _ensure_int(width, "width")
+        width = ensure_int(width, "width")
         assert 0 < width
         assert width <= length
         assert width <= window_size[(axis + 1) % 2]
@@ -140,7 +140,7 @@ class MovingBar(BaseFeedbackVisual):
     @staticmethod
     def _check_position(position: float) -> float:
         """Check that the position given is between -1 and 1."""
-        _check_type(position, ("numeric",), "position")
+        check_type(position, ("numeric",), "position")
         assert -1 <= position <= 1
         return position
 

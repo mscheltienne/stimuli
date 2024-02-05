@@ -2,7 +2,7 @@ from typing import Optional
 
 import cv2
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseVisual
 
@@ -61,13 +61,13 @@ class Text(BaseVisual):
         %(visual_color)s
         %(visual_position)s
         """
-        _check_type(text, (str,), "text")
+        check_type(text, (str,), "text")
         if len(text.strip()) == 0:
             return None
-        fontFace = _ensure_int(fontFace, "fontFace")
-        fontScale = _ensure_int(fontScale, "fontScale")
-        thickness = _ensure_int(thickness, "thickness")
-        lineType = _ensure_int(lineType, "lineType")
+        fontFace = ensure_int(fontFace, "fontFace")
+        fontScale = ensure_int(fontScale, "fontScale")
+        thickness = ensure_int(thickness, "thickness")
+        lineType = ensure_int(lineType, "lineType")
         textWidth, textHeight = cv2.getTextSize(text, fontFace, fontScale, thickness)[0]
         position = Text._check_position(
             position,
@@ -103,7 +103,7 @@ class Text(BaseVisual):
         The position of the text is given as the bottom left corner of the
         text-box.
         """
-        _check_type(position, (str, tuple), "position")
+        check_type(position, (str, tuple), "position")
         if isinstance(position, str):
             position = position.lower().strip()
             assert position in ["centered", "center"]
@@ -112,7 +112,7 @@ class Text(BaseVisual):
                 window_center[1] + textHeight // 2,
             )
         for pos in position:
-            _check_type(pos, ("int",))
+            check_type(pos, ("int",))
         assert len(position) == 2
         assert 0 <= position[0]
         assert position[0] + textWidth <= window_size[0]

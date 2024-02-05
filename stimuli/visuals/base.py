@@ -8,7 +8,7 @@ import screeninfo
 from matplotlib import colors
 from numpy.typing import NDArray
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from ..utils._logs import logger
 
@@ -29,7 +29,7 @@ class BaseVisual(ABC):
         window_name: str = "Visual",
         window_size: Optional[tuple[int, int]] = None,
     ):
-        _check_type(window_name, (str,), "window_name")
+        check_type(window_name, (str,), "window_name")
 
         self._window_name = window_name
 
@@ -58,7 +58,7 @@ class BaseVisual(ABC):
         wait : int
             Wait timer passed to ``cv2.waitKey()`` [ms].
         """
-        wait = _ensure_int(wait, "wait")
+        wait = ensure_int(wait, "wait")
         cv2.imshow(self._window_name, self._img)
         cv2.waitKey(wait)
 
@@ -105,7 +105,7 @@ class BaseVisual(ABC):
         If None, set it as the minimum (width, height) supported by any
         connected monitor.
         """
-        _check_type(window_size, (None, tuple), "window_size")
+        check_type(window_size, (None, tuple), "window_size")
 
         if window_size is None:
             try:
@@ -117,7 +117,7 @@ class BaseVisual(ABC):
             window_size = (width, height)
 
         for size in window_size:
-            size = _ensure_int(size)
+            size = ensure_int(size)
         assert len(window_size) == 2
         assert all(0 < size for size in window_size)
         return window_size
@@ -125,7 +125,7 @@ class BaseVisual(ABC):
     @staticmethod
     def _check_color(color: str | tuple[int, int, int]) -> tuple[int, int, int]:
         """Check if a color is valid and converts it to BGR."""
-        _check_type(color, (str, tuple), "color")
+        check_type(color, (str, tuple), "color")
         if isinstance(color, str):
             r, g, b, _ = colors.to_rgba(color)
             color = tuple([int(c * 255) for c in (b, g, r)])
@@ -196,12 +196,12 @@ class BaseFeedbackVisual(BaseVisual):
         - 0: Vertical
         - 1: Horizontal
         """
-        _check_type(axis, ("int", str), "axis")
+        check_type(axis, ("int", str), "axis")
         if isinstance(axis, str):
             axis = axis.lower().strip()
             assert axis in ["horizontal", "h", "vertical", "v"]
             axis = 0 if axis.startswith("v") else 1
         else:
-            axis = _ensure_int(axis)
+            axis = ensure_int(axis)
         assert axis in (0, 1)
         return axis

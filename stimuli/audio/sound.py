@@ -8,7 +8,7 @@ from numpy.typing import NDArray
 from scipy.io import wavfile
 
 from .. import logger
-from ..utils._checks import _check_type, _ensure_path
+from ..utils._checks import check_type, ensure_path
 from ..utils._docs import copy_doc
 from .base import BaseSound
 
@@ -23,7 +23,7 @@ class Sound(BaseSound):
     """
 
     def __init__(self, fname: str | Path):
-        self._fname = _ensure_path(fname, must_exist=True)
+        self._fname = ensure_path(fname, must_exist=True)
         assert self._fname.suffix in (".wav",)
 
         sample_rate, original_signal = wavfile.read(self._fname)
@@ -144,8 +144,8 @@ class Sound(BaseSound):
         tmin: Optional[float], tmax: Optional[float], times: NDArray[float]
     ) -> tuple[int, int]:
         """Check tmin/tmax and convert to idx."""
-        _check_type(tmin, ("numeric", None), "tmin")
-        _check_type(tmax, ("numeric", None), "tmax")
+        check_type(tmin, ("numeric", None), "tmin")
+        check_type(tmax, ("numeric", None), "tmax")
         tmin = 0 if tmin is None else tmin
         tmin = tmin if np.isfinite(tmin) else 0
         tmax = times[-1] if tmax is None else tmax

@@ -3,7 +3,7 @@
 import numpy as np
 
 from .. import logger
-from ..utils._checks import _check_type
+from ..utils._checks import check_type
 from ..utils._docs import copy_doc, fill_doc
 from .base import BaseSound
 
@@ -56,7 +56,7 @@ class Tone(BaseSound):
     @staticmethod
     def _check_frequency(frequency: float) -> float:
         """Check if the frequency is positive."""
-        _check_type(frequency, ("numeric",), item_name="frequency")
+        check_type(frequency, ("numeric",), item_name="frequency")
         assert 0 < frequency
         return frequency
 

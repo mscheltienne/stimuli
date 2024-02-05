@@ -3,7 +3,7 @@ from typing import Optional
 
 import cv2
 
-from ..utils._checks import _check_type, _ensure_int
+from ..utils._checks import check_type, ensure_int
 from ..utils._docs import fill_doc
 from .base import BaseFeedbackVisual
 
@@ -143,8 +143,8 @@ class FillingBar(BaseFeedbackVisual):
         length: int, margin: int, axis: int, window_size: tuple[int, int]
     ) -> tuple[int, int]:
         """Check that the length and margin are valid."""
-        length = _ensure_int(length, "length")
-        margin = _ensure_int(margin, "margin")
+        length = ensure_int(length, "length")
+        margin = ensure_int(margin, "margin")
         assert 0 < length
         assert 0 < margin
         assert margin < length
@@ -160,8 +160,8 @@ class FillingBar(BaseFeedbackVisual):
         window_size: tuple[int, int],
     ) -> tuple[int, int]:
         """Check that the width is valid."""
-        width = _ensure_int(width, "width")
-        margin = _ensure_int(margin, "margin")
+        width = ensure_int(width, "width")
+        margin = ensure_int(margin, "margin")
         assert 0 < width
         assert width < length
         assert margin < width
@@ -171,7 +171,7 @@ class FillingBar(BaseFeedbackVisual):
     @staticmethod
     def _check_fill_perc(fill_perc: float) -> float:
         """Check that the fill length is a percentage between 0 and 1."""
-        _check_type(fill_perc, ("numeric",), fill_perc)
+        check_type(fill_perc, ("numeric",), fill_perc)
         assert 0 <= fill_perc <= 1
         return fill_perc
 

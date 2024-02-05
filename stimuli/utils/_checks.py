@@ -1,17 +1,22 @@
 """Utility functions for checking types and values. Inspired from MNE."""
 
+from __future__ import annotations  # c.f. PEP 563, PEP 649
+
 import logging
 import operator
 import os
 from pathlib import Path
-from typing import Any, Optional
+from typing import TYPE_CHECKING
 
 import numpy as np
 
 from ._docs import fill_doc
 
+if TYPE_CHECKING:
+    from typing import Any, Optional, Union
 
-def _ensure_int(item: Any, item_name: Optional[str] = None) -> int:
+
+def ensure_int(item: Any, item_name: Optional[str] = None) -> int:
     """Ensure a variable is an integer.
 
     Parameters
@@ -45,7 +50,7 @@ class _IntLike:
     @classmethod
     def __instancecheck__(cls, other: Any) -> bool:
         try:
-            _ensure_int(other)
+            ensure_int(other)
         except TypeError:
             return False
         else:
@@ -61,12 +66,13 @@ class _Callable:
 _types = {
     "numeric": (np.floating, float, _IntLike()),
     "path-like": (str, Path, os.PathLike),
-    "int": (_IntLike(),),
+    "int-like": (_IntLike(),),
     "callable": (_Callable(),),
+    "array-like": (list, tuple, set, np.ndarray),
 }
 
 
-def _check_type(item: Any, types: tuple, item_name: Optional[str] = None) -> None:
+def check_type(item: Any, types: tuple, item_name: Optional[str] = None) -> None:
     """Check that item is an instance of types.
 
     Parameters
@@ -75,8 +81,8 @@ def _check_type(item: Any, types: tuple, item_name: Optional[str] = None) -> Non
         Item to check.
     types : tuple of types | tuple of str
         Types to be checked against.
-        If str, must be one of:
-            ('int', 'str', 'numeric', 'path-like', 'callable')
+        If str, must be one of ('int-like', 'numeric', 'path-like', 'callable',
+        'array-like').
     item_name : str | None
         Name of the item to show inside the error message.
 
@@ -115,14 +121,13 @@ def _check_type(item: Any, types: tuple, item_name: Optional[str] = None) -> Non
             type_name = ", ".join(type_name)
         item_name = "Item" if item_name is None else "'%s'" % item_name
         raise TypeError(
-            f"{item_name} must be an instance of {type_name}, "
-            f"got {type(item)} instead."
+            f"{item_name} must be an instance of {type_name}, got {type(item)} instead."
         )
 
 
-def _check_value(
+def check_value(
     item: Any,
-    allowed_values: tuple,
+    allowed_values: Union[tuple, dict[Any, Any]],
     item_name: Optional[str] = None,
     extra: Optional[str] = None,
 ) -> None:
@@ -132,13 +137,12 @@ def _check_value(
     ----------
     item : object
         Item to check.
-    allowed_values : tuple of objects
-        Allowed values to be checked against.
+    allowed_values : tuple of objects | dict of objects
+        Allowed values to be checked against. If a dictionary, checks against the keys.
     item_name : str | None
         Name of the item to show inside the error message.
     extra : str | None
-        Extra string to append to the invalid value sentence, e.g.
-        "when using ico mode".
+        Extra string to append to the invalid value sentence, e.g. "when using DC mode".
 
     Raises
     ------
@@ -156,9 +160,9 @@ def _check_value(
         if len(allowed_values) == 1:
             options = "The only allowed value is %s" % repr(allowed_values[0])
         elif len(allowed_values) == 2:
-            options = "Allowed values are %s and %s" % (
-                repr(allowed_values[0]),
-                repr(allowed_values[1]),
+            options = (
+                f"Allowed values are {repr(allowed_values[0])} "
+                f"and {repr(allowed_values[1])}"
             )
         else:
             options = "Allowed values are "
@@ -170,7 +174,7 @@ def _check_value(
 
 
 @fill_doc
-def _check_verbose(verbose: Any) -> int:
+def check_verbose(verbose: Any) -> int:
     """Check that the value of verbose is valid.
 
     Parameters
@@ -190,13 +194,13 @@ def _check_verbose(verbose: Any) -> int:
         CRITICAL=logging.CRITICAL,
     )
 
-    _check_type(verbose, (bool, str, "int", None), item_name="verbose")
+    check_type(verbose, (bool, str, "int-like", None), item_name="verbose")
 
     if verbose is None:
         verbose = logging.WARNING
     elif isinstance(verbose, str):
         verbose = verbose.upper()
-        _check_value(verbose, logging_types, item_name="verbose")
+        check_value(verbose, logging_types, item_name="verbose")
         verbose = logging_types[verbose]
     elif isinstance(verbose, bool):
         if verbose:
@@ -204,17 +208,17 @@ def _check_verbose(verbose: Any) -> int:
         else:
             verbose = logging.WARNING
     elif isinstance(verbose, int):
-        verbose = _ensure_int(verbose)
+        verbose = ensure_int(verbose)
         if verbose <= 0:
             raise ValueError(
-                "Argument 'verbose' can not be a negative integer, "
-                f"{verbose} is invalid."
+                f"Argument 'verbose' can not be a negative integer, {verbose} is "
+                "invalid."
             )
 
     return verbose
 
 
-def _ensure_path(item: Any, must_exist: bool) -> Path:
+def ensure_path(item: Any, must_exist: bool) -> Path:
     """Ensure a variable is a Path.
 
     Parameters
@@ -237,9 +241,8 @@ def _ensure_path(item: Any, must_exist: bool) -> Path:
         except Exception:
             str_ = ""
         raise TypeError(
-            f"The provided path {str_}is invalid and can not be converted. "
-            "Please provide a str, an os.PathLike or a pathlib.Path object, "
-            f"not {type(item)}."
+            f"The provided path {str_}is invalid and can not be converted. Please "
+            f"provide a str, an os.PathLike or a pathlib.Path object, not {type(item)}."
         )
     if must_exist and not item.exists():
         raise FileNotFoundError(f"The provided path '{str(item)}' does not exist.")
