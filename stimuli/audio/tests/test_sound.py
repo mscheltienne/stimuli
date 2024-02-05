@@ -4,10 +4,7 @@ import numpy as np
 import pytest
 from scipy.io import wavfile
 
-from ...utils.logs import logger
 from .. import Noise, Sound, SoundAM, Tone
-
-logger.propagate = True
 
 SoundClasses = (SoundAM, Tone, Noise)
 
@@ -160,30 +157,28 @@ def test_successive_crop(tmp_path, SoundClass):
 
 
 @pytest.mark.parametrize("SoundClass", SoundClasses)
-def test_sample_rate(tmp_path, caplog, SoundClass):
+def test_sample_rate(tmp_path, SoundClass):
     """Test the sample-rate property."""
     fname = tmp_path / f"sound-{SoundClass.__name__}-1.wav"
     sound = SoundClass(volume=100)
     sound.save(fname, overwrite=True)
     sound_loaded = Sound(fname)
     assert sound_loaded.sample_rate == sound.sample_rate
-    caplog.clear()
-    sound_loaded.sample_rate = 101
-    assert "The sampling rate property" in caplog.text
+    with pytest.warns(RuntimeWarning, match="The sampling rate property"):
+        sound_loaded.sample_rate = 101
     assert sound_loaded.sample_rate == sound.sample_rate
 
 
 @pytest.mark.parametrize("SoundClass", SoundClasses)
-def test_duration(tmp_path, caplog, SoundClass):
+def test_duration(tmp_path, SoundClass):
     """Test the duration property."""
     fname = tmp_path / f"sound-{SoundClass.__name__}-1.wav"
     sound = SoundClass(volume=100)
     sound.save(fname, overwrite=True)
     sound_loaded = Sound(fname)
     assert sound_loaded.duration == sound.duration
-    caplog.clear()
-    sound_loaded.duration = 101
-    assert "The duration property" in caplog.text
+    with pytest.warns(RuntimeWarning, match="The duration property"):
+        sound_loaded.duration = 101
     assert sound_loaded.duration == sound.duration
 
 
