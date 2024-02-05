@@ -3,7 +3,6 @@
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![codecov](https://codecov.io/gh/mscheltienne/simple-stimuli/branch/main/graph/badge.svg?token=92BKRPSD0V)](https://codecov.io/gh/mscheltienne/simple-stimuli)
 [![tests](https://github.com/mscheltienne/simple-stimuli/actions/workflows/pytest.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/pytest.yaml)
-[![build](https://github.com/mscheltienne/simple-stimuli/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/build.yaml)
 [![doc](https://github.com/mscheltienne/simple-stimuli/actions/workflows/doc.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/doc.yaml)
 [![PyPI version](https://badge.fury.io/py/stimuli.svg)](https://badge.fury.io/py/stimuli)
 [![Downloads](https://static.pepy.tech/personalized-badge/stimuli?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads)](https://pepy.tech/project/stimuli)
