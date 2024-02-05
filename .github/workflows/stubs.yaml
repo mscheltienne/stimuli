@@ -39,7 +39,7 @@ jobs:
       - name: Display system information
         run: stimuli-sys_info --developer
       - name: Generate stub files
-        run: python tools/stubgen.py
+        run: python main/tools/stubgen.py
       - name: Push stub files
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
