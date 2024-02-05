@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import cv2
 
@@ -24,7 +24,7 @@ class FillingBar(BaseFeedbackVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: Optional[tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -34,10 +34,10 @@ class FillingBar(BaseFeedbackVisual):
         length: int,
         width: int,
         margin: int,
-        color: Union[str, Tuple[int, int, int]],
-        fill_color: Union[str, Tuple[int, int, int]],
+        color: str | tuple[int, int, int],
+        fill_color: str | tuple[int, int, int],
         fill_perc: float = 0,
-        axis: Union[int, str] = 0,
+        axis: int | str = 0,
     ) -> None:
         """Draw the bar on top of the current visual.
 
@@ -140,8 +140,8 @@ class FillingBar(BaseFeedbackVisual):
     # --------------------------------------------------------------------
     @staticmethod
     def _check_length_margin(
-        length: int, margin: int, axis: int, window_size: Tuple[int, int]
-    ) -> Tuple[int, int]:
+        length: int, margin: int, axis: int, window_size: tuple[int, int]
+    ) -> tuple[int, int]:
         """Check that the length and margin are valid."""
         length = _ensure_int(length, "length")
         margin = _ensure_int(margin, "margin")
@@ -157,8 +157,8 @@ class FillingBar(BaseFeedbackVisual):
         margin: int,
         length: int,
         axis: int,
-        window_size: Tuple[int, int],
-    ) -> Tuple[int, int]:
+        window_size: tuple[int, int],
+    ) -> tuple[int, int]:
         """Check that the width is valid."""
         width = _ensure_int(width, "width")
         margin = _ensure_int(margin, "margin")
@@ -220,7 +220,7 @@ class FillingBar(BaseFeedbackVisual):
         self._putBar()
 
     @property
-    def color(self) -> Tuple[int, int, int]:
+    def color(self) -> tuple[int, int, int]:
         """Color used for the bar background in BGR color space."""
         return self._color
 
@@ -231,7 +231,7 @@ class FillingBar(BaseFeedbackVisual):
         self._putBar()
 
     @property
-    def fill_color(self) -> Tuple[int, int, int]:
+    def fill_color(self) -> tuple[int, int, int]:
         """Color used to fill the bar in BGR color space."""
         return self._fill_color
 

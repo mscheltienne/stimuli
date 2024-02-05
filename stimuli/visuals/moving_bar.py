@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import cv2
 
@@ -21,7 +21,7 @@ class MovingBar(BaseFeedbackVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: Optional[tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -30,9 +30,9 @@ class MovingBar(BaseFeedbackVisual):
         self,
         length: int,
         width: int,
-        color: Union[str, Tuple[int, int, int]],
+        color: str | tuple[int, int, int],
         position: float = 0,
-        axis: Union[int, str] = 0,
+        axis: int | str = 0,
     ):
         """Draw the bar on top of the current visual.
 
@@ -119,7 +119,7 @@ class MovingBar(BaseFeedbackVisual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_length(length: int, axis: int, window_size: Tuple[int, int]) -> int:
+    def _check_length(length: int, axis: int, window_size: tuple[int, int]) -> int:
         """Check that the length is valid."""
         length = _ensure_int(length, "length")
         assert 0 < length
@@ -128,7 +128,7 @@ class MovingBar(BaseFeedbackVisual):
 
     @staticmethod
     def _check_width(
-        width: int, length: int, axis: int, window_size: Tuple[int, int]
+        width: int, length: int, axis: int, window_size: [int, int]
     ) -> int:
         """Check that the width is valid."""
         width = _ensure_int(width, "width")
@@ -148,8 +148,8 @@ class MovingBar(BaseFeedbackVisual):
     def _convert_position_to_pixel(
         position: float,
         axis: int,
-        window_size: Tuple[int, int],
-        window_center: Tuple[int, int],
+        window_size: tuple[int, int],
+        window_center: tuple[int, int],
     ) -> int:
         """Convert the position [-1, 1] to an absolute position in pixel."""
         idx = (axis + 1) % 2
@@ -188,7 +188,7 @@ class MovingBar(BaseFeedbackVisual):
         self._putBar()
 
     @property
-    def color(self) -> Tuple[int, int, int]:
+    def color(self) -> tuple[int, int, int]:
         """Color of the bar in BGR color space."""
         return self._color
 

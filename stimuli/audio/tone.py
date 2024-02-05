@@ -1,7 +1,5 @@
 """Pure tone sound."""
 
-from typing import Tuple, Union
-
 import numpy as np
 
 from .. import logger
@@ -38,7 +36,7 @@ class Tone(BaseSound):
 
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: int = 44100,
         duration: float = 1,
         frequency: float = 440,

@@ -5,9 +5,8 @@ from importlib import import_module
 from pathlib import Path
 
 import isort
-from mypy import stubgen
-
 import template
+from mypy import stubgen
 
 directory = Path(template.__file__).parent
 # remove existing stub files
@@ -63,5 +62,5 @@ for stub in stubs:
     isort.file(stub, config=config_isort)
 
 # run ruff to improve stub style
-exec = subprocess.run(["ruff", "format", str(directory), "--config", config])
-sys.exit(exec.returncode)
+execution = subprocess.run(["ruff", "format", str(directory), "--config", config])
+sys.exit(execution.returncode)

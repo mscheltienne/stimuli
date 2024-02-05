@@ -4,7 +4,7 @@ import copy
 from abc import ABC, abstractmethod
 from os import makedirs
 from pathlib import Path
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import numpy as np
 import sounddevice as sd
@@ -30,7 +30,7 @@ class BaseSound(ABC):
     @abstractmethod
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: float = 44100,
         duration: float = 1,
     ):
@@ -99,7 +99,7 @@ class BaseSound(ABC):
             blocking=blocking,
         )
 
-    def save(self, fname: Union[str, Path], overwrite: bool = False) -> None:
+    def save(self, fname: str | Path, overwrite: bool = False) -> None:
         """Save a sound signal into a .wav file.
 
         The saving is handled by :func:`scipy.io.wavfile.write`.
@@ -137,7 +137,7 @@ class BaseSound(ABC):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_volume(volume: Union[float, Tuple[float, float]]) -> NDArray[float]:
+    def _check_volume(volume: float | tuple[float, float]) -> NDArray[float]:
         """Check that the volume provided by the user is valid."""
         _check_type(volume, ("numeric", tuple), "volume")
         if not isinstance(volume, tuple):
@@ -164,7 +164,7 @@ class BaseSound(ABC):
 
     # --------------------------------------------------------------------
     @property
-    def volume(self) -> Union[float, Tuple[float, float]]:
+    def volume(self) -> float | tuple[float, float]:
         """Sound's volume(s) [AU]."""
         logger.debug("'self._volume' is set to %s [AU].", self._volume)
         volume = tuple(self._volume)
@@ -173,7 +173,7 @@ class BaseSound(ABC):
         return volume
 
     @volume.setter
-    def volume(self, volume: Union[float, Tuple[float, float]]):
+    def volume(self, volume: float | tuple[float, float]):
         logger.debug("Setting 'volume' to %s [AU].", volume)
         self._volume = BaseSound._check_volume(volume)
         self._set_signal()

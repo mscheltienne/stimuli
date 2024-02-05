@@ -1,7 +1,7 @@
 """Sound loaded from a file."""
 
 from pathlib import Path
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -22,7 +22,7 @@ class Sound(BaseSound):
         Path to the supported audio file to load.
     """
 
-    def __init__(self, fname: Union[str, Path]):
+    def __init__(self, fname: str | Path):
         self._fname = _ensure_path(fname, must_exist=True)
         assert self._fname.suffix in (".wav",)
 
@@ -88,7 +88,7 @@ class Sound(BaseSound):
     @staticmethod
     def _check_signal(
         signal: NDArray[float],
-    ) -> Tuple[NDArray[float], Tuple[float, float]]:
+    ) -> tuple[NDArray[float], tuple[float, float]]:
         """Check that the sound is either mono or stereo.
 
         Parameters
@@ -142,7 +142,7 @@ class Sound(BaseSound):
     @staticmethod
     def _check_tmin_tmax(
         tmin: Optional[float], tmax: Optional[float], times: NDArray[float]
-    ) -> Tuple[int, int]:
+    ) -> tuple[int, int]:
         """Check tmin/tmax and convert to idx."""
         _check_type(tmin, ("numeric", None), "tmin")
         _check_type(tmax, ("numeric", None), "tmax")

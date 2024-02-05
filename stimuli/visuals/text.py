@@ -1,4 +1,4 @@
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import cv2
 
@@ -21,7 +21,7 @@ class Text(BaseVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: Optional[tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -31,10 +31,10 @@ class Text(BaseVisual):
         text: str,
         fontFace: int = cv2.FONT_HERSHEY_DUPLEX,
         fontScale: int = 2,
-        color: Union[str, Tuple[int, int, int]] = "white",
+        color: str | tuple[int, int, int] = "white",
         thickness: int = 2,
         lineType: int = cv2.LINE_AA,
-        position: Union[str, Tuple[int, int]] = "centered",
+        position: str | tuple[int, int] = "centered",
     ) -> None:
         """Add text to the visual.
 
@@ -92,12 +92,12 @@ class Text(BaseVisual):
     # --------------------------------------------------------------------
     @staticmethod
     def _check_position(
-        position: Union[str, Tuple[int, int]],
+        position: str | tuple[int, int],
         textWidth,
         textHeight,
-        window_size: Tuple[int, int],
-        window_center: Tuple[int, int],
-    ) -> Tuple[int, int]:
+        window_size: tuple[int, int],
+        window_center: tuple[int, int],
+    ) -> tuple[int, int]:
         """Check that the text position is coherent with the window size.
 
         The position of the text is given as the bottom left corner of the

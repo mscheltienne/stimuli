@@ -1,4 +1,4 @@
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import cv2
 
@@ -20,7 +20,7 @@ class Cross(BaseVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: Optional[tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
 
@@ -29,8 +29,8 @@ class Cross(BaseVisual):
         self,
         length: int,
         thickness: int,
-        color: Union[str, Tuple[int, int, int]],
-        position: Union[str, Tuple[int, int]] = "centered",
+        color: str | tuple[int, int, int],
+        position: str | tuple[int, int] = "centered",
     ) -> None:
         """Draw a cross composed of 2 rectangles.
 
@@ -87,7 +87,7 @@ class Cross(BaseVisual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_length(length: int, window_size: Tuple[int, int]) -> int:
+    def _check_length(length: int, window_size: tuple[int, int]) -> int:
         """Check that the length is valid."""
         length = _ensure_int(length, "length")
         assert 0 < length
@@ -104,11 +104,11 @@ class Cross(BaseVisual):
 
     @staticmethod
     def _check_position(
-        position: Union[str, Tuple[int, int]],
+        position: str | tuple[int, int],
         length: int,
-        window_size: Tuple[int, int],
-        window_center: Tuple[int, int],
-    ) -> Tuple[int, int]:
+        window_size: tuple[int, int],
+        window_center: tuple[int, int],
+    ) -> tuple[int, int]:
         """Check that the cross position is coherent with the window size.
 
         The position of the cross is given as the center of the cross.

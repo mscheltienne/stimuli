@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 import cv2
 import numpy as np
@@ -27,7 +27,7 @@ class BaseVisual(ABC):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: Optional[tuple[int, int]] = None,
     ):
         _check_type(window_name, (str,), "window_name")
 
@@ -70,7 +70,7 @@ class BaseVisual(ABC):
             pass
 
     @fill_doc
-    def draw_background(self, color: Union[str, Tuple[int, int, int]]) -> None:
+    def draw_background(self, color: str | tuple[int, int, int]) -> None:
         """Draw a uniform single color background.
 
         Replace all the pixels with this color, thus this method erases any
@@ -99,7 +99,7 @@ class BaseVisual(ABC):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_window_size(window_size: Optional[Tuple[int, int]]) -> Tuple[int, int]:
+    def _check_window_size(window_size: Optional[tuple[int, int]]) -> tuple[int, int]:
         """Check if the window size is valid.
 
         If None, set it as the minimum (width, height) supported by any
@@ -123,7 +123,7 @@ class BaseVisual(ABC):
         return window_size
 
     @staticmethod
-    def _check_color(color: Union[str, Tuple[int, int, int]]) -> Tuple[int, int, int]:
+    def _check_color(color: str | tuple[int, int, int]) -> tuple[int, int, int]:
         """Check if a color is valid and converts it to BGR."""
         _check_type(color, (str, tuple), "color")
         if isinstance(color, str):
@@ -140,12 +140,12 @@ class BaseVisual(ABC):
         return self._window_name
 
     @property
-    def window_size(self) -> Tuple[int, int]:
+    def window_size(self) -> tuple[int, int]:
         """Window's size (width x height)."""
         return self._window_size
 
     @property
-    def window_center(self) -> Tuple[int, int]:
+    def window_center(self) -> tuple[int, int]:
         """Window's center position."""
         return self._window_center
 
@@ -155,7 +155,7 @@ class BaseVisual(ABC):
         return self._img
 
     @property
-    def background(self) -> Tuple[int, int, int]:
+    def background(self) -> tuple[int, int, int]:
         """Background color in BGR color space."""
         return self._background
 
@@ -177,7 +177,7 @@ class BaseFeedbackVisual(BaseVisual):
     def __init__(
         self,
         window_name: str = "Visual",
-        window_size: Optional[Tuple[int, int]] = None,
+        window_size: Optional[tuple[int, int]] = None,
     ):
         super().__init__(window_name, window_size)
         self._backup_img = None
@@ -189,7 +189,7 @@ class BaseFeedbackVisual(BaseVisual):
 
     # --------------------------------------------------------------------
     @staticmethod
-    def _check_axis(axis: Union[str, int]) -> int:
+    def _check_axis(axis: str | int) -> int:
         """Check that the axis is valid and converts it to integer (0, 1).
 
         The axis is a binary integer:

@@ -1,7 +1,5 @@
 """Colored noise sound."""
 
-from typing import Tuple, Union
-
 import numpy as np
 
 from .. import logger
@@ -34,7 +32,7 @@ class Noise(BaseSound):
 
     def __init__(
         self,
-        volume: Union[float, Tuple[float, float]],
+        volume: float | tuple[float, float],
         sample_rate: int = 44100,
         duration: float = 1,
         color: str = "white",
