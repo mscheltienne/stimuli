@@ -6,9 +6,9 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.io import wavfile
 
-from .. import logger
 from ..utils._checks import check_type, ensure_path
 from ..utils._docs import copy_doc
+from ..utils.logs import logger
 from .base import BaseSound
 
 

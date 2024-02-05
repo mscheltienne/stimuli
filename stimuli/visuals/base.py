@@ -195,7 +195,7 @@ class BaseFeedbackVisual(BaseVisual):
         - 0: Vertical
         - 1: Horizontal
         """
-        check_type(axis, ("int", str), "axis")
+        check_type(axis, ("int-like", str), "axis")
         if isinstance(axis, str):
             axis = axis.lower().strip()
             assert axis in ["horizontal", "h", "vertical", "v"]

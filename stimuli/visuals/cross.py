@@ -117,7 +117,7 @@ class Cross(BaseVisual):
             assert position in ["centered", "center"]
             position = window_center
         for pos in position:
-            check_type(pos, ("int",))
+            check_type(pos, ("int-like",))
         assert len(position) == 2
         assert 0 <= position[0] - length // 2
         assert position[0] - length // 2 + length <= window_size[0]

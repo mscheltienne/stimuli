@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from scipy.io import wavfile
 
-from ... import logger
+from ...utils.logs import logger
 from .. import Noise, Sound, SoundAM, Tone
 
 logger.propagate = True

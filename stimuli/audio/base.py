@@ -10,9 +10,9 @@ import sounddevice as sd
 from numpy.typing import NDArray
 from scipy.io import wavfile
 
-from .. import logger
 from ..utils._checks import check_type, ensure_path
 from ..utils._docs import fill_doc
+from ..utils.logs import logger
 
 
 @fill_doc

@@ -5,8 +5,9 @@ from importlib import import_module
 from pathlib import Path
 
 import isort
-import stimuli
 from mypy import stubgen
+
+import stimuli
 
 directory = Path(stimuli.__file__).parent
 # remove existing stub files

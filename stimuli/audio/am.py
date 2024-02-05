@@ -2,9 +2,9 @@
 
 import numpy as np
 
-from .. import logger
 from ..utils._checks import check_type, check_value
 from ..utils._docs import copy_doc, fill_doc
+from ..utils.logs import logger
 from .base import BaseSound
 
 

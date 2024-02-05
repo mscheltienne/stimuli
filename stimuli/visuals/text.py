@@ -110,7 +110,7 @@ class Text(BaseVisual):
                 window_center[1] + textHeight // 2,
             )
         for pos in position:
-            check_type(pos, ("int",))
+            check_type(pos, ("int-like",))
         assert len(position) == 2
         assert 0 <= position[0]
         assert position[0] + textWidth <= window_size[0]
