@@ -1,17 +1,15 @@
-title: simple-stimuli
+title: stimuli
 type: software
-abstract: Simple auditory and visual stimuli that do not require PsychoPy.
+abstract: Auditory and visual stimuli that do not require PsychoPy.
 authors:
   - given-names: Mathieu
     family-names: Scheltienne
-    email: mathieu.scheltienne@fcbg.ch
+    email: mathieu.scheltienne@gmail.com
     affiliation: >-
-      Human Neuroscience Platform, Fondation Campus
-      Biotech Geneva, Geneva, Switzerland
+      Fondation Campus Biotech Geneva, Geneva, Switzerland
     orcid: 'https://orcid.org/0000-0001-8316-7436'
 license: MIT
-repository-code: https://github.com/mscheltienne/simple-stimuli
+repository-code: https://github.com/mscheltienne/stimuli
 message: >-
-  If you use this package, please cite it using the
-  metadata from this file.
+  If you use this package, please cite it using the metadata from this file.
 cff-version: 1.2.0

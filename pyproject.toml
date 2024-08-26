@@ -4,7 +4,7 @@ requires = ['setuptools >= 64.0.0']
 
 [project]
 authors = [
-  {email = 'mathieu.scheltienne@fcbg.ch', name = 'Mathieu Scheltienne'},
+  {email = 'mathieu.scheltienne@gmail.com', name = 'Mathieu Scheltienne'},
 ]
 classifiers = [
   'Intended Audience :: Developers',
@@ -22,6 +22,7 @@ classifiers = [
   'Topic :: Software Development',
 ]
 dependencies = [
+  'click',
   'matplotlib',
   'numpy>=1.21',
   'opencv-python',
@@ -31,7 +32,7 @@ dependencies = [
   'screeninfo',
   'sounddevice',
 ]
-description = 'Simple auditory and visual stimuli avoiding PsychoPy.'
+description = 'Auditory and visual stimuli.'
 keywords = [
   'audio',
   'auditory',
@@ -41,12 +42,12 @@ keywords = [
 ]
 license = {file = 'LICENSE'}
 maintainers = [
-  {email = 'mathieu.scheltienne@fcbg.ch', name = 'Mathieu Scheltienne'},
+  {email = 'mathieu.scheltienne@gmail.com', name = 'Mathieu Scheltienne'},
 ]
 name = 'stimuli'
 readme = 'README.md'
 requires-python = '>=3.10'
-version = '0.5.0'
+version = '0.6.0.dev0'
 
 [project.optional-dependencies]
 all = [
@@ -62,6 +63,7 @@ build = [
 ]
 doc = [
   'furo',
+  'intersphinx_registry',
   'matplotlib',
   'memory-profiler',
   'numpydoc',
@@ -76,21 +78,19 @@ full = [
   'stimuli[all]',
 ]
 stubs = [
-  'isort',
   'mypy',
-  'ruff>=0.1.8',
+  'ruff>=0.6.0',
 ]
 style = [
   'bibclean',
   'codespell[toml]>=2.2.4',
-  'isort',
-  'pydocstyle[toml]',
-  'ruff>=0.1.8',
+  'ruff>=0.6.0',
   'toml-sort',
   'yamllint',
 ]
 test = [
   'pytest-cov',
+  'pytest-timeout',
   'pytest>=8.0.0',
 ]
 
@@ -99,16 +99,15 @@ stimuli-sys_info = 'stimuli.commands.sys_info:run'
 stimuli_cross = 'stimuli.commands.stimuli_cross:run'
 
 [project.urls]
-documentation = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
-homepage = 'https://mscheltienne.github.io/simple-stimuli/dev/index.html'
-source = 'https://github.com/mscheltienne/simple-stimuli'
-tracker = 'https://github.com/mscheltienne/simple-stimuli/issues'
+documentation = 'https://mscheltienne.github.io/stimuli/dev/index.html'
+source = 'https://github.com/mscheltienne/stimuli'
+tracker = 'https://github.com/mscheltienne/stimuli/issues'
 
 [tool.codespell]
 check-filenames = true
 check-hidden = true
 ignore-words = '.codespellignore'
-skip = 'build,.git,.mypy_cache,.pytest_cache'
+skip = 'build,.git,.mypy_cache,.pytest_cache,.venv'
 
 [tool.coverage.report]
 exclude_lines = [
@@ -125,53 +124,42 @@ omit = [
   '**/__init__.py',
   '**/conftest.py',
   '**/stimuli/_version.py',
-  '**/stimuli/commands/*',
   '**/stimuli/utils/_fixes.py',
   '**/tests/**',
 ]
 
-[tool.isort]
-extend_skip_glob = [
-  'setup.py',
-  'tutorials/*',
-]
-line_length = 88
-multi_line_output = 3
-profile = 'black'
-py_version = 310
-
-[tool.pydocstyle]
-add_ignore = 'D100,D104,D107'
-convention = 'numpy'
-ignore-decorators = '(copy_doc|property|.*setter|.*getter|pyqtSlot|Slot)'
-match = '^(?!setup|__init__|test_).*\.py'
-match-dir = '^stimuli.*'
-
 [tool.pytest.ini_options]
-addopts = '--durations 20 --junit-xml=junit-results.xml --verbose'
+addopts = ['--color=yes', '--cov-report=', '--durations=20', '--junit-xml=junit-results.xml', '--strict-config', '--tb=short', '-ra', '-v']
+junit_family = 'xunit2'
 minversion = '8.0'
 
 [tool.ruff]
-extend-exclude = [
-  'doc',
-  'setup.py',
-]
+extend-exclude = []
 line-length = 88
 target-version = 'py310'
 
 [tool.ruff.format]
 docstring-code-format = true
+line-ending = "lf"
 
 [tool.ruff.lint]
 ignore = []
-select = ["A", "B", "E", "F", "UP", "W"]
+select = ['A', 'B', 'D', 'E', 'F', 'G', 'I', 'LOG', 'NPY', 'PIE', 'PT', 'T20', 'UP', 'W']
 
 [tool.ruff.lint.per-file-ignores]
 '*' = [
-  "B904", # 'Within an except clause, raise exceptions with raise ... from ...'
+  'B904', # 'Within an except clause, raise exceptions with raise ... from ...'
+  'D100', # 'Missing docstring in public module'
+  'D104', # 'Missing docstring in public package'
+  'D107', # 'Missing docstring in __init__'
 ]
 '*.pyi' = ['E501']
 '__init__.py' = ['F401']
+'tutorials/*' = ['D205', 'D400', 'T201']
+
+[tool.ruff.lint.pydocstyle]
+convention = 'numpy'
+ignore-decorators = ["stimuli.utils._docs.copy_doc"]
 
 [tool.setuptools]
 include-package-data = false
