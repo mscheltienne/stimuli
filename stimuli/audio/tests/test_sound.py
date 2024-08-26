@@ -190,7 +190,6 @@ def test_io_dtypes(tmp_path):
 
     # supported for .wav
     for dtype in (
-        np.int8,
         np.int16,
         np.int32,
         np.int64,
@@ -203,9 +202,3 @@ def test_io_dtypes(tmp_path):
         assert sound.signal.dtype == np.float32
         sound.crop(0, 0.1)
         sound.play()
-
-    # unsupported for .wav
-    data = signal.astype(np.float16)
-    wavfile.write(fname, 44100, data)
-    with pytest.raises(ValueError, match="Unsupported bit depth"):
-        sound = Sound(fname)

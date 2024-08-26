@@ -160,8 +160,6 @@ class Sound(BaseSound):
         warn(
             "The sampling rate property of a loaded sound can not be changed. "
             "Skipping.",
-            RuntimeWarning,
-            stacklevel=2,
         )
 
     @BaseSound.duration.setter
@@ -169,8 +167,6 @@ class Sound(BaseSound):
         warn(
             "The duration property of a loaded sound can not be changed. Use the "
             "method .crop(tmin, tmax) to trim a loaded sound. Skipping.",
-            RuntimeWarning,
-            stacklevel=2,
         )
 
     @property
