@@ -108,7 +108,7 @@ def test_reset(tmp_path, SoundClass):
 
 
 @pytest.mark.parametrize(
-    "SoundClass, tmin, tmax", product(SoundClasses, (1, None), (5, None))
+    ("SoundClass", "tmin", "tmax"), product(SoundClasses, (1, None), (5, None))
 )
 def test_crop(tmp_path, SoundClass, tmin, tmax):
     """Test the crop method."""
@@ -184,7 +184,8 @@ def test_duration(tmp_path, SoundClass):
 
 def test_io_dtypes(tmp_path):
     """Test I/O with different dtypes."""
-    signal = np.random.randint(1, 10, size=44100)
+    rng = np.random.default_rng()
+    signal = rng.integers(1, 10, size=44100)
     fname = tmp_path / "test.wav"
 
     # supported for .wav

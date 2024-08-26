@@ -8,7 +8,7 @@ from .test_base import _test_base
 
 
 @pytest.mark.parametrize(
-    "length, width, margin, color, fill_color, fill_perc, axis",
+    ("length", "width", "margin", "color", "fill_color", "fill_perc", "axis"),
     product(
         (100, 200),
         (10, 20),

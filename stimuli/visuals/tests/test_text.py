@@ -9,7 +9,7 @@ from .test_base import _test_base
 
 
 @pytest.mark.parametrize(
-    "fontFace, fontScale, color, thickness, lineType, position",
+    ("fontFace", "fontScale", "color", "thickness", "lineType", "position"),
     product(
         (cv2.FONT_HERSHEY_COMPLEX, cv2.FONT_HERSHEY_SIMPLEX),
         (2, 3),

@@ -36,7 +36,7 @@ def _check_frequency(signal, sample_rate, carrier, modulation, method):
 
 
 @pytest.mark.parametrize(
-    "volume, sample_rate, duration, method",
+    ("volume", "sample_rate", "duration", "method"),
     product((10, 100), (44100, 48000), (1, 5), ("conventional", "dsbsc")),
 )
 def test_assr(volume, sample_rate, duration, method):
@@ -54,7 +54,7 @@ def test_assr(volume, sample_rate, duration, method):
 
 
 @pytest.mark.parametrize(
-    "carrier, modulation, method",
+    ("carrier", "modulation", "method"),
     product((300, 1000, 5000), (20, 50), ("conventional", "dsbsc")),
 )
 def test_assr_frequencies(carrier, modulation, method):
@@ -77,7 +77,7 @@ def test_assr_frequencies(carrier, modulation, method):
 
 
 @pytest.mark.parametrize(
-    "carrier, modulation, method",
+    ("carrier", "modulation", "method"),
     product((300, 1000, 5000), (20, 50), ("conventional", "dsbsc")),
 )
 def test_assr_frequencies_setter(carrier, modulation, method):

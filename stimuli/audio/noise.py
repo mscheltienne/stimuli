@@ -64,8 +64,7 @@ class Noise(BaseSound):
 
     # --------------------------------------------------------------------
     @property
-    def color(self) -> str:
-        """The noise color."""
+    def color(self) -> str:  # noqa: D102
         logger.debug("'self._color' is set to %s.", self._color)
         return self._color
 

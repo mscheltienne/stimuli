@@ -16,7 +16,7 @@ def _check_frequency(signal, sample_rate, target):
 
 
 @pytest.mark.parametrize(
-    "volume, sample_rate, duration", product((10, 100), (44100, 48000), (1, 5))
+    ("volume", "sample_rate", "duration"), product((10, 100), (44100, 48000), (1, 5))
 )
 def test_tone(volume, sample_rate, duration):
     """Test a tone sound."""
@@ -31,7 +31,7 @@ def test_tone(volume, sample_rate, duration):
     _check_frequency(sound.signal, sound.sample_rate, 440)
 
 
-@pytest.mark.parametrize("frequency", (101, 440, 1000))
+@pytest.mark.parametrize("frequency", [101, 440, 1000])
 def test_tone_frequency(frequency):
     """Test tone with different frequencies."""
     sound = Tone(volume=10, frequency=frequency)
@@ -39,7 +39,7 @@ def test_tone_frequency(frequency):
     _check_frequency(sound.signal, sound.sample_rate, frequency)
 
 
-@pytest.mark.parametrize("frequency", (101, 440, 1000))
+@pytest.mark.parametrize("frequency", [101, 440, 1000])
 def test_tone_frequency_setter(frequency):
     """Test tone frequency setter."""
     sound = Tone(volume=10, frequency=10)

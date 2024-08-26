@@ -50,9 +50,6 @@ class Noise(BaseSound):
         """Compute the noise signal 1D array."""
 
     @property
-    def color(self) -> str:
-        """The noise color."""
-
+    def color(self) -> str: ...
     @color.setter
-    def color(self, color: str):
-        """The noise color."""
+    def color(self, color: str): ...

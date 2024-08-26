@@ -1,7 +1,6 @@
 """Sound loaded from a file."""
 
 from pathlib import Path
-from warnings import warn
 
 import numpy as np
 from numpy.typing import NDArray
@@ -9,7 +8,7 @@ from scipy.io import wavfile
 
 from ..utils._checks import check_type, ensure_path
 from ..utils._docs import copy_doc
-from ..utils.logs import logger
+from ..utils.logs import logger, warn
 from .base import BaseSound
 
 
@@ -126,9 +125,7 @@ class Sound(BaseSound):
         # normalize to retrieve the volume of boh channels
         max_ = np.max(np.abs(signal))
         if max_ == 0:
-            warn(
-                "The loaded sound has 2 empty channels.", RuntimeWarning, stackklevel=2
-            )
+            warn("The loaded sound has 2 empty channels.")
             return signal(0, 0)
         signal = signal / max_
         volume = tuple(np.max(np.abs(signal), axis=0) * 100)
@@ -159,7 +156,7 @@ class Sound(BaseSound):
 
     # --------------------------------------------------------------------
     @BaseSound.sample_rate.setter
-    def sample_rate(self, sample_rate: int):
+    def sample_rate(self, sample_rate: int):  # noqa: D102
         warn(
             "The sampling rate property of a loaded sound can not be changed. "
             "Skipping.",
@@ -168,7 +165,7 @@ class Sound(BaseSound):
         )
 
     @BaseSound.duration.setter
-    def duration(self, duration: float):
+    def duration(self, duration: float):  # noqa: D102
         warn(
             "The duration property of a loaded sound can not be changed. Use the "
             "method .crop(tmin, tmax) to trim a loaded sound. Skipping.",

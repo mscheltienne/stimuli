@@ -7,6 +7,7 @@ from ..utils._checks import check_type as check_type
 from ..utils._checks import ensure_path as ensure_path
 from ..utils._docs import copy_doc as copy_doc
 from ..utils.logs import logger as logger
+from ..utils.logs import warn as warn
 from .base import BaseSound as BaseSound
 
 class Sound(BaseSound):

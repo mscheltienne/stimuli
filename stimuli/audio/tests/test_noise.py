@@ -9,7 +9,7 @@ from .test_base import _test_base, _test_no_volume
 
 
 @pytest.mark.parametrize(
-    "volume, sample_rate, duration, color",
+    ("volume", "sample_rate", "duration", "color"),
     product((10, 100), (44100, 48000), (1, 5), _PSDS.keys()),
 )
 def test_noise(volume, sample_rate, duration, color):
