@@ -2,18 +2,17 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![codecov](https://codecov.io/gh/mscheltienne/simple-stimuli/branch/main/graph/badge.svg?token=92BKRPSD0V)](https://codecov.io/gh/mscheltienne/simple-stimuli)
-[![tests](https://github.com/mscheltienne/simple-stimuli/actions/workflows/pytest.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/pytest.yaml)
-[![doc](https://github.com/mscheltienne/simple-stimuli/actions/workflows/doc.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/simple-stimuli/actions/workflows/doc.yaml)
+[![tests](https://github.com/mscheltienne/stimuli/actions/workflows/pytest.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/stimuli/actions/workflows/pytest.yaml)
+[![doc](https://github.com/mscheltienne/stimuli/actions/workflows/doc.yaml/badge.svg?branch=main)](https://github.com/mscheltienne/stimuli/actions/workflows/doc.yaml)
 [![PyPI version](https://badge.fury.io/py/stimuli.svg)](https://badge.fury.io/py/stimuli)
 [![Downloads](https://static.pepy.tech/personalized-badge/stimuli?period=total&units=international_system&left_color=grey&right_color=blue&left_text=pypi%20downloads)](https://pepy.tech/project/stimuli)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
 [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
 [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/stimuli.svg)](https://anaconda.org/conda-forge/stimuli)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7470600.svg)](https://zenodo.org/records/7470600)
 
-# Simple-stimuli
+# Stimuli
 
-This repository contains simple auditory and visual stimuli that do not require
+This repository contains auditory and visual stimuli that do not require
 [PsychoPy](https://www.psychopy.org/). The auditory stimuli use the python
 [sounddevice](https://python-sounddevice.readthedocs.io/en/0.4.4/) library and
 the visual stimuli use the python [opencv](https://docs.opencv.org/4.x/)
