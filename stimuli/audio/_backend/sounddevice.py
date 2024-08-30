@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from typing import TYPE_CHECKING
 
 import numpy as np
 import sounddevice as sd
 
+from ...time import sleep
 from ...utils._checks import check_type, ensure_int
 from ...utils.logs import warn
 
@@ -87,5 +89,34 @@ class SoundSD:
         self._data = data
         self._device = device
         self._stream = sd.OutputStream(
-            sample_rate=sample_rate, blocksize=block_size, device=device_idx
+            sample_rate=sample_rate,
+            blocksize=block_size,
+            device=device_idx,
+            dtype=data.dtype,
         )
+        self._stream.start()
+        self._executor = ThreadPoolExecutor(max_workers=1)
+
+    def play(self, when: float = 0) -> None:
+        """Play the audio data.
+
+        Parameters
+        ----------
+        when : float
+            Delay in seconds before the audio data is played. The 'when' argument can be
+            used to schedule the sound delivery.
+        """
+        self._executor.submit(self._play, when)
+
+    def _play(self, when: float):
+        """Play the audio data."""
+        sleep(when)
+        self._stream.write(self._data)
+
+    def __del__(self):
+        """Make sure that we kill the stream and the threadpool during deletion."""
+        if hasattr(self, "_executor"):
+            self._executor.shutdown(wait=True, cancel_futures=True)
+        if hasattr(self, "_stream"):
+            self._stream.stop()
+            self._stream.close()
