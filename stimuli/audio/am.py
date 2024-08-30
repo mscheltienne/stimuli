@@ -3,12 +3,11 @@
 import numpy as np
 
 from ..utils._checks import check_type, check_value
-from ..utils._docs import copy_doc, fill_doc
+from ..utils._docs import copy_doc
 from ..utils.logs import logger
 from .base import BaseSound
 
 
-@fill_doc
 class SoundAM(BaseSound):
     """Amplitude modulated sound.
 
@@ -19,9 +18,15 @@ class SoundAM(BaseSound):
 
     Parameters
     ----------
-    %(audio_volume)s
-    %(audio_sample_rate)s
-    %(audio_duration)s
+    volume : float | tuple
+        If an int or a float is provided, the sound will use only one channel
+        (mono). If a 2-length tuple is provided, the sound will use 2
+        channels (stereo). The volume of each channel is given between 0 and 100.
+        For stereo, the volume is given as (L, R).
+    sample_rate : float
+        Sampling frequency of the sound. The default is 44100 Hz.
+    duration : float
+        Duration of the sound. The default is 1 second.
     frequency_carrier : int
         Carrier frequency in Hz.
     frequency_modulation : int
