@@ -36,7 +36,7 @@ keywords = [
   'auditory',
   'python',
   'stimuli',
-  'visual',
+  'triggers',
 ]
 license = {file = 'LICENSE'}
 maintainers = [
@@ -51,7 +51,6 @@ version = '0.6.0.dev0'
 all = [
   'stimuli[build]',
   'stimuli[doc]',
-  'stimuli[stubs]',
   'stimuli[style]',
   'stimuli[test]',
 ]
@@ -75,13 +74,10 @@ doc = [
 full = [
   'stimuli[all]',
 ]
-stubs = [
-  'mypy',
-  'ruff>=0.6.0',
-]
 style = [
   'bibclean',
   'codespell[toml]>=2.2.4',
+  'pre-commit',
   'ruff>=0.6.0',
   'toml-sort',
   'yamllint',
