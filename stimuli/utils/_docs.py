@@ -60,35 +60,6 @@ verbose : int | str | bool | None
     verbosity is set to ``"WARNING"``. If a bool is provided, the verbosity is set to
     ``"WARNING"`` for False and to ``"INFO"`` for True."""
 
-docdict[
-    "visual_color"
-] = """A color is provided as matplotlib string or as ``(B, G, R)`` tuple of
-int8 set between 0 and 255."""
-
-docdict["visual_length"] = """
-length : int
-    Number of pixels used to draw the length of the bar."""
-
-docdict["visual_position"] = """
-The position of the object can be either defined as the string 'center' or
-'centered' to position the object in the center of the window; or as a 2-length
-tuple of positive integer. The position is defined in pixels in opencv
-coordinates, with (0, 0) being the top left corner of the window."""
-
-docdict["visual_width"] = """
-width : int
-    Number of pixels used to draw the width of the bar."""
-
-docdict["visual_window_name"] = """
-window_name : str
-    Name of the window in which the visual is displayed."""
-
-docdict["visual_window_size"] = """
-window_size : tuple | None
-    Either ``None`` to automatically select a window size based on the
-    available monitors, or a 2-length of positive integer sequence as
-    ``(width, height)`` in pixels."""
-
 # -- W ---------------------------------------------------------------------------------
 # -- X ---------------------------------------------------------------------------------
 # -- Y ---------------------------------------------------------------------------------
