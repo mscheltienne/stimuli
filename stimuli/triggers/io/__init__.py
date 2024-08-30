@@ -1,17 +1,5 @@
 """Read / write access to the parallel port for Linux or Windows.
 
-The :class:`~psychopy.parallel.Parallel` class described below will attempt to load
-whichever parallel port driver is first found on your system and should suffice in most
-instances. If you need to use a specific driver then, instead of using
-:class:`~psychopy.parallel.ParallelPort` shown below you can use one of the following as
-drop-in replacements, forcing the use of a specific driver:
-
-    - `psychopy.parallel.PParallelInpOut`
-    - `psychopy.parallel.PParallelDLPortIO`
-    - `psychopy.parallel.PParallelLinux`
-
-Either way, each instance of the class can provide access to a different parallel port.
-
 This code snippet is inspired from the parallel module of PsychoPy.
 """
 
