@@ -124,3 +124,6 @@ dmypy.json
 
 # Sounds
 **/*.wav
+
+# VSCode
+.vscode/

@@ -1,2 +1,1 @@
 exclude stimuli/conftest.py
-exclude stimuli/utils/_tests.py
