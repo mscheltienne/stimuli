@@ -1,6 +1,6 @@
+from ..utils._docs import copy_doc
+from ..utils.logs import _use_log_level, logger
 from ._base import BaseTrigger
-from .utils._docs import copy_doc
-from .utils.logs import _use_log_level, logger
 
 
 class MockTrigger(BaseTrigger):

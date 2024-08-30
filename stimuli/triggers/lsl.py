@@ -1,9 +1,9 @@
 import numpy as np
 from mne_lsl.lsl import StreamInfo, StreamOutlet
 
+from ..utils._checks import check_type
+from ..utils._docs import copy_doc, fill_doc
 from ._base import BaseTrigger
-from .utils._checks import check_type
-from .utils._docs import copy_doc, fill_doc
 
 
 @fill_doc

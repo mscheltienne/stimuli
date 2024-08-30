@@ -44,7 +44,7 @@ class SoundSD:
         block_size: int,
         device: int,
     ) -> None:
-        check_type(data, np.ndarray, "data")
+        check_type(data, (np.ndarray,), "data")
         sample_rate = ensure_int(sample_rate, "sample_rate")
         if sample_rate <= 0:
             raise ValueError(
@@ -89,7 +89,7 @@ class SoundSD:
         self._data = data
         self._device = device
         self._stream = sd.OutputStream(
-            sample_rate=sample_rate,
+            samplerate=sample_rate,
             blocksize=block_size,
             device=device_idx,
             dtype=data.dtype,
@@ -108,12 +108,12 @@ class SoundSD:
         """
         self._executor.submit(self._play, when)
 
-    def _play(self, when: float):
+    def _play(self, when: float) -> None:
         """Play the audio data."""
         sleep(when)
         self._stream.write(self._data)
 
-    def __del__(self):
+    def __del__(self) -> None:
         """Make sure that we kill the stream and the threadpool during deletion."""
         if hasattr(self, "_executor"):
             self._executor.shutdown(wait=True, cancel_futures=True)

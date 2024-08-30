@@ -2,11 +2,11 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from platform import system
 
+from ..utils._checks import check_type, check_value, ensure_int
+from ..utils._docs import copy_doc
+from ..utils._imports import import_optional_dependency
+from ..utils.logs import logger
 from ._base import BaseTrigger
-from .utils._checks import check_type, check_value, ensure_int
-from .utils._docs import copy_doc
-from .utils._imports import import_optional_dependency
-from .utils.logs import logger
 
 
 class ParallelPortTrigger(BaseTrigger):
