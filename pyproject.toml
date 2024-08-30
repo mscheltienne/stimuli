@@ -24,9 +24,12 @@ classifiers = [
 dependencies = [
   'click',
   'matplotlib',
+  'mne_lsl>=1.5.0',
   'numpy>=1.23',
   'packaging',
   'psutil',
+  'pyparallel; sys_platform == "linux"',
+  'pyserial',
   'scipy',
   'sounddevice',
 ]
@@ -117,6 +120,7 @@ omit = [
   '**/__init__.py',
   '**/conftest.py',
   '**/stimuli/_version.py',
+  '**/stimuli/triggers/io/**',
   '**/stimuli/utils/_fixes.py',
   '**/tests/**',
 ]
@@ -127,7 +131,7 @@ junit_family = 'xunit2'
 minversion = '8.0'
 
 [tool.ruff]
-extend-exclude = []
+extend-exclude = ['stimuli/triggers/io']
 line-length = 88
 target-version = 'py310'
 

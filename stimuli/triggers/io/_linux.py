@@ -102,5 +102,6 @@ class PParallelLinux:
         elif 2 <= pinNumber <= 9:
             return (self.port.PPRDATA() >> (pinNumber - 2)) & 1
         else:
-            msg = "Pin %i cannot be read (by PParallelLinux.readPin())"
-            print(msg % pinNumber)
+            raise RuntimeError(
+                f"Pin {pinNumber} cannot be read (by PParallelLinux.readPin())"
+            )

@@ -141,5 +141,6 @@ class PParallelDLPortIO:
             val = self.port.DlPortReadPortUchar(self.base)
             return (val >> (pinNumber - 2)) & 1
         else:
-            msg = "Pin %i cannot be read (by PParallelDLPortIO.readPin())"
-            print(msg % pinNumber)
+            raise RuntimeError(
+                f"Pin {pinNumber} cannot be read (by PParallelDLPortIO.readPin())"
+            )
