@@ -13,7 +13,6 @@ if TYPE_CHECKING:
     from collections.abc import Callable
     from typing import Any
 
-
 # -- Documentation dictionary ----------------------------------------------------------
 docdict: dict[str, str] = dict()
 
