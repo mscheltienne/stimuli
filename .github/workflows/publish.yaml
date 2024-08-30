@@ -23,7 +23,7 @@ jobs:
           python -m pip install --progress-bar off --upgrade pip setuptools
           python -m pip install --progress-bar off -e .[build,stubs]
       - name: Display system information
-        run: stimuli-sys_info --developer
+        run: stimuli sys-info --developer
       - name: Generate stub files
         run: python tools/stubgen.py
       - name: Build and publish

@@ -34,7 +34,7 @@ jobs:
       - name: Create virtual sound card
         uses: LABSN/sound-ci-helpers@v1
       - name: Display system information
-        run: stimuli-sys_info --developer
+        run: stimuli sys-info --developer
       - name: Build doc
         run: make -C doc html
       - name: Prune sphinx environment

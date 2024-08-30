@@ -95,8 +95,7 @@ test = [
 ]
 
 [project.scripts]
-stimuli-sys_info = 'stimuli.commands.sys_info:run'
-stimuli_cross = 'stimuli.commands.stimuli_cross:run'
+stimuli = 'stimuli.commands.main:run'
 
 [project.urls]
 documentation = 'https://mscheltienne.github.io/stimuli/dev/index.html'
