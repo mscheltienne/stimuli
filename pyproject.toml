@@ -24,12 +24,10 @@ classifiers = [
 dependencies = [
   'click',
   'matplotlib',
-  'numpy>=1.21',
-  'opencv-python',
+  'numpy>=1.23',
   'packaging',
   'psutil',
   'scipy',
-  'screeninfo',
   'sounddevice',
 ]
 description = 'Auditory and visual stimuli.'
