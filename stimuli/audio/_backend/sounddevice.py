@@ -79,6 +79,11 @@ class SoundSD:
                 "The data array provided to the 'SoundSD' backend is not C-contiguous."
             )
             data = np.ascontiguousarray(data)
+        if data.ndim == 2 and device["max_output_channels"] < data.shape[1]:
+            raise ValueError(
+                f"Device '{device_idx}: {device['name']}' does not support the number "
+                f"of output channels ({data.shape[1]})."
+            )
         if sample_rate != device["default_samplerate"]:
             warn(
                 f"The sample rate provided to the 'SoundSD' backend ({sample_rate}) "
@@ -92,6 +97,7 @@ class SoundSD:
             samplerate=sample_rate,
             blocksize=block_size,
             device=device_idx,
+            channels=data.shape[1] if data.ndim == 2 else 1,
             dtype=data.dtype,
         )
         self._stream.start()
