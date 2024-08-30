@@ -1,6 +1,6 @@
 import time
 
-from .clock import Clock
+from ._clock import Clock
 
 
 def sleep(duration: float) -> None:

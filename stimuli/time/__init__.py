@@ -1,2 +1,2 @@
-from .clock import Clock
-from .sleep import sleep
+from ._clock import Clock
+from ._sleep import sleep

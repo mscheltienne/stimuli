@@ -1,5 +1,3 @@
-"""Module for auditory stimulus using sounddevice."""
-
 from .am import SoundAM
 from .base import BaseSound
 from .noise import Noise
