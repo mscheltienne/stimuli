@@ -91,7 +91,7 @@ class SoundSD:
             )
         # convert the data array to a supported byte representation
         check_value(data.dtype.name, sd._sampleformats, "data")
-        data = data.tobytes(order="C") if data.ndim == 2 else data[:, np.newaxis]
+        data = data if data.ndim == 2 else data[:, np.newaxis]
         self._data = data.tobytes(order="C")
         self._bytes_per_frame = data.shape[1] * data.itemsize
         # store device and callback variables
