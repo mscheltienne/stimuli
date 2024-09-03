@@ -90,7 +90,7 @@ class SoundSD:
                 f"({device['default_samplerate']})."
             )
         # convert the data array to a supported byte representation
-        check_value(data.dtype.name, sd._sampleformats, "data")
+        check_value(data.dtype.name, sd._sampleformats, "dtype")
         data = data if data.ndim == 2 else data[:, np.newaxis]
         self._data = data.tobytes(order="C")
         self._bytes_per_frame = data.shape[1] * data.itemsize
