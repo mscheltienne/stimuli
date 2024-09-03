@@ -23,10 +23,5 @@ class Clock:
         return self.get_time_ns() / 1e6
 
     def get_time(self) -> float:
-        """Return the current time in seconds.
-
-        .. note::
-
-            If precision is crucial, the time in nanoseconds (integer) should be used.
-        """
+        """Return the current time in seconds."""
         return self.get_time_ns() / 1e9

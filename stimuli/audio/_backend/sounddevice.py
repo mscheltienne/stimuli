@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
 from typing import TYPE_CHECKING
 
 import numpy as np
 import sounddevice as sd
 
-from ...time import sleep
+from ...time import Clock
 from ...utils._checks import check_type, ensure_int
 from ...utils.logs import warn
 
@@ -90,39 +89,72 @@ class SoundSD:
                 "differs from the default sample rate of the device "
                 f"({device['default_samplerate']})."
             )
-        # store data, device and open the output stream
-        self._data = data
+        # store data, device and callback variables
+        self._data = data if data.ndim == 2 else data[:, np.newaxis]
         self._device = device
+        self._current_frame = 0
+        self._clock = Clock()
+        self._target_time = None
+        # create and open the output stream
         self._stream = sd.OutputStream(
-            samplerate=sample_rate,
             blocksize=block_size,
-            device=device_idx,
+            callback=self._callback,
             channels=data.shape[1] if data.ndim == 2 else 1,
+            device=device_idx,
             dtype=data.dtype,
+            latency="low",
+            samplerate=sample_rate,
         )
         self._stream.start()
-        self._executor = ThreadPoolExecutor(max_workers=1)
 
-    def play(self, when: float = 0) -> None:
+    def _callback(self, outdata, frames, time_info, status):
+        """Callback audio function."""  # noqa: D401
+        if self._target_time is None:
+            outdata.fill(0)
+            return
+        delta_ns = int((time_info.outputBufferDacTime - time_info.currentTime) * 1e9)
+        if self._clock.get_time_ns() + delta_ns < self._target_time:
+            outdata.fill(0)
+            return
+        end = self._current_frame + frames
+        if end <= self._data.shape[0]:
+            outdata[:frames, :] = self._data[self._current_frame : end, :]
+            self._current_frame += frames
+        else:
+            data = self._data[self._current_frame :, :]
+            data = np.vstack(
+                (
+                    data,
+                    np.zeros((frames - data.shape[0], data.shape[1]), dtype=data.dtype),
+                )
+            )
+            outdata[:frames, :] = data
+            # reset
+            self._current_frame = 0
+            self._target_time = None
+
+    def play(self, when: float | None = None) -> None:
         """Play the audio data.
 
         Parameters
         ----------
-        when : float
-            Delay in seconds before the audio data is played. The 'when' argument can be
-            used to schedule the sound delivery.
+        when : float | None
+            The relative time in seconds when to start playing the audio data. For
+            instance, ``0.2`` wil start playing in 200 ms. If ``None``, the audio data
+            is played as soon as possible.
         """
-        self._executor.submit(self._play, when)
+        if when is not None:
+            when = int(when * 1e9)  # convert to nanoseconds
+            self._target_time = self._clock.get_time_ns() + when
+        else:
+            self._target_time = self._clock.get_time_ns()
 
-    def _play(self, when: float) -> None:
-        """Play the audio data."""
-        sleep(when)
-        self._stream.write(self._data)
+    def stop(self) -> None:
+        """Interrupt immediately the playback of the audio data."""
+        self._target_time = None
 
     def __del__(self) -> None:
-        """Make sure that we kill the stream and the threadpool during deletion."""
-        if hasattr(self, "_executor"):
-            self._executor.shutdown(wait=True, cancel_futures=True)
+        """Make sure that we kill the stream during deletion."""
         if hasattr(self, "_stream"):
             self._stream.stop()
             self._stream.close()
