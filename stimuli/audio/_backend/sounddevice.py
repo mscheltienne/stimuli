@@ -140,7 +140,7 @@ class SoundSD:
         ----------
         when : float | None
             The relative time in seconds when to start playing the audio data. For
-            instance, ``0.2`` wil start playing in 200 ms. If ``None``, the audio data
+            instance, ``0.2`` will start playing in 200 ms. If ``None``, the audio data
             is played as soon as possible.
         """
         if self._target_time is not None:
