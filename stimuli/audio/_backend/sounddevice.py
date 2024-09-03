@@ -6,7 +6,7 @@ import numpy as np
 import sounddevice as sd
 
 from ...time import Clock
-from ...utils._checks import check_type, ensure_int
+from ...utils._checks import check_type, check_value, ensure_int
 from ...utils.logs import warn
 
 if TYPE_CHECKING:
@@ -89,14 +89,18 @@ class SoundSD:
                 "differs from the default sample rate of the device "
                 f"({device['default_samplerate']})."
             )
-        # store data, device and callback variables
-        self._data = data if data.ndim == 2 else data[:, np.newaxis]
+        # convert the data array to a supported byte representation
+        check_value(data.dtype.name, sd._sampleformats, "data")
+        data = data.tobytes(order="C") if data.ndim == 2 else data[:, np.newaxis]
+        self._data = data.tobytes(order="C")
+        self._bytes_per_frame = data.shape[1] * data.itemsize
+        # store device and callback variables
         self._device = device
         self._current_frame = 0
         self._clock = Clock()
         self._target_time = None
         # create and open the output stream
-        self._stream = sd.OutputStream(
+        self._stream = sd.RawOutputStream(
             blocksize=block_size,
             callback=self._callback,
             channels=data.shape[1] if data.ndim == 2 else 1,
@@ -110,26 +114,22 @@ class SoundSD:
     def _callback(self, outdata, frames, time_info, status):
         """Callback audio function."""  # noqa: D401
         if self._target_time is None:
-            outdata.fill(0)
+            outdata[:] = b"\x00" * frames * self._bytes_per_frame
             return
         delta_ns = int((time_info.outputBufferDacTime - time_info.currentTime) * 1e9)
         if self._clock.get_time_ns() + delta_ns < self._target_time:
-            outdata.fill(0)
+            outdata[:] = b"\x00" * frames * self._bytes_per_frame
             return
-        end = self._current_frame + frames
-        if end <= self._data.shape[0]:
-            outdata[:frames, :] = self._data[self._current_frame : end, :]
+        start = self._current_frame * self._bytes_per_frame
+        end = start + frames * self._bytes_per_frame
+        if end <= len(self._data):
+            outdata[:] = self._data[start:end]
             self._current_frame += frames
         else:
-            data = self._data[self._current_frame :, :]
-            data = np.vstack(
-                (
-                    data,
-                    np.zeros((frames - data.shape[0], data.shape[1]), dtype=data.dtype),
-                )
-            )
-            outdata[:frames, :] = data
-            # reset
+            remaining_bytes = len(self._data) - start
+            outdata[:remaining_bytes] = self._data[start:]
+            outdata[remaining_bytes:] = b"\x00" * (end - len(self._data))
+            # reset for the next playback
             self._current_frame = 0
             self._target_time = None
 
@@ -143,6 +143,8 @@ class SoundSD:
             instance, ``0.2`` wil start playing in 200 ms. If ``None``, the audio data
             is played as soon as possible.
         """
+        if self._target_time is not None:
+            raise RuntimeError("The audio playback is already on-going.")
         self._target_time = (
             self._clock.get_time_ns()
             if when is None
@@ -151,6 +153,8 @@ class SoundSD:
 
     def stop(self) -> None:
         """Interrupt immediately the playback of the audio data."""
+        if self._target_time is None:
+            warn("The audio playback was not on-going.")
         self._target_time = None
 
     def __del__(self) -> None:
