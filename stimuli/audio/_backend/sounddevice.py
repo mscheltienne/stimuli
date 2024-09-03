@@ -143,11 +143,11 @@ class SoundSD:
             instance, ``0.2`` wil start playing in 200 ms. If ``None``, the audio data
             is played as soon as possible.
         """
-        if when is not None:
-            when = int(when * 1e9)  # convert to nanoseconds
-            self._target_time = self._clock.get_time_ns() + when
-        else:
-            self._target_time = self._clock.get_time_ns()
+        self._target_time = (
+            self._clock.get_time_ns()
+            if when is None
+            else self._clock.get_time_ns() + int(when * 1e9)
+        )
 
     def stop(self) -> None:
         """Interrupt immediately the playback of the audio data."""
