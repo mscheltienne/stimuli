@@ -29,7 +29,7 @@ class SoundSD:
         Device index of the output device as provided by
         :func:`sounddevice.query_devices()`.
     block_size : int
-        he number of frames passed to the stream callback function, or the preferred
+        The number of frames passed to the stream callback function, or the preferred
         block granularity for a blocking read/write stream. The special value
         ``blocksize=0`` may be used to request that the stream callback will receive an
         optimal (and possibly varying) number of frames based on host requirements and
