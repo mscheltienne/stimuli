@@ -20,7 +20,7 @@ A sound waveform might have an abrupt onset or offset. It is often preferred to
 apply a window to ramp up and ramp down the volume.
 """
 
-#%%
+# %%
 
 # sphinx_gallery_thumbnail_number = 3
 
@@ -30,13 +30,13 @@ from scipy.signal.windows import tukey
 
 from stimuli.audio import Tone
 
-#%%
+# %%
 #
 # In this tutorial, we will create a pure tone auditory stimuli and apply a
 # window with a linear ramp-up and a linear ramp-down to smooth the onset and
 # offset.
 
-#%%
+# %%
 # Create a pure tone
 # ------------------
 #
@@ -45,7 +45,7 @@ from stimuli.audio import Tone
 
 sound = Tone(volume=10, frequency=200, duration=0.1)
 
-#%%
+# %%
 # By default, a generated signal will have a rectangular window applied. A
 # recctangular window is equal to 0 outside of the signal definition range, and
 # to 1 inside. We can plot the waveform of one of the channels:
@@ -63,16 +63,14 @@ extension = int(0.1 * sound.n_samples)
 window = np.zeros(extension + sound.n_samples + extension)
 window[extension + 1 : extension + sound.n_samples] = 1 / sound.volume
 # determine the timestamps associated to each sample in the window (ms)
-window_times = np.arange(
-    0, 1 / sound.sample_rate * window.size, 1 / sound.sample_rate
-)
+window_times = np.arange(0, 1 / sound.sample_rate * window.size, 1 / sound.sample_rate)
 window_times -= extension / sound.sample_rate
 window_times *= 1000
 # draw the window
 plt.plot(window_times, window, color="crimson")
 plt.show()
 
-#%%
+# %%
 # Create a different window
 # -------------------------
 #
@@ -94,7 +92,7 @@ plt.title("Window with onset/offset ramps")
 plt.xlabel("Samples")
 plt.show()
 
-#%%
+# %%
 # Change the window
 # -----------------
 #
@@ -112,7 +110,7 @@ plt.title("Waveform - Ramp onset/offset window")
 plt.plot(sound.times * 1000, window / sound.volume, color="crimson")
 plt.show()
 
-#%%
+# %%
 # Scipy windows
 # -------------
 #

@@ -19,14 +19,14 @@ informal and poorly defined.
 Source: `Wikipedia <https://en.wikipedia.org/wiki/Colors_of_noise>`_
 """
 
-#%%
+# %%
 
 import numpy as np
 from matplotlib import pyplot as plt
 
 from stimuli.audio import Noise
 
-#%%
+# %%
 # In this tutorial, we will create and plot the power spectrum of different
 # noise colors. ``simple-stimuli`` implements several noise color in
 # :class:`~stimuli.audio.Noise`. Refer to the documentation of the ``color``
@@ -38,14 +38,14 @@ for color in colors:
     # identical volume on all audio channels
     sounds[color] = Noise(volume=10, color=color)
 
-#%%
+# %%
 # We can listen to each individual noise by playing each sound with
 # :meth:`~stimuli.audio.Noise.play`.
 
 for sound in sounds.values():
     sound.play(blocking=True)
 
-#%%
+# %%
 # The underlying signal is stored in the ``signal`` attribute. The returned
 # numpy array has 2 dimensions: ``(n_samples, n_channels)``. As the volume has
 # been set identicaly on all audio channels, we can disregard the second
