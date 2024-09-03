@@ -25,23 +25,23 @@ class SoundSD:
     sample_rate : int
         The sample rate of the audio data, which should match the sample rate of the
         output device.
+    device : int
+        Device index of the output device as provided by
+        :func:`sounddevice.query_devices()`.
     block_size : int
         he number of frames passed to the stream callback function, or the preferred
         block granularity for a blocking read/write stream. The special value
         ``blocksize=0`` may be used to request that the stream callback will receive an
         optimal (and possibly varying) number of frames based on host requirements and
         the requested latency settings.
-    device : int
-        Device index of the output device as provided by
-        :func:`sounddevice.query_devices()`.
     """
 
     def __init__(
         self,
         data: NDArray,
         sample_rate: float,
-        block_size: int,
         device: int,
+        block_size: int,
     ) -> None:
         check_type(data, (np.ndarray,), "data")
         sample_rate = ensure_int(sample_rate, "sample_rate")
