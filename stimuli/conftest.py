@@ -12,6 +12,8 @@ def pytest_configure(config: pytest.Config) -> None:
     """Configure pytest options."""
     warnings_lines = r"""
     error::
+    # Matplotlib deprecation issued in VSCode test debugger
+    ignore:.*interactive_bk.*:matplotlib._api.deprecation.MatplotlibDeprecationWarning
     """
     for warning_line in warnings_lines.split("\n"):
         warning_line = warning_line.strip()
