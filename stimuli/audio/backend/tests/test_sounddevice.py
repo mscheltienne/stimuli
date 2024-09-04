@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import sounddevice as sd
 
-from stimuli.audio._backend import SoundSD
+from stimuli.audio.backend import SoundSD
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
