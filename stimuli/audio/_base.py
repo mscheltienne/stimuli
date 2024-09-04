@@ -21,6 +21,7 @@ class BaseSound(ABC):
         self,
         sample_rate: float,
         duration: float,
+        device: int,
         *,
         backend: str = "sounddevice",
         clock: BaseClock = Clock,
