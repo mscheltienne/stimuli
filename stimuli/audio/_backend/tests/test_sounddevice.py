@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import sounddevice as sd
 
-from stimuli.audio._backend.sounddevice import SoundSD
+from stimuli.audio._backend import SoundSD
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -70,7 +70,7 @@ def test_backend_stereo(
     """Test the sounddevice backend with stereo sounds."""
     if device["max_output_channels"] < 2:
         pytest.skip("Stereo output is not available.")
-    data = np.vstack((data, data)).T
+    data = np.ascontiguousarray(np.vstack((data, data)).T)
     sound = SoundSD(data, int(device["default_samplerate"]), device["index"], 128)
     assert sound._target_time is None
     sound.play()

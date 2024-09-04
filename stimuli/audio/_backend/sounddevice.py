@@ -2,18 +2,21 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import numpy as np
 import sounddevice as sd
 
 from ...time import Clock
-from ...utils._checks import check_type, check_value, ensure_int
+from ...utils._checks import check_value, ensure_int
+from ...utils._docs import copy_doc
 from ...utils.logs import warn
+from ._base import BaseBackend
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
+    from ...time import BaseClock
 
-class SoundSD:
+
+class SoundSD(BaseBackend):
     """Sounddevice backend for audio playback.
 
     Parameters
@@ -34,6 +37,9 @@ class SoundSD:
         ``blocksize=0`` may be used to request that the stream callback will receive an
         optimal (and possibly varying) number of frames based on host requirements and
         the requested latency settings.
+    clock : BaseClock
+        Clock object to use for time measurement. By default, the
+        :class:`stimuli.time.Clock` class is used.
     """
 
     def __init__(
@@ -42,72 +48,44 @@ class SoundSD:
         sample_rate: float,
         device: int,
         block_size: int,
+        *,
+        clock: BaseClock = Clock,
     ) -> None:
-        check_type(data, (np.ndarray,), "data")
-        sample_rate = ensure_int(sample_rate, "sample_rate")
-        if sample_rate <= 0:
+        super().__init__(data, sample_rate, device, clock)
+        block_size = _ensure_block_size(block_size)
+        self._device = _ensure_device(device)
+        if (
+            self._data.ndim == 2
+            and self._device["max_output_channels"] < self._data.shape[1]
+        ):
             raise ValueError(
-                f"Argument 'sample_rate' must be greater than 0. '{sample_rate}' is "
-                "invalid."
+                f"Device '{self._device['index']}: {self._device['name']}' does not "
+                f"support the number of output channels ({self._data.shape[1]})."
             )
-        block_size = ensure_int(block_size, "block_size")
-        if block_size < 0:
-            raise ValueError(
-                "Argument 'block_size' must be greater or equal than 0. "
-                f"'{block_size}' is invalid."
-            )
-        device_idx = ensure_int(device, "device")
-        devices = sd.query_devices()
-        if len(devices) <= device_idx:
-            raise ValueError(
-                f"Invalid device index. There are only {len(devices)} devices."
-            )
-        device = devices[device_idx]
-        if device["max_output_channels"] <= 0:
-            raise ValueError(
-                f"Device '{device_idx}: {device['name']}' does not support output "
-                "channels. Please select a different device."
-            )
-        if data.ndim not in (1, 2):
-            raise ValueError(
-                "The data array must be 1D or 2D of shape (n_frames, n_channels). "
-                f"The provided array has {data.ndim} dimensions."
-            )
-        if not data.flags["C_CONTIGUOUS"]:
+        if self._sample_rate != self._device["default_samplerate"]:
             warn(
-                "The data array provided to the 'SoundSD' backend is not C-contiguous."
-            )
-            data = np.ascontiguousarray(data)
-        if data.ndim == 2 and device["max_output_channels"] < data.shape[1]:
-            raise ValueError(
-                f"Device '{device_idx}: {device['name']}' does not support the number "
-                f"of output channels ({data.shape[1]})."
-            )
-        if sample_rate != device["default_samplerate"]:
-            warn(
-                f"The sample rate provided to the 'SoundSD' backend ({sample_rate}) "
-                "differs from the default sample rate of the device "
-                f"({device['default_samplerate']})."
+                "The sample rate provided to the 'SoundSD' backend "
+                f"({self._sample_rate}) differs from the default sample rate of the "
+                f"device ({self._device['default_samplerate']})."
             )
         # convert the data array to a supported byte representation
-        check_value(data.dtype.name, sd._sampleformats, "dtype")
-        data = data if data.ndim == 2 else data[:, np.newaxis]
-        self._data = data.tobytes(order="C")
-        self._bytes_per_frame = data.shape[1] * data.itemsize
+        check_value(self._data.dtype.name, sd._sampleformats, "dtype")
+        self._bytes_per_frame = self._data.shape[1] * self._data.itemsize
+        n_channels = self._data.shape[1]
+        dtype = self._data.dtype
+        self._data = self._data.tobytes(order="C")
         # store device and callback variables
-        self._device = device
         self._current_frame = 0
-        self._clock = Clock()
         self._target_time = None
         # create and open the output stream
         self._stream = sd.RawOutputStream(
             blocksize=block_size,
             callback=self._callback,
-            channels=data.shape[1] if data.ndim == 2 else 1,
-            device=device_idx,
-            dtype=data.dtype,
+            channels=n_channels,
+            device=self._device["index"],
+            dtype=dtype,
             latency="low",
-            samplerate=sample_rate,
+            samplerate=self._sample_rate,
         )
         self._stream.start()
 
@@ -133,16 +111,8 @@ class SoundSD:
             self._current_frame = 0
             self._target_time = None
 
+    @copy_doc(BaseBackend.play)
     def play(self, when: float | None = None) -> None:
-        """Play the audio data.
-
-        Parameters
-        ----------
-        when : float | None
-            The relative time in seconds when to start playing the audio data. For
-            instance, ``0.2`` will start playing in 200 ms. If ``None``, the audio data
-            is played as soon as possible.
-        """
         if self._target_time is not None:
             raise RuntimeError("The audio playback is already on-going.")
         self._target_time = (
@@ -151,8 +121,8 @@ class SoundSD:
             else self._clock.get_time_ns() + int(when * 1e9)
         )
 
+    @copy_doc(BaseBackend.stop)
     def stop(self) -> None:
-        """Interrupt immediately the playback of the audio data."""
         if self._target_time is None:
             warn("The audio playback was not on-going.")
         self._target_time = None
@@ -162,3 +132,32 @@ class SoundSD:
         if hasattr(self, "_stream"):
             self._stream.stop()
             self._stream.close()
+
+
+def _ensure_block_size(block_size: int) -> int:
+    """Ensure the block_size argument is valid."""
+    block_size = ensure_int(block_size, "block_size")
+    if block_size < 0:
+        raise ValueError(
+            f"Argument 'block_size' must be greater or equal than 0. '{block_size}' is "
+            "invalid."
+        )
+    return block_size
+
+
+def _ensure_device(device: int) -> dict[str, str | int | float]:
+    """Ensure the device argument is valid."""
+    device_idx = ensure_int(device, "device")
+    devices = sd.query_devices()
+    if len(devices) <= device_idx:
+        raise ValueError(
+            f"Invalid device index. There are only {len(devices)} devices."
+        )
+    device = devices[device_idx]
+    if device["max_output_channels"] <= 0:
+        raise ValueError(
+            f"Device '{device_idx}: {device['name']}' does not support output "
+            "channels. Please select a different device."
+        )
+    assert device_idx == device["index"]  # sanity-check
+    return device
