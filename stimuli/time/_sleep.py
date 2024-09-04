@@ -1,9 +1,15 @@
+from __future__ import annotations
+
 import time
+from typing import TYPE_CHECKING
 
 from ._clock import Clock
 
+if TYPE_CHECKING:
+    from . import BaseClock
 
-def sleep(duration: float) -> None:
+
+def sleep(duration: float, *, clock: BaseClock = Clock) -> None:
     """High precision sleep function.
 
     Parameters
@@ -11,10 +17,13 @@ def sleep(duration: float) -> None:
     duration : float
         Duration to sleep in seconds. If the value is less than or equal to 0, the
         function returns immediately.
+    clock : BaseClock
+        Clock object to use for time measurement. By default, the
+        :class:`stimuli.time.Clock` class is used.
     """
     if duration <= 0:
         return
-    clock = Clock()
+    clock = clock()
     duration = int(duration * 1e9)
     while True:
         remaining_time = duration - clock.get_time_ns()  # nanoseconds
