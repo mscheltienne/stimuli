@@ -128,11 +128,15 @@ class SoundSD(BaseBackend):
             warn("The audio playback was not on-going.")
         self._target_time = None
 
-    def __del__(self) -> None:
-        """Make sure that we kill the stream during deletion."""
+    def close(self) -> None:
+        """Close the stream and the backend."""
         if hasattr(self, "_stream"):
             self._stream.stop()
             self._stream.close()
+
+    def __del__(self) -> None:
+        """Make sure that we kill the stream during deletion."""
+        self.close()  # no-op if already closed
 
 
 def _ensure_block_size(block_size: int) -> int:
