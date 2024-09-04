@@ -86,6 +86,7 @@ class SoundSD(BaseBackend):
             dtype=dtype,
             latency="low",
             samplerate=self._sample_rate,
+            prime_output_buffers_using_stream_callback=True,
         )
         self._stream.start()
 
