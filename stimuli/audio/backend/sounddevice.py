@@ -21,22 +21,12 @@ class SoundSD(BaseBackend):
 
     Parameters
     ----------
-    data : array of shape (n_frames, n_channels)
-        The audio data to play provided as a 2 dimensional array of shape ``(n_frames,
-        n_channels)``. The array layout must be C-contiguous. A one dimensional array of
-        shape ``(n_frames,)`` is also accepted for mono audio.
     device : int
         Device index of the output device as provided by
-        :func:`sounddevice.query_devices()`.
+        :func:`sounddevice.query_devices()`. If None, the default output device is used.
     sample_rate : int
         The sample rate of the audio data, which should match the sample rate of the
-        output device.
-    block_size : int
-        The number of frames passed to the stream callback function, or the preferred
-        block granularity for a blocking read/write stream. The special value
-        ``blocksize=0`` may be used to request that the stream callback will receive an
-        optimal (and possibly varying) number of frames based on host requirements and
-        the requested latency settings.
+        output device. If None, the default sample rate of the device is used.
     clock : BaseClock
         Clock object to use for time measurement. By default, the
         :class:`stimuli.time.Clock` class is used.
@@ -44,17 +34,33 @@ class SoundSD(BaseBackend):
 
     def __init__(
         self,
-        data: NDArray,
         device: int | None,
         sample_rate: int | None,
-        block_size: int,
         *,
         clock: BaseClock = Clock,
     ) -> None:
-        super().__init__(data, sample_rate, device, clock)
+        super().__init__(sample_rate, device, clock)
         self._device = _ensure_device(device)
-        self._sample_rate = _ensure_sample_rate(sample_rate, device)
-        block_size = _ensure_block_size(block_size)
+        self._sample_rate = _ensure_sample_rate(sample_rate, self._device)
+        if self._sample_rate != self._device["default_samplerate"]:
+            warn(
+                "The sample rate provided to the 'SoundSD' backend "
+                f"({self._sample_rate}) differs from the default sample rate of the "
+                f"device ({self._device['default_samplerate']})."
+            )
+
+    @copy_doc(BaseBackend.initialize)
+    def initialize(self, data: NDArray, block_size: int) -> None:
+        # fmt: off
+        """block_size : int
+            The number of frames passed to the stream callback function, or the
+            preferred block granularity for a blocking read/write stream. The special
+            value ``blocksize=0`` may be used to request that the stream callback will
+            receive an optimal (and possibly varying) number of frames based on host
+            requirements and the requested latency settings.
+        """
+        # fmt: on
+        super().initialize(data)
         if (
             self._data.ndim == 2
             and self._device["max_output_channels"] < self._data.shape[1]
@@ -63,19 +69,14 @@ class SoundSD(BaseBackend):
                 f"Device '{self._device['index']}: {self._device['name']}' does not "
                 f"support the number of output channels ({self._data.shape[1]})."
             )
-        if self._sample_rate != self._device["default_samplerate"]:
-            warn(
-                "The sample rate provided to the 'SoundSD' backend "
-                f"({self._sample_rate}) differs from the default sample rate of the "
-                f"device ({self._device['default_samplerate']})."
-            )
+        block_size = _ensure_block_size(block_size)
         # convert the data array to a supported byte representation
         check_value(self._data.dtype.name, sd._sampleformats, "dtype")
         self._bytes_per_frame = self._data.shape[1] * self._data.itemsize
         n_channels = self._data.shape[1]
         dtype = self._data.dtype
         self._data = self._data.tobytes(order="C")
-        # store device and callback variables
+        # store callback variables
         self._current_frame = 0
         self._target_time = None
         # create and open the output stream
@@ -115,6 +116,7 @@ class SoundSD(BaseBackend):
 
     @copy_doc(BaseBackend.play)
     def play(self, when: float | None = None) -> None:
+        super().play(when)
         if self._target_time is not None:
             raise RuntimeError("The audio playback is already on-going.")
         self._target_time = (
@@ -125,6 +127,7 @@ class SoundSD(BaseBackend):
 
     @copy_doc(BaseBackend.stop)
     def stop(self) -> None:
+        super().stop()
         if self._target_time is None:
             warn("The audio playback was not on-going.")
         self._target_time = None
@@ -154,7 +157,7 @@ def _ensure_block_size(block_size: int) -> int:
 def _ensure_device(device: int | None) -> dict[str, str | int | float]:
     """Ensure the device argument is valid."""
     if device is None:
-        idx = sd.default.device[-1]
+        idx = sd.default.device["output"]
         return sd.query_devices()[idx]
     device_idx = ensure_int(device, "device")
     devices = sd.query_devices()

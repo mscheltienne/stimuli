@@ -46,22 +46,17 @@ class BaseSound(ABC):
                 "The number of channels must be at least 1. Provided "
                 f"'{self._n_channels}' is invalid."
             )
-        self._set_times()
-        self._set_signal()
         # the arguments sample_rate, device, clock, and **kwargs are checked in
         # the backend initialization.
-        self._backend = BACKENDS[backend](
-            self._signal,
-            self._sample_rate,
-            self._device,
-            clock=clock,
-            **kwargs,
-        )
+        self._backend = BACKENDS[backend](sample_rate, device, clock=clock)
+        self._set_times()
+        self._set_signal()
+        self._backend.initialize(self._signal, **kwargs)
 
     def _set_times(self) -> None:
         """Set the timestamp array."""
         self._times = np.linspace(
-            0, self._duration, int(self._duration * self._sample_rate), endpoint=True
+            0, self.duration, int(self.duration * self.sample_rate), endpoint=True
         )
 
     @abstractmethod
@@ -75,6 +70,16 @@ class BaseSound(ABC):
     @copy_doc(BaseBackend.stop)
     def stop(self) -> None:
         self._backend.stop()
+
+    @property
+    def duration(self) -> float:
+        """The duration of the audio stimulus."""
+        return self._duration
+
+    @property
+    def sample_rate(self) -> int:
+        """The sample rate of the audio stimulus."""
+        return self._backend.sample_rate
 
 
 def _check_volume(volume) -> None:

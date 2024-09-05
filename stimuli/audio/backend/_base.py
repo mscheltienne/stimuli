@@ -18,15 +18,11 @@ class BaseBackend(ABC):
 
     Parameters
     ----------
-    data : array of shape (n_frames, n_channels)
-        The audio data to play provided as a 2 dimensional array of shape ``(n_frames,
-        n_channels)``. The array layout must be C-contiguous. A one dimensional array of
-        shape ``(n_frames,)`` is also accepted for mono audio.
-    device : int
-        Device identifier.
+    device : int | None
+        Device identifier. If None, the default output device is used.
     sample_rate : int
         The sample rate of the audio data, which should match the sample rate of the
-        output device.
+        output device. If None, the default sample rate of the device is used.
     clock : BaseClock
         Clock object to use for time measurement. By default, the
         :class:`stimuli.time.Clock` class is used.
@@ -35,11 +31,24 @@ class BaseBackend(ABC):
     @abstractmethod
     def __init__(
         self,
-        data: NDArray,
         device: int | None,
         sample_rate: int | None,
         clock: BaseClock,
     ) -> None:
+        self._clock = clock()
+        check_type(self._clock, (BaseClock,), "clock")
+
+    @abstractmethod
+    def initialize(self, data: NDArray) -> None:
+        """Initialize the backend with audio data.
+
+        Parameters
+        ----------
+        data : array of shape (n_frames, n_channels)
+            The audio data to play provided as a 2 dimensional array of shape
+            ``(n_frames, n_channels)``. The array layout must be C-contiguous. A one
+            dimensional array of shape ``(n_frames,)`` is also accepted for mono audio.
+        """
         check_type(data, (np.ndarray,), "data")
         if data.ndim not in (1, 2):
             raise ValueError(
@@ -53,9 +62,6 @@ class BaseBackend(ABC):
             data = np.ascontiguousarray(data)
         self._data = data if data.ndim == 2 else data[:, np.newaxis]
 
-        self._clock = clock()
-        check_type(self._clock, (BaseClock,), "clock")
-
     @abstractmethod
     def play(self, when: float | None = None) -> None:
         """Play the audio data.
@@ -67,7 +73,24 @@ class BaseBackend(ABC):
             instance, ``0.2`` will start playing in 200 ms. If ``None``, the audio data
             is played as soon as possible.
         """
+        self._check_initialized()
 
     @abstractmethod
     def stop(self) -> None:
         """Interrupt immediately the playback of the audio data."""
+        self._check_initialized()
+
+    def _check_initialized(self) -> None:
+        """Check if the backend is initialized with audio data."""
+        if not hasattr(self, "_data"):
+            raise RuntimeError("The backend is not initialized with sound data.")
+
+    @property
+    def clock(self) -> BaseClock:
+        """The clock object used for time measurement."""
+        return self._clock
+
+    @property
+    def sample_rate(self) -> int:
+        """The sample rate of the audio data."""
+        return self._sample_rate
