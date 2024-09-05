@@ -25,12 +25,12 @@ class SoundSD(BaseBackend):
         The audio data to play provided as a 2 dimensional array of shape ``(n_frames,
         n_channels)``. The array layout must be C-contiguous. A one dimensional array of
         shape ``(n_frames,)`` is also accepted for mono audio.
-    sample_rate : int
-        The sample rate of the audio data, which should match the sample rate of the
-        output device.
     device : int
         Device index of the output device as provided by
         :func:`sounddevice.query_devices()`.
+    sample_rate : int
+        The sample rate of the audio data, which should match the sample rate of the
+        output device.
     block_size : int
         The number of frames passed to the stream callback function, or the preferred
         block granularity for a blocking read/write stream. The special value
@@ -45,15 +45,16 @@ class SoundSD(BaseBackend):
     def __init__(
         self,
         data: NDArray,
-        sample_rate: float,
-        device: int,
+        device: int | None,
+        sample_rate: int | None,
         block_size: int,
         *,
         clock: BaseClock = Clock,
     ) -> None:
         super().__init__(data, sample_rate, device, clock)
-        block_size = _ensure_block_size(block_size)
         self._device = _ensure_device(device)
+        self._sample_rate = _ensure_sample_rate(sample_rate, device)
+        block_size = _ensure_block_size(block_size)
         if (
             self._data.ndim == 2
             and self._device["max_output_channels"] < self._data.shape[1]
@@ -150,8 +151,11 @@ def _ensure_block_size(block_size: int) -> int:
     return block_size
 
 
-def _ensure_device(device: int) -> dict[str, str | int | float]:
+def _ensure_device(device: int | None) -> dict[str, str | int | float]:
     """Ensure the device argument is valid."""
+    if device is None:
+        idx = sd.default.device[-1]
+        return sd.query_devices()[idx]
     device_idx = ensure_int(device, "device")
     devices = sd.query_devices()
     if len(devices) <= device_idx:
@@ -166,3 +170,18 @@ def _ensure_device(device: int) -> dict[str, str | int | float]:
         )
     assert device_idx == device["index"]  # sanity-check
     return device
+
+
+def _ensure_sample_rate(
+    sample_rate: int | None, device: dict[str, str | int | float]
+) -> int:
+    """Ensure the sample_rate argument is valid."""
+    if sample_rate is None:
+        return device["default_samplerate"]
+    sample_rate = ensure_int(sample_rate, "sample_rate")
+    if sample_rate <= 0:
+        raise ValueError(
+            f"Argument 'sample_rate' must be greater than 0. '{sample_rate}' "
+            "is invalid."
+        )
+    return sample_rate

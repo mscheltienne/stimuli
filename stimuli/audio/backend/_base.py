@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from ...time import BaseClock
-from ...utils._checks import check_type, ensure_int
+from ...utils._checks import check_type
 from ...utils.logs import warn
 
 if TYPE_CHECKING:
@@ -22,11 +22,11 @@ class BaseBackend(ABC):
         The audio data to play provided as a 2 dimensional array of shape ``(n_frames,
         n_channels)``. The array layout must be C-contiguous. A one dimensional array of
         shape ``(n_frames,)`` is also accepted for mono audio.
+    device : int
+        Device identifier.
     sample_rate : int
         The sample rate of the audio data, which should match the sample rate of the
         output device.
-    device : int
-        Device identifier.
     clock : BaseClock
         Clock object to use for time measurement. By default, the
         :class:`stimuli.time.Clock` class is used.
@@ -34,7 +34,11 @@ class BaseBackend(ABC):
 
     @abstractmethod
     def __init__(
-        self, data: NDArray, sample_rate: int, device: int, clock: BaseClock
+        self,
+        data: NDArray,
+        device: int | None,
+        sample_rate: int | None,
+        clock: BaseClock,
     ) -> None:
         check_type(data, (np.ndarray,), "data")
         if data.ndim not in (1, 2):
@@ -48,14 +52,6 @@ class BaseBackend(ABC):
             )
             data = np.ascontiguousarray(data)
         self._data = data if data.ndim == 2 else data[:, np.newaxis]
-
-        sample_rate = ensure_int(sample_rate, "sample_rate")
-        if sample_rate <= 0:
-            raise ValueError(
-                f"Argument 'sample_rate' must be greater than 0. '{sample_rate}' is "
-                "invalid."
-            )
-        self._sample_rate = sample_rate
 
         self._clock = clock()
         check_type(self._clock, (BaseClock,), "clock")
