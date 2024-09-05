@@ -50,7 +50,7 @@ class SoundSD(BaseBackend):
             )
 
     @copy_doc(BaseBackend.initialize)
-    def initialize(self, data: NDArray, block_size: int) -> None:
+    def initialize(self, data: NDArray, block_size: int = 32) -> None:
         # fmt: off
         """block_size : int
             The number of frames passed to the stream callback function, or the
