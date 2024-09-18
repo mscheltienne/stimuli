@@ -7,6 +7,7 @@ import numpy as np
 from ..time import Clock
 from ..utils._checks import check_type
 from ..utils._docs import copy_doc
+from ..utils.logs import logger
 from ._base import BaseSound, _check_volume
 
 if TYPE_CHECKING:
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
 
 
 class Tone(BaseSound):
-    """Pure ton stimulus at the frequency ``f`` (Hz)."""
+    """Pure tone stimulus at a given frequency."""
 
     def __init__(
         self,
@@ -49,8 +50,23 @@ class Tone(BaseSound):
     def _set_signal(self) -> None:
         tone_arr = np.sin(2 * np.pi * self._frequency * self._times, dtype=np.float32)
         tone_arr /= np.max(np.abs(tone_arr))  # normalize
-        self._signal = np.vstack([tone_arr] * self._n_channels).T * self._volume / 100
-        self._signal = self._signal.astype(np.float32)  # sanity-check
+        signal = np.vstack([tone_arr] * self._n_channels).T * self._volume / 100
+        signal = np.ascontiguousarray(signal)  # C-contiguous array
+        signal.astype(np.float32)  # sanity-check
+        self._signal = signal
+
+    @property
+    def frequency(self) -> float:
+        """The frequency of the tone in Hz."""
+        return self._frequency
+
+    @frequency.setter
+    def frequency(self, frequency: float) -> None:
+        logger.debug("Setting 'frequency' to %.2f [Hz].", frequency)
+        _check_frequency(frequency)
+        self._frequency = frequency
+        self._backend.close()
+        self._set_signal()
 
 
 def _check_frequency(frequency: float) -> None:

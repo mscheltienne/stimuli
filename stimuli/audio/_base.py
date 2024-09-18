@@ -17,12 +17,32 @@ if TYPE_CHECKING:
 
 
 class BaseSound(ABC):
-    """Base audio stimulus class."""
+    """Base audio stimulus class.
+
+    Parameters
+    ----------
+    duration : float
+        Duration of the sound in seconds, used to generate the time array.
+    sample_rate : int | None
+        Sample rate of the sound. If None, the default sample rate of the device
+        provided by the backend is used.
+    device : int | None
+        Device index to use for sound playback. If None, the default device provided
+        by the backend is used.
+    n_channels : int
+        Number of channels of the sound.
+    backend : ``"sounddevice"``
+        The backend to use for sound playback.
+    clock : BaseClock
+        Clock object to use for timing measurements.
+    **kwargs
+        Additional keyword arguments passed to the backend initialization.
+    """
 
     @abstractmethod
     def __init__(
         self,
-        duration: float | NDArray[np.float32 | np.float64],
+        duration: float,
         sample_rate: int | None,
         device: int | None,
         n_channels: int = 1,
@@ -48,10 +68,10 @@ class BaseSound(ABC):
             )
         # the arguments sample_rate, device, clock, and **kwargs are checked in
         # the backend initialization.
+        self._backend_kwargs = kwargs
         self._backend = BACKENDS[backend](sample_rate, device, clock=clock)
         self._set_times()
         self._set_signal()
-        self._backend.initialize(self._signal, **kwargs)
 
     def _set_times(self) -> None:
         """Set the timestamp array."""
@@ -80,6 +100,16 @@ class BaseSound(ABC):
     def sample_rate(self) -> int:
         """The sample rate of the audio stimulus."""
         return self._backend.sample_rate
+
+    @property
+    def _signal(self) -> NDArray[np.float32]:
+        """The audio signal."""
+        return self._signal_array
+
+    @_signal.setter
+    def _signal(self, signal: NDArray[np.float32]) -> None:
+        self._signal_array = signal
+        self._backend.initialize(self._signal_array, **self._backend_kwargs)
 
 
 def _check_volume(volume) -> None:

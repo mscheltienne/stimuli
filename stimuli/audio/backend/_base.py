@@ -24,7 +24,7 @@ class BaseBackend(ABC):
         The sample rate of the audio data, which should match the sample rate of the
         output device. If None, the default sample rate of the device is used.
     clock : BaseClock
-        Clock object to use for time measurement. By default, the
+        Clock object used for time measurement. By default, the
         :class:`stimuli.time.Clock` class is used.
     """
 
@@ -37,6 +37,14 @@ class BaseBackend(ABC):
     ) -> None:
         self._clock = clock()
         check_type(self._clock, (BaseClock,), "clock")
+
+    def __del__(self) -> None:
+        """Make sure that we kill the stream during deletion."""
+        self.close()  # no-op if already closed
+
+    @abstractmethod
+    def close(self) -> None:
+        """Close the backend and release the resources."""
 
     @abstractmethod
     def initialize(self, data: NDArray) -> None:
@@ -71,7 +79,8 @@ class BaseBackend(ABC):
         when : float | None
             The relative time in seconds when to start playing the audio data. For
             instance, ``0.2`` will start playing in 200 ms. If ``None``, the audio data
-            is played as soon as possible.
+            is played as soon as possible. A duration superior to the device latency is
+            recommended.
         """
         self._check_initialized()
 
