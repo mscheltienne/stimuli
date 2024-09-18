@@ -11,12 +11,12 @@ from ..utils.logs import logger
 from ._base import BaseSound
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from ..time import BaseClock
 
 
-_PSDS = {
+_PSDS: dict[str, Callable] = {
     "white": lambda f: 1,
     "blue": lambda f: np.sqrt(f),
     "violet": lambda f: f,
