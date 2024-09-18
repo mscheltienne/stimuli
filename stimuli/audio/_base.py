@@ -75,7 +75,7 @@ class BaseSound(ABC):
         # the arguments sample_rate, device, clock, and **kwargs are checked in
         # the backend initialization.
         self._backend_kwargs = kwargs
-        self._backend = BACKENDS[backend](sample_rate, device, clock=clock)
+        self._backend = BACKENDS[backend](device, sample_rate, clock=clock)
         self._set_times()
         self._set_signal()
 

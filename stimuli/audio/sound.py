@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import numpy as np
 from scipy.io import wavfile
 
 from ..time import Clock
@@ -46,14 +47,14 @@ class Sound(BaseSound):
         sample_rate, original_signal = wavfile.read(self._fname)
         _check_signal(original_signal)
         volume = _extract_volume(original_signal)
-        signal = _ensure_signal(original_signal)
-        duration = signal.shape[0] / sample_rate
+        self._original_signal = _ensure_signal(original_signal)
+        duration = self._original_signal.shape[0] / sample_rate
         super().__init__(
             volume,
             duration,
             sample_rate,
             device,
-            signal.shape[1] if signal.ndim == 2 else 1,
+            self._original_signal.shape[1] if self._original_signal.ndim == 2 else 1,
             backend=backend,
             clock=clock,
             **kwargs,
@@ -61,8 +62,7 @@ class Sound(BaseSound):
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
-        signal = self._original_signal * self._volume / 100
-        super()._set_signal(signal)
+        super()._set_signal(self._original_signal)
 
     @BaseSound.duration.setter
     def duration(self, duration: float):  # noqa: D102
