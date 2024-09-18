@@ -4,8 +4,9 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 import numpy as np
+from scipy.io import wavfile
 
-from ..utils._checks import check_type, check_value, ensure_int
+from ..utils._checks import check_type, check_value, ensure_int, ensure_path
 from ..utils._docs import copy_doc
 from ..utils.logs import logger
 from .backend import BACKENDS
@@ -13,6 +14,7 @@ from .backend._base import BaseBackend
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+    from pathlib import Path
 
     from numpy.typing import NDArray
 
@@ -100,6 +102,29 @@ class BaseSound(ABC):
     @copy_doc(BaseBackend.play)
     def play(self, when: float | None = None) -> None:
         self._backend.play(when=when)
+
+    def save(self, fname: str | Path, *, overwrite: bool = False) -> None:
+        """Save the audio stimulus to a WAV file.
+
+        The saving is handled by :func:`scipy.io.wavfile.write`.
+
+        Parameters
+        ----------
+        fname : str | Path
+            Path to the output file. The extension should be ``'.wav'``.
+        overwrite : bool
+            If True, existing files are overwritten.
+        """
+        fname = ensure_path(fname, must_exist=False)
+        if fname.suffix != ".wav":
+            raise ValueError("The file extension must be '.wav'.")
+        if overwrite is False and fname.exists():
+            raise FileExistsError(
+                f"The file '{fname}' already exists. Set 'overwrite' to True."
+            )
+        fname.parent.mkdir(parents=True, exist_ok=True)
+        logger.debug("Saving sound to %s.", fname)
+        wavfile.write(fname, self.sample_rate, self.signal)
 
     @copy_doc(BaseBackend.stop)
     def stop(self) -> None:
