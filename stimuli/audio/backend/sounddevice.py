@@ -178,7 +178,7 @@ def _ensure_sample_rate(
 ) -> int:
     """Ensure the sample_rate argument is valid."""
     if sample_rate is None:
-        return device["default_samplerate"]
+        return int(device["default_samplerate"])
     sample_rate = ensure_int(sample_rate, "sample_rate")
     if sample_rate <= 0:
         raise ValueError(

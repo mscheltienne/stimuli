@@ -90,3 +90,17 @@ def test_volume_setter(volumes, sound):
     sound.volume = volumes[1]
     assert_allclose(np.max(np.abs(sound.signal)), volumes[1] / 100)
     assert data_orig != sound._backend._data
+
+
+def test_save(tmp_path):
+    """Test saving a sound."""
+    sound = Tone(volume=10, duration=0.1, frequency=440)
+    sound.save(tmp_path / "test.wav")
+    assert (tmp_path / "test.wav").exists()
+    with pytest.raises(FileExistsError, match="already exists"):
+        sound.save(tmp_path / "test.wav")
+    sound.save(tmp_path / "test.wav", overwrite=True)
+    assert (tmp_path / "test.wav").exists()
+    with pytest.raises(ValueError, match="extension must be"):
+        sound.save(tmp_path / "test.mp3")
+    assert not (tmp_path / "test.mp3").exists()
