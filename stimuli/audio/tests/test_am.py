@@ -2,142 +2,70 @@ from itertools import product
 
 import numpy as np
 import pytest
+from numpy.testing import assert_allclose
 from scipy.signal import find_peaks
 
-from .. import SoundAM
-from .test_base import _test_base, _test_no_volume, _test_window
+from stimuli.audio import SoundAM
+from stimuli.audio.am import _check_frequency
 
 
-def _check_frequency(signal, sample_rate, carrier, modulation, method):
-    """Check frequency of the ASSR with conventional modulation."""
+def _assert_frequency(signal, sample_rate, fc, fm, method):
+    """Check frequency content of the AM sound."""
     frequencies = np.fft.rfftfreq(signal.shape[0], 1 / sample_rate)
     fftval = np.abs(np.fft.rfft(signal, axis=0))
     height = 0.1 * np.max(fftval)
-    peaks1 = find_peaks(fftval[:, 0], height=height)[0]
-    peaks1 = peaks1.astype(int)
-    peaks2 = find_peaks(fftval[:, 1], height=height)[0]
-    peaks2 = peaks2.astype(int)
-    assert (peaks1 == peaks2).all()
+    peaks = find_peaks(fftval[:, 0], height=height)[0]
+    peaks = peaks.astype(int)
     if method == "conventional":
-        peaks = peaks1
         assert peaks.size == 3
         idx = np.argmax(fftval, axis=0)
-        assert np.allclose(frequencies[idx], np.array([carrier, carrier]))
-        # remove carrier from peaks
-        peaks = [elt for elt in peaks1 if elt not in idx]
+        assert_allclose(frequencies[idx], fc)
+        peaks = [elt for elt in peaks if elt not in idx]  # remove carrier from peaks
     elif method == "dsbsc":
-        peaks = peaks1
         assert peaks.size == 2
-        assert carrier not in frequencies[peaks]
-    assert np.allclose(
+        assert fc not in frequencies[peaks]
+    assert_allclose(
         frequencies[peaks],
-        np.array([carrier - modulation, carrier + modulation]),
+        np.array([fc - fm, fc + fm]),
     )
 
 
 @pytest.mark.parametrize(
-    ("volume", "sample_rate", "duration", "method"),
-    product((10, 100), (44100, 48000), (1, 5), ("conventional", "dsbsc")),
+    ("fc", "fm", "method", "volume", "duration"),
+    product((1000, 2000), (40, 100), ("dsbsc", "conventional"), (10, 100), (1, 5)),
 )
-def test_assr(volume, sample_rate, duration, method):
-    """Test an AM sound."""
-    sound = SoundAM(volume, sample_rate, duration, method=method)
-    assert sound.volume == volume
-    assert sound.sample_rate == sample_rate
+def test_sound_am(fc, fm, method, volume, duration):
+    """Test an amplitude-modulated sound."""
+    sound = SoundAM(
+        frequency_carrier=fc,
+        frequency_modulation=fm,
+        method=method,
+        volume=volume,
+        duration=duration,
+    )
+    assert sound.volume.ndim == 1
+    assert all(sound.volume == volume)
     assert sound.duration == duration
-    assert sound.times.size == sound.sample_rate * sound.duration
-    assert sound.signal.shape == (sound.times.size, 2)
-    assert np.isclose(np.max(np.abs(sound.signal)), volume / 100)
-    assert sound.frequency_carrier == 1000
-    assert sound.frequency_modulation == 40
-    _check_frequency(sound.signal, sound.sample_rate, 1000, 40, method)
-
-
-@pytest.mark.parametrize(
-    ("carrier", "modulation", "method"),
-    product((300, 1000, 5000), (20, 50), ("conventional", "dsbsc")),
-)
-def test_assr_frequencies(carrier, modulation, method):
-    """Test AM with different frequencies."""
-    sound = SoundAM(
-        volume=10,
-        frequency_carrier=carrier,
-        frequency_modulation=modulation,
-        method=method,
-    )
-    assert sound.frequency_carrier == carrier
-    assert sound.frequency_modulation == modulation
-    _check_frequency(
-        sound.signal,
-        sound.sample_rate,
-        carrier,
-        modulation,
-        method,
-    )
-
-
-@pytest.mark.parametrize(
-    ("carrier", "modulation", "method"),
-    product((300, 1000, 5000), (20, 50), ("conventional", "dsbsc")),
-)
-def test_assr_frequencies_setter(carrier, modulation, method):
-    """Test AM frequency setter."""
-    sound = SoundAM(
-        volume=10,
-        frequency_carrier=200,
-        frequency_modulation=10,
-        method=method,
-    )
-    assert sound.frequency_carrier == 200
-    assert sound.frequency_modulation == 10
-    sound.frequency_carrier = carrier
-    assert sound.frequency_carrier == carrier
-    assert sound.frequency_modulation == 10
-    _check_frequency(
-        sound.signal,
-        sound.sample_rate,
-        carrier,
-        sound.frequency_modulation,
-        method,
-    )
-    sound.frequency_modulation = modulation
-    assert sound.frequency_carrier == carrier
-    assert sound.frequency_modulation == modulation
-    _check_frequency(
-        sound.signal,
-        sound.sample_rate,
-        carrier,
-        modulation,
-        method,
-    )
-
-
-def test_assr_method_setter():
-    """Test AM method setter."""
-    method = "conventional"
-    sound = SoundAM(10, method=method)
+    assert sound.times.size == int(sound.sample_rate * sound.duration)
+    assert sound.signal.shape == (sound.times.size, 1)
+    assert_allclose(np.max(np.abs(sound.signal)), volume / 100)
     assert sound.method == method
-    _check_frequency(sound.signal, sound.sample_rate, 1000, 40, method)
-    method = "dsbsc"
-    sound.method = method
-    assert sound.method == method
-    _check_frequency(sound.signal, sound.sample_rate, 1000, 40, method)
-    method = "conventional"
-    sound.method = method
-    assert sound.method == method
-    _check_frequency(sound.signal, sound.sample_rate, 1000, 40, method)
+    assert sound._frequency_carrier == fc
+    assert sound._frequency_modulation == fm
+    _assert_frequency(sound.signal, sound.sample_rate, fc, fm, method)
 
 
-def test_base():
-    """Test base functionalities with an AM sound."""
-    _test_base(SoundAM)
-
-
-def test_no_volume():
-    """Test signal if volume is set to 0."""
-    _test_no_volume(SoundAM)
-
-
-def test_window():
-    """Test application of a window."""
-    _test_window(SoundAM)
+@pytest.mark.parametrize("ftype", ["carrier", "modulation"])
+def test_check_frequency(ftype):
+    """Test validation of frequency."""
+    _check_frequency(440, ftype)
+    with pytest.raises(
+        ValueError, match=f"The {ftype} frequency must be a strictly positive"
+    ):
+        _check_frequency(0, ftype)
+    with pytest.raises(
+        ValueError, match=f"The {ftype} frequency must be a strictly positive"
+    ):
+        _check_frequency(-440, ftype)
+    with pytest.raises(TypeError, match="must be an instance of"):
+        _check_frequency("440", ftype)

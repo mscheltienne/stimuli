@@ -1,79 +1,78 @@
-"""Pure tone sound."""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
 
+from ..time import Clock
 from ..utils._checks import check_type
 from ..utils._docs import copy_doc
 from ..utils.logs import logger
-from .base import BaseSound
+from ._base import BaseSound
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from ..time import BaseClock
 
 
 class Tone(BaseSound):
-    """Pure tone stimulus at the frequency f (Hz).
-
-    The equation is:
-
-    .. code-block::
-
-        sin(2*pi*f*time).
-
-    Example: A 440 - La 440 - Tone(f=440)
-
-    Parameters
-    ----------
-    volume : float | tuple
-        If an int or a float is provided, the sound will use only one channel
-        (mono). If a 2-length tuple is provided, the sound will use 2
-        channels (stereo). The volume of each channel is given between 0 and 100.
-        For stereo, the volume is given as (L, R).
-    sample_rate : float
-        Sampling frequency of the sound. The default is 44100 Hz.
-    duration : float
-        Duration of the sound. The default is 1 second.
-    frequency : float
-        Pure tone frequency. The default is 440 Hz (La - A440).
-
-    Examples
-    --------
-    ``A 440``, also called ``La 440``, corresponds to a pure tone at a
-    frequency of 440 Hz.
-    """
+    """Pure tone stimulus at a given frequency."""
 
     def __init__(
         self,
-        volume: float | tuple[float, float],
-        sample_rate: int = 44100,
-        duration: float = 1,
-        frequency: float = 440,
-    ):
-        self._frequency = Tone._check_frequency(frequency)
-        self.name = "tone"
-        super().__init__(volume, sample_rate, duration)
+        frequency: float,
+        volume: float | Sequence[float],
+        duration: float,
+        sample_rate: int | None = None,
+        device: int | None = None,
+        n_channels: int = 1,
+        *,
+        backend: str = "sounddevice",
+        clock: BaseClock = Clock,
+        **kwargs,
+    ) -> None:
+        _check_frequency(frequency)
+        self._frequency = frequency
+        super().__init__(
+            volume,
+            duration,
+            sample_rate,
+            device,
+            n_channels,
+            backend=backend,
+            clock=clock,
+            **kwargs,
+        )
+
+    def __repr__(self) -> str:
+        """Representation of the object."""
+        return f"<Pure tone @ {self.frequency:.2f} Hz - {self.duration:.2f} s>"
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
-        tone_arr = np.sin(2 * np.pi * self._frequency * self._times)
-        tone_arr /= np.max(np.abs(tone_arr))  # normalize
-        self._signal = np.vstack((tone_arr, tone_arr)).T * self._volume / 100
-        super()._set_signal()
+        signal = np.sin(2 * np.pi * self._frequency * self._times, dtype=np.float32)
+        signal /= np.max(np.abs(signal))  # normalize
+        super()._set_signal(signal)
 
-    # --------------------------------------------------------------------
-    @staticmethod
-    def _check_frequency(frequency: float) -> float:
-        """Check if the frequency is positive."""
-        check_type(frequency, ("numeric",), item_name="frequency")
-        assert 0 < frequency
-        return frequency
-
-    # --------------------------------------------------------------------
     @property
     def frequency(self) -> float:
-        """Sound's pure tone frequency [Hz]."""
-        logger.debug("'self._frequency' is set to %.2f [Hz].", self._frequency)
+        """The frequency of the tone in Hz."""
         return self._frequency
 
     @frequency.setter
-    def frequency(self, frequency: float):
+    def frequency(self, frequency: float) -> None:
         logger.debug("Setting 'frequency' to %.2f [Hz].", frequency)
-        self._frequency = Tone._check_frequency(frequency)
+        _check_frequency(frequency)
+        self._frequency = frequency
         self._set_signal()
+
+
+def _check_frequency(frequency: float) -> None:
+    """Check that the frequency is valid."""
+    check_type(frequency, ("numeric",), item_name="frequency")
+    if frequency <= 0:
+        raise ValueError(
+            f"The frequency must be a strictly positive number. Provided '{frequency}' "
+            "is invalid."
+        )

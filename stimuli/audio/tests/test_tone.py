@@ -2,63 +2,52 @@ from itertools import product
 
 import numpy as np
 import pytest
+from numpy.testing import assert_allclose
 
-from .. import Tone
-from .test_base import _test_base, _test_no_volume, _test_window
+from stimuli.audio import Tone
+from stimuli.audio.tone import _check_frequency
 
 
-def _check_frequency(signal, sample_rate, target):
+def _assert_frequency(signal, sample_rate, target):
     """Check frequency of the tone."""
     frequencies = np.fft.rfftfreq(signal.shape[0], 1 / sample_rate)
     fftval = np.abs(np.fft.rfft(signal, axis=0))
     idx = np.argmax(fftval, axis=0)
-    assert np.allclose(frequencies[idx], np.array([target, target]))
+    assert_allclose(frequencies[idx], target)
 
 
 @pytest.mark.parametrize(
-    ("volume", "sample_rate", "duration"), product((10, 100), (44100, 48000), (1, 5))
+    ("volume", "duration", "frequency"), product((10, 100), (1, 5), (440, 1000))
 )
-def test_tone(volume, sample_rate, duration):
+def test_tone(volume, duration, frequency):
     """Test a tone sound."""
-    sound = Tone(volume, sample_rate, duration)
-    assert sound.volume == volume
-    assert sound.sample_rate == sample_rate
+    sound = Tone(frequency, volume, duration)
+    assert sound.volume.ndim == 1
+    assert all(sound.volume == volume)
     assert sound.duration == duration
-    assert sound.times.size == sound.sample_rate * sound.duration
-    assert sound.signal.shape == (sound.times.size, 2)
-    assert np.isclose(np.max(np.abs(sound.signal)), volume / 100)
-    assert sound.frequency == 440
-    _check_frequency(sound.signal, sound.sample_rate, 440)
-
-
-@pytest.mark.parametrize("frequency", [101, 440, 1000])
-def test_tone_frequency(frequency):
-    """Test tone with different frequencies."""
-    sound = Tone(volume=10, frequency=frequency)
+    assert sound.times.size == int(sound.sample_rate * sound.duration)
+    assert sound.signal.shape == (sound.times.size, 1)
+    assert_allclose(np.max(np.abs(sound.signal)), volume / 100)
     assert sound.frequency == frequency
-    _check_frequency(sound.signal, sound.sample_rate, frequency)
+    _assert_frequency(sound.signal, sound.sample_rate, frequency)
 
 
-@pytest.mark.parametrize("frequency", [101, 440, 1000])
-def test_tone_frequency_setter(frequency):
-    """Test tone frequency setter."""
-    sound = Tone(volume=10, frequency=10)
-    assert sound.frequency == 10
-    sound.frequency = frequency
-    assert sound.frequency == frequency
-    _check_frequency(sound.signal, sound.sample_rate, frequency)
+def test_frequency_setter():
+    """Test changing the frequency of the sound."""
+    sound = Tone(frequency=440, volume=10, duration=1)
+    _assert_frequency(sound.signal, sound.sample_rate, 440)
+    data_orig = sound._backend._data
+    sound.frequency = 1000
+    _assert_frequency(sound.signal, sound.sample_rate, 1000)
+    assert data_orig != sound._backend._data
 
 
-def test_base():
-    """Test base functionalities with a tone."""
-    _test_base(Tone)
-
-
-def test_no_volume():
-    """Test signal if volume is set to 0."""
-    _test_no_volume(Tone)
-
-
-def test_window():
-    """Test application of a window."""
-    _test_window(Tone)
+def test_check_frequency():
+    """Test validation of frequency."""
+    _check_frequency(440)
+    with pytest.raises(ValueError, match="The frequency must be a strictly positive"):
+        _check_frequency(0)
+    with pytest.raises(ValueError, match="The frequency must be a strictly positive"):
+        _check_frequency(-440)
+    with pytest.raises(TypeError, match="must be an instance of"):
+        _check_frequency("440")

@@ -2,41 +2,32 @@ from itertools import product
 
 import numpy as np
 import pytest
+from numpy.testing import assert_allclose
 
-from .. import Noise
-from ..noise import _PSDS
-from .test_base import _test_base, _test_no_volume
+from stimuli.audio import Noise
+from stimuli.audio.noise import _PSDS
 
 
 @pytest.mark.parametrize(
-    ("volume", "sample_rate", "duration", "color"),
-    product((10, 100), (44100, 48000), (1, 5), _PSDS.keys()),
+    ("color", "volume", "duration"), product(_PSDS.keys(), (10, 100), (1, 5))
 )
-def test_noise(volume, sample_rate, duration, color):
+def test_noise(color, volume, duration):
     """Test a noise sound."""
-    sound = Noise(volume, sample_rate, duration, color)
-    assert sound.volume == volume
-    assert sound.sample_rate == sample_rate
+    sound = Noise(color=color, volume=volume, duration=duration)
+    assert sound.volume.ndim == 1
+    assert all(sound.volume == volume)
     assert sound.duration == duration
+    assert sound.times.size == int(sound.sample_rate * sound.duration)
+    assert sound.signal.shape == (sound.times.size, 1)
+    assert_allclose(np.max(np.abs(sound.signal)), volume / 100)
     assert sound.color == color
-    assert sound.times.size == sound.sample_rate * sound.duration
-    assert sound.signal.shape == (sound.times.size, 2)
-    assert np.isclose(np.max(np.abs(sound.signal)), volume / 100)
 
 
 def test_color_setter():
-    """Test color setter."""
-    sound = Noise(10, color="white")
+    """Test changing the color of the noise."""
+    sound = Noise(color="white", volume=10, duration=1)
     assert sound.color == "white"
+    data_orig = sound._backend._data
     sound.color = "pink"
     assert sound.color == "pink"
-
-
-def test_base():
-    """Test base functionalities with a noise."""
-    _test_base(Noise)
-
-
-def test_no_volume():
-    """Test signal if volume is set to 0."""
-    _test_no_volume(Noise)
+    assert data_orig != sound._backend._data

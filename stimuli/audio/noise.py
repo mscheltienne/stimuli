@@ -1,11 +1,20 @@
-"""Colored noise sound."""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
 
+from ..time import Clock
 from ..utils._checks import check_type, check_value
 from ..utils._docs import copy_doc
 from ..utils.logs import logger
-from .base import BaseSound
+from ._base import BaseSound
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from ..time import BaseClock
+
 
 _PSDS = {
     "white": lambda f: 1,
@@ -21,62 +30,64 @@ class Noise(BaseSound):
 
     Parameters
     ----------
-    volume : float | tuple
-        If an int or a float is provided, the sound will use only one channel
-        (mono). If a 2-length tuple is provided, the sound will use 2
-        channels (stereo). The volume of each channel is given between 0 and 100.
-        For stereo, the volume is given as (L, R).
-    sample_rate : float
-        Sampling frequency of the sound. The default is 44100 Hz.
-    duration : float
-        Duration of the sound. The default is 1 second.
-    color : str
-        The noise color. Available colors are: ``'white'``, ``'pink'``,
-        ``'blue'``, ``'violet'`` and ``'brown'``.
+    color : ``'white'`` | ``'pink'`` | ``'blue'`` | ``'violet'`` | ``'brown'``
+        The name of the noise color.
     """
 
     def __init__(
         self,
-        volume: float | tuple[float, float],
-        sample_rate: int = 44100,
-        duration: float = 1,
-        color: str = "white",
-    ):
+        color: str,
+        volume: float | Sequence[float],
+        duration: float,
+        sample_rate: int | None = None,
+        device: int | None = None,
+        n_channels: int = 1,
+        *,
+        backend: str = "sounddevice",
+        clock: BaseClock = Clock,
+        **kwargs,
+    ) -> None:
         check_type(color, (str,), "color")
-        check_value(color, _PSDS)
+        color = color.lower().strip()
+        check_value(color, _PSDS, "color")
         self._color = color
         self._rng = np.random.default_rng()
-        self.name = f"{color} noise"
-        super().__init__(volume, sample_rate, duration)
+        super().__init__(
+            volume,
+            duration,
+            sample_rate,
+            device,
+            n_channels,
+            backend=backend,
+            clock=clock,
+            **kwargs,
+        )
+
+    def __repr__(self) -> str:
+        """Representation of the object."""
+        return f"<{self._color.capitalize()} noise @ {self.duration:.2f} s>"
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
-        noise_arr = Noise._noise_psd(self._rng, self._times.size, self._color)
-        noise_arr /= np.max(np.abs(noise_arr))  # normalize
-        self._signal = np.vstack((noise_arr, noise_arr)).T * self._volume / 100
-        super()._set_signal()
-
-    # --------------------------------------------------------------------
-    @staticmethod
-    def _noise_psd(rng: np.random.Generator, N: int, color: str):
-        """Compute the noise signal 1D array."""
-        white = rng.standard_normal(size=N)
+        white = self._rng.standard_normal(size=self._times.size, dtype=np.float32)
         dft = np.fft.rfft(white)
-        S = _PSDS[color](np.fft.rfftfreq(N))
+        S = _PSDS[self._color](np.fft.rfftfreq(self._times.size))
         # nornalize to preserve the energy from the white noise
         S /= np.sqrt(np.mean(S**2))
-        return np.fft.irfft(dft * S)
+        signal = np.fft.irfft(dft * S)
+        signal /= np.max(np.abs(signal))  # normalize
+        super()._set_signal(signal)
 
-    # --------------------------------------------------------------------
     @property
-    def color(self) -> str:  # noqa: D102
-        logger.debug("'self._color' is set to %s.", self._color)
+    def color(self) -> str:
+        """The color of the noise."""
         return self._color
 
     @color.setter
-    def color(self, color: str):
+    def color(self, color: str) -> None:
         logger.debug("Setting 'color' to %s.", color)
         check_type(color, (str,), "color")
-        check_value(color, _PSDS)
+        color = color.lower().strip()
+        check_value(color, _PSDS, "color")
         self._color = color
         self._set_signal()

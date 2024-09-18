@@ -1,43 +1,40 @@
-"""Amplitude modulated sound."""
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
 
+from ..time import Clock
 from ..utils._checks import check_type, check_value
 from ..utils._docs import copy_doc
 from ..utils.logs import logger
-from .base import BaseSound
+from ._base import BaseSound
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from ..time import BaseClock
 
 
 class SoundAM(BaseSound):
     """Amplitude modulated sound.
 
-    Composed of a carrier frequency ``fc`` which is amplitude modulated at
-    ``fm``. By default, an Auditory Steady State Response stimuli composed of
-    a ``1000`` Hz carrier frequency modulated at ``40`` Hz through conventional
-    modulation is created.
+    This sound is composed of a carrier frequency ``fc`` which is amplitude modulated at
+    ``fm``.
 
     Parameters
     ----------
-    volume : float | tuple
-        If an int or a float is provided, the sound will use only one channel
-        (mono). If a 2-length tuple is provided, the sound will use 2
-        channels (stereo). The volume of each channel is given between 0 and 100.
-        For stereo, the volume is given as (L, R).
-    sample_rate : float
-        Sampling frequency of the sound. The default is 44100 Hz.
-    duration : float
-        Duration of the sound. The default is 1 second.
-    frequency_carrier : int
+    frequency_carrier : float
         Carrier frequency in Hz.
-    frequency_modulation : int
-        Modulatiom frequency in Hz.
+    frequency_modulation : float
+        Modulation frequency in Hz.
     method : ``'conventional'`` | ``'dsbsc'``
-        ``'conventional'`` is also called classical AM, the eq. used is::
+        ``'conventional'`` is also called classical AM, the equation used is::
 
                 signal = (1 - M(t)) * cos(2*pi*fc*t)
                 M(t) = cos(2*pi*fm*t)
 
-        ``'dsbsc'`` is also called double side band suppressed carrier, the eq.
+        ``'dsbsc'`` is also called double side band suppressed carrier, the equation
         used is::
 
                 signal = M(t)*cos(2*pi*fc*t)
@@ -46,101 +43,107 @@ class SoundAM(BaseSound):
 
     def __init__(
         self,
-        volume: float | tuple[float, float],
-        sample_rate: int = 44100,
-        duration: float = 1,
-        frequency_carrier: float = 1000,
-        frequency_modulation: float = 40,
-        method: str = "conventional",
-    ):
-        self._frequency_carrier = SoundAM._check_frequency_carrier(frequency_carrier)
-        self._frequency_modulation = SoundAM._check_frequency_modulation(
-            frequency_modulation
-        )
+        frequency_carrier: float,
+        frequency_modulation: float,
+        method: str,
+        volume: float | Sequence[float],
+        duration: float,
+        sample_rate: int | None = None,
+        device: int | None = None,
+        n_channels: int = 1,
+        *,
+        backend: str = "sounddevice",
+        clock: BaseClock = Clock,
+        **kwargs,
+    ) -> None:
+        _check_frequency(frequency_carrier, "carrier")
+        self._frequency_carrier = frequency_carrier
+        _check_frequency(frequency_modulation, "modulation")
+        self._frequency_modulation = frequency_modulation
         check_type(method, (str,), "method")
+        method = method.lower().strip()
         check_value(method, ("conventional", "dsbsc"), "AM method")
         self._method = method
-        self.name = f"AM {self._method}"
-        super().__init__(volume, sample_rate, duration)
+        super().__init__(
+            volume,
+            duration,
+            sample_rate,
+            device,
+            n_channels,
+            backend=backend,
+            clock=clock,
+            **kwargs,
+        )
+
+    def __repr__(self) -> str:
+        """Representation of the object."""
+        return (
+            f"<{self._method}-AM sound @ {self._frequency_carrier} % "
+            f"{self._frequency_modulation} Hz - {self.duration:.2f} s>"
+        )
 
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         if self._method == "conventional":
             amplitude = 1 - np.cos(2 * np.pi * self._frequency_modulation * self._times)
-            arr = amplitude * np.cos(2 * np.pi * self._frequency_carrier * self._times)
+            signal = amplitude * np.cos(
+                2 * np.pi * self._frequency_carrier * self._times
+            )
 
         elif self._method == "dsbsc":
             amplitude = np.sin(2 * np.pi * self._frequency_modulation * self._times)
-            arr = amplitude * np.sin(2 * np.pi * self._frequency_carrier * self._times)
-        arr /= np.max(np.abs(arr))  # normalize
-        self._signal = np.vstack((arr, arr)).T * self._volume / 100
-        super()._set_signal()
+            signal = amplitude * np.sin(
+                2 * np.pi * self._frequency_carrier * self._times
+            )
+        signal /= np.max(np.abs(signal))  # normalize
+        super()._set_signal(signal)
 
-    # --------------------------------------------------------------------
-    @staticmethod
-    def _check_frequency_carrier(frequency_carrier: float) -> float:
-        """Check if the carrier frequency is positive."""
-        check_type(frequency_carrier, ("numeric",), item_name="frequency_carrier")
-        assert 0 < frequency_carrier
-        return frequency_carrier
-
-    @staticmethod
-    def _check_frequency_modulation(frequency_modulation: float) -> float:
-        """Check if the modulation frequency is positive."""
-        check_type(
-            frequency_modulation,
-            ("numeric",),
-            item_name="frequency_modulation",
-        )
-        assert 0 < frequency_modulation
-        return frequency_modulation
-
-    # --------------------------------------------------------------------
     @property
     def frequency_carrier(self) -> float:
-        """Sound's carrier frequency [Hz]."""
-        logger.debug(
-            "'self._frequency_carrier' is set to %.2f [Hz].",
-            self._frequency_carrier,
-        )
+        """Sound's carrier frequency in Hz."""
         return self._frequency_carrier
 
     @frequency_carrier.setter
-    def frequency_carrier(self, frequency_carrier: float):
+    def frequency_carrier(self, frequency_carrier: float) -> None:
         logger.debug("Setting 'frequency_carrier' to %.2f [Hz].", frequency_carrier)
-        self._frequency_carrier = SoundAM._check_frequency_carrier(frequency_carrier)
+        _check_frequency(frequency_carrier, "carrier")
+        self._frequency_carrier = frequency_carrier
         self._set_signal()
 
     @property
     def frequency_modulation(self) -> float:
-        """Sound's modulation frequency [Hz]."""
-        logger.debug(
-            "'self._frequency_modulation' is set to %.2f [Hz].",
-            self._frequency_modulation,
-        )
+        """Sound's modulation frequency in Hz."""
         return self._frequency_modulation
 
     @frequency_modulation.setter
-    def frequency_modulation(self, frequency_modulation: float):
+    def frequency_modulation(self, frequency_modulation: float) -> None:
         logger.debug(
-            "Setting 'frequency_modulation' to %.2f [Hz].",
-            frequency_modulation,
+            "Setting 'frequency_modulation' to %.2f [Hz].", frequency_modulation
         )
-        self._frequency_modulation = SoundAM._check_frequency_modulation(
-            frequency_modulation
-        )
+        _check_frequency(frequency_modulation, "modulation")
+        self._frequency_modulation = frequency_modulation
         self._set_signal()
 
     @property
     def method(self) -> str:
-        """Sound's modulation method."""
-        logger.debug("'self._method' is set to %s.", self._method)
+        """The amplitude modulation method."""
         return self._method
 
     @method.setter
-    def method(self, method: str):
+    def method(self, method: str) -> None:
         logger.debug("Setting 'method' to %s.", method)
         check_type(method, (str,), "method")
+        method = method.lower().strip()
         check_value(method, ("conventional", "dsbsc"), "AM method")
         self._method = method
         self._set_signal()
+
+
+def _check_frequency(frequency: float, ftype: str) -> None:
+    """Check that the given frequency is valid."""
+    check_type(frequency, ("numeric",), item_name=f"frequency_{ftype}")
+    if frequency <= 0:
+        raise ValueError(
+            f"The {ftype} frequency must be a strictly positive number. Provided "
+            f"'{frequency}' is invalid."
+        )

@@ -1,125 +1,92 @@
-import time
+from itertools import product
 
 import numpy as np
 import pytest
-from scipy.signal.windows import hamming
+from numpy.testing import assert_allclose
 
-from stimuli.audio import BaseSound
-
-
-def test_check_volume():
-    """Check the volume static checker."""
-    volume = BaseSound._check_volume(50)
-    assert np.allclose(volume, np.array([50, 50]))
-    volume = BaseSound._check_volume((25, 50))
-    assert np.allclose(volume, np.array([25, 50]))
-    volume = BaseSound._check_volume((0, 100))
-    assert np.allclose(volume, np.array([0, 100]))
-    with pytest.raises(TypeError, match="must be an instance of numeric or tuple"):
-        BaseSound._check_volume([25, 50])
-    with pytest.raises(AssertionError):
-        volume = BaseSound._check_volume((25, 50, 75))
-    with pytest.raises(TypeError, match="must be an instance of numeric"):
-        volume = BaseSound._check_volume(("25", 50))
-    with pytest.raises(AssertionError):
-        volume = BaseSound._check_volume((25, 101))
-    with pytest.raises(AssertionError):
-        volume = BaseSound._check_volume((-25, 100))
-
-
-def test_check_sample_rate():
-    """Check the sample rate static checker."""
-    fs = BaseSound._check_sample_rate(44100)
-    assert fs == 44100
-    fs = BaseSound._check_sample_rate(44100.0)
-    assert fs == 44100
-    with pytest.raises(AssertionError):
-        BaseSound._check_sample_rate(-101)
+from stimuli.audio import Noise, SoundAM, Tone
+from stimuli.audio._base import _check_duration, _ensure_volume
 
 
 def test_check_duration():
-    """Check the duration static checker."""
-    duration = BaseSound._check_duration(101)
-    assert duration == 101
-    duration = BaseSound._check_duration(101.01)
-    assert duration == 101.01
-    with pytest.raises(TypeError, match="must be an instance of numeric"):
-        BaseSound._check_duration([101])
-    with pytest.raises(AssertionError):
-        BaseSound._check_sample_rate(-101)
-
-
-def _test_base(Sound):
-    """Test base functionalities with a Sound class."""
-    sound = Sound(10, duration=0.2)
-
-    # test play/stop
-    sound.play()
-    time.sleep(0.2)
-
-    duration = 1
-    sound = Sound(10, duration=duration)
-    sound.play(blocking=True)
-
-    start = time.time()
-    sound.play(blocking=False)
-    sound.stop()
-    assert time.time() - start <= duration
-
-    # test copy
-    sound2 = sound.copy(deep=False)
-    sound2.play(blocking=True)
-    sound3 = sound.copy(deep=True)
-    sound3.play(blocking=True)
-    assert np.allclose(sound.signal, sound2.signal)
-    assert np.allclose(sound.signal, sound3.signal)
+    """Test duration validation."""
+    _check_duration(0.1)
+    _check_duration(10)
     with pytest.raises(TypeError, match="must be an instance of"):
-        sound.copy(deep=1)
-
-    # test volume setter
-    assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
-    sound.volume = 20
-    assert sound.volume == 20
-    assert np.isclose(np.max(np.abs(sound.signal)), sound.volume / 100)
-    sound.volume = (20, 100)
-    assert sound.volume == (20, 100)
-    assert np.allclose(
-        np.max(np.abs(sound.signal), axis=0), np.array(sound.volume) / 100
-    )
-
-    # test sample rate and duration setter
-    assert sound.sample_rate == 44100
-    assert sound.duration == duration
-    assert sound.times.size == sound.sample_rate * sound.duration
-    assert sound.times.size == sound.n_samples
-    sound.sample_rate = 48000
-    assert sound.sample_rate == 48000
-    assert sound.duration == duration
-    assert sound.times.size == sound.sample_rate * sound.duration
-    assert sound.times.size == sound.n_samples
-    sound.duration = 0.5
-    assert sound.sample_rate == 48000
-    assert sound.duration == 0.5
-    assert sound.times.size == sound.sample_rate * sound.duration
-    assert sound.times.size == sound.n_samples
+        _check_duration(None)
+    with pytest.raises(TypeError, match="must be an instance of"):
+        _check_duration("10")
+    with pytest.raises(ValueError, match="a strictly positive number"):
+        _check_duration(-10)
+    with pytest.raises(ValueError, match="a strictly positive number"):
+        _check_duration(0)
 
 
-def _test_no_volume(Sound):
-    """Test signal if volume is set to 0."""
-    sound = Sound(0)
-    assert np.allclose(sound.signal, np.zeros(sound.signal.shape))
+@pytest.mark.parametrize(("volume", "n_channels"), product((0, 50, 100), (1, 2)))
+def test_ensure_volume_valid(volume, n_channels):
+    """Test volume validation."""
+    vol = _ensure_volume(volume, n_channels)
+    assert vol.ndim == 1
+    assert vol.shape == (n_channels,)
+    assert all(vol == volume)
 
 
-def _test_window(Sound):
-    """Test the application of a window."""
-    sound = Sound(10, duration=0.2)
-    signal_no_window = sound.signal.copy()
-    window = hamming(sound.n_samples)
-    sound.window = window
-    signal_window = sound.signal.copy()
-    assert not np.allclose(signal_window, signal_no_window)
-    assert np.allclose(signal_window, np.multiply(signal_no_window.T, window).T)
-    sound.window = None
-    assert np.allclose(signal_no_window, sound.signal)
-    sound.window = None
-    assert np.allclose(signal_no_window, sound.signal)
+def test_ensure_volume_invalid():
+    """Test volume validation."""
+    with pytest.raises(TypeError, match="must be an instance of"):
+        _ensure_volume(None, 1)
+    with pytest.raises(TypeError, match="must be an instance of"):
+        _ensure_volume("10", 1)
+    with pytest.raises(ValueError, match="The volume must be a percentage"):
+        _ensure_volume(-10, 1)
+    with pytest.raises(ValueError, match="The volume must be a percentage"):
+        _ensure_volume(110, 1)
+
+
+@pytest.mark.parametrize(
+    ("durations", "sound"),
+    product(
+        ((1, 0.05), (0.1, 2)),
+        (
+            (Tone, dict(frequency=440)),
+            (Noise, dict(color="white")),
+            (
+                SoundAM,
+                dict(frequency_carrier=1000, frequency_modulation=40, method="dsbsc"),
+            ),
+        ),
+    ),
+)
+def test_duration_setter(durations, sound):
+    """Test changing the duration of the sound."""
+    sound = sound[0](volume=10, duration=durations[0], **sound[1])
+    len_data_backend = len(sound._backend._data)
+    sound.duration = durations[1]
+    assert sound.duration == durations[1]
+    assert sound.times.size == int(sound.sample_rate * durations[1])
+    assert sound.signal.shape == (sound.times.size, 1)
+    assert len(sound._backend._data) == len_data_backend / (durations[0] / durations[1])
+
+
+@pytest.mark.parametrize(
+    ("volumes", "sound"),
+    product(
+        ((10, 50), (70, 20)),
+        (
+            (Tone, dict(frequency=440)),
+            (Noise, dict(color="white")),
+            (
+                SoundAM,
+                dict(frequency_carrier=1000, frequency_modulation=40, method="dsbsc"),
+            ),
+        ),
+    ),
+)
+def test_volume_setter(volumes, sound):
+    """Test changing the volume of the sound."""
+    sound = sound[0](volume=volumes[0], duration=1, **sound[1])
+    assert_allclose(np.max(np.abs(sound.signal)), volumes[0] / 100)
+    data_orig = sound._backend._data
+    sound.volume = volumes[1]
+    assert_allclose(np.max(np.abs(sound.signal)), volumes[1] / 100)
+    assert data_orig != sound._backend._data
