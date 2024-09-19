@@ -198,6 +198,17 @@ def _ensure_volume(volume: float | Sequence[float], n_channels: int) -> None:
     if isinstance(volume, (float | int)):
         volume = np.full(n_channels, volume, dtype=np.float32)
     check_type(volume, ("array-like",), "volume")
+    volume = np.asarray(volume, dtype=np.float32)
+    if volume.ndim != 1:
+        raise ValueError(
+            "The volume must be a single value or a sequence of values. Provided "
+            f"'{volume}' is invalid."
+        )
+    if volume.size != n_channels:
+        raise ValueError(
+            "The number of volume values must match the number of channels. "
+            f"Provided '{volume.size}' values for '{n_channels}' channels."
+        )
     if np.any(volume < 0) or np.any(100 < volume):
         raise ValueError(
             "The volume must be a percentage between 0 and 100. Provided "
