@@ -93,7 +93,10 @@ class Noise(BaseSound):
 
     @property
     def color(self) -> str:
-        """The color of the noise."""
+        """The color of the noise.
+
+        :type: :class:`str`
+        """
         return self._color
 
     @color.setter

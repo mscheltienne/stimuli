@@ -82,7 +82,7 @@ class BaseSound(ABC):
         )
 
     @abstractmethod
-    def _set_signal(self, signal) -> None:
+    def _set_signal(self, signal: NDArray) -> None:
         """Set the signal array."""
         signal = np.vstack([signal] * self._n_channels).T
         assert self._volume.ndim == 1  # sanity-check
@@ -133,7 +133,10 @@ class BaseSound(ABC):
 
     @property
     def duration(self) -> float:
-        """The duration of the audio stimulus."""
+        """The duration of the audio stimulus.
+
+        :type: :class:`float`
+        """
         return self._duration
 
     @duration.setter
@@ -146,22 +149,34 @@ class BaseSound(ABC):
 
     @property
     def sample_rate(self) -> int:
-        """The sample rate of the audio stimulus."""
+        """The sample rate of the audio stimulus.
+
+        :type: :class:`int`
+        """
         return self._backend.sample_rate
 
     @property
     def signal(self) -> NDArray[np.float32]:
-        """The audio signal."""
+        """The audio signal.
+
+        :type: array of shape (n_samples, n_channels)
+        """
         return self._signal
 
     @property
     def times(self) -> NDArray[np.float32]:
-        """The time array of the audio stimulus."""
+        """The time array of the audio stimulus.
+
+        :type: array of shape (n_samples,)
+        """
         return self._times
 
     @property
     def volume(self) -> NDArray[np.float32]:
-        """The volume of the audio stimulus per channel."""
+        """The volume of the audio stimulus per channel given as a percentage.
+
+        :type: array of shape (n_channels,)
+        """
         return self._volume
 
     @volume.setter

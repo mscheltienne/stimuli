@@ -72,7 +72,10 @@ class Tone(BaseSound):
 
     @property
     def frequency(self) -> float:
-        """The frequency of the tone in Hz."""
+        """The frequency of the tone in Hz.
+
+        :type: :class:`float`
+        """
         return self._frequency
 
     @frequency.setter

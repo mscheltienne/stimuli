@@ -64,6 +64,10 @@ class Sound(BaseSound):
             **kwargs,
         )
 
+    def __repr__(self) -> str:
+        """Representation of the object."""
+        return f"<Sound @ {self.fname}>"
+
     @copy_doc(BaseSound._set_signal)
     def _set_signal(self) -> None:
         super()._set_signal(self._original_signal)
@@ -76,7 +80,10 @@ class Sound(BaseSound):
 
     @property
     def fname(self) -> Path:
-        """The sound's original file name."""
+        """The sound's original file name.
+
+        :type: :classl:`~pathlib.Path`
+        """
         return self._fname
 
 

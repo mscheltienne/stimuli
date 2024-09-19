@@ -109,7 +109,10 @@ class SoundAM(BaseSound):
 
     @property
     def frequency_carrier(self) -> float:
-        """Sound's carrier frequency in Hz."""
+        """Sound's carrier frequency in Hz.
+
+        :type: :class:`float`
+        """
         return self._frequency_carrier
 
     @frequency_carrier.setter
@@ -121,7 +124,10 @@ class SoundAM(BaseSound):
 
     @property
     def frequency_modulation(self) -> float:
-        """Sound's modulation frequency in Hz."""
+        """Sound's modulation frequency in Hz.
+
+        :type: :class:`float`
+        """
         return self._frequency_modulation
 
     @frequency_modulation.setter
@@ -135,7 +141,10 @@ class SoundAM(BaseSound):
 
     @property
     def method(self) -> str:
-        """The amplitude modulation method."""
+        """The amplitude modulation method.
+
+        :type: :class:`str`
+        """
         return self._method
 
     @method.setter
