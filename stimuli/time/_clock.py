@@ -39,13 +39,23 @@ class Clock(BaseClock):
     """Clock which keeps track of time in nanoseconds.
 
     The origin ``t=0`` corresponds to the instantiation of the
-    :class:`stimuli.time.Clock` object.
+    :class:`stimuli.time.Clock` object. The time is measured either through the
+    monotonic :func:`time.monotonic_ns` function or through the performance counter
+    :func:`time.perf_counter` function, depending on which one has the highest
+    resolution.
     """
 
     def __init__(self) -> None:
-        self._t0 = time.monotonic_ns()
+        if (
+            time.get_clock_info("perf_counter").resolution
+            < time.get_clock_info("monotonic").resolution
+        ):
+            self._function = lambda: time.perf_counter() * 1e9
+        else:
+            self._function = time.monotonic_ns
+        self._t0 = self._function()
 
     @copy_doc(BaseClock.get_time_ns)
     def get_time_ns(self) -> int:
         """Return the current time in nanoseconds."""
-        return time.monotonic_ns() - self._t0
+        return self._function() - self._t0

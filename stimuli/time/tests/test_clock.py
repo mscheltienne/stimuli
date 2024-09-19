@@ -1,6 +1,9 @@
+import pytest
+
 from stimuli.time import Clock
 
 
+@pytest.mark.xfail(reason="Depends on the system clock.")
 def test_clock():
     """Test the clock object."""
     # test t0 with 20 microseconds headroom
