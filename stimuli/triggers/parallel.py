@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import time
 from concurrent.futures import ThreadPoolExecutor
 from platform import system
@@ -46,11 +48,8 @@ class ParallelPortTrigger(BaseTrigger):
     """
 
     def __init__(
-        self,
-        address: int | str,
-        port_type: str | None = None,
-        delay: int = 10,
-    ):
+        self, address: int | str, port_type: str | None = None, delay: int = 10
+    ) -> None:
         check_type(address, ("int-like", str), "address")
         if not isinstance(address, str):
             address = ensure_int(address)

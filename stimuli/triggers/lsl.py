@@ -1,9 +1,16 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import numpy as np
-from mne_lsl.lsl import StreamInfo, StreamOutlet
 
 from ..utils._checks import check_type
 from ..utils._docs import copy_doc, fill_doc
+from ..utils._imports import import_optional_dependency
 from ._base import BaseTrigger
+
+if TYPE_CHECKING:
+    from mne_lsl.lsl import StreamInfo, StreamOutlet
 
 
 @fill_doc
@@ -41,7 +48,11 @@ class LSLTrigger(BaseTrigger):
     by ``np.int8``, 1 to 127 included.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
+        import_optional_dependency("mne-lsl")
+
+        from mne_lsl.lsl import StreamInfo, StreamOutlet
+
         check_type(name, (str,), "name")
         self._name = name
         # create outlet

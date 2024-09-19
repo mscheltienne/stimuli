@@ -24,7 +24,6 @@ classifiers = [
 dependencies = [
   'click',
   'matplotlib',
-  'mne_lsl>=1.5.0',
   'numpy>=1.23',
   'packaging',
   'psutil',
@@ -54,6 +53,7 @@ version = '1.0.0.dev0'
 all = [
   'stimuli[build]',
   'stimuli[doc]',
+  'stimuli[lsl]',
   'stimuli[style]',
   'stimuli[test]',
 ]
@@ -77,6 +77,9 @@ doc = [
 full = [
   'stimuli[all]',
 ]
+lsl = [
+  'mne_lsl>=1.5.0'
+]
 style = [
   'bibclean',
   'codespell[toml]>=2.2.4',
@@ -86,6 +89,7 @@ style = [
   'yamllint',
 ]
 test = [
+  'stimuli[lsl]',
   'pytest-cov',
   'pytest-timeout',
   'pytest>=8.0.0',

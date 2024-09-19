@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 import numpy as np
+from matplotlib import pyplot as plt
 from scipy.io import wavfile
 
 from ..utils._checks import check_type, check_value, ensure_int, ensure_path
@@ -16,6 +17,8 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
     from pathlib import Path
 
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
     from numpy.typing import NDArray
 
     from ..time import BaseClock
@@ -102,6 +105,15 @@ class BaseSound(ABC):
     @copy_doc(BaseBackend.play)
     def play(self, when: float | None = None) -> None:
         self._backend.play(when=when)
+
+    def plot(self) -> tuple[Figure, Axes]:
+        """Plot the audio signal waveform."""
+        f, ax = plt.subplots(1, 1, layout="constrained")
+        ax.plot(self.times, self.signal)
+        ax.set_xlabel("Time [s]")
+        ax.set_ylabel("Amplitude")
+        ax.set_title(repr(self))
+        return f, ax
 
     def save(self, fname: str | Path, *, overwrite: bool = False) -> None:
         """Save the audio stimulus to a WAV file.
