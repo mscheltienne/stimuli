@@ -26,11 +26,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Install liblsl
+        uses: ./.github/actions/install-liblsl
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: 'x64'
       - name: Install package
         run: |
           python -m pip install --progress-bar off --upgrade pip setuptools

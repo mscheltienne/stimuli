@@ -11,11 +11,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Install liblsl
+        uses: ./.github/actions/install-liblsl
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
-          architecture: 'x64'
       - name: Create virtual sound card
         uses: LABSN/sound-ci-helpers@v1
       - name: Install package
@@ -32,5 +33,5 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN  }}
         run: |
           python -m build
-          twine check dist/*
+          twine check --strict dist/*
           twine upload dist/*
