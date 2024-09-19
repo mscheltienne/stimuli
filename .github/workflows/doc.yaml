@@ -28,10 +28,10 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y optipng
-      - name: Install package
+      - name: Install uv and package
         run: |
-          python -m pip install --progress-bar off --upgrade pip setuptools
-          python -m pip install --progress-bar off .[doc]
+          python -m pip install --quiet uv
+          uv pip install --quiet --system .[doc]
       - name: Create virtual sound card
         uses: LABSN/sound-ci-helpers@v1
       - name: Display system information
