@@ -1,12 +1,15 @@
 import numpy as np
 import pytest
-from mne_lsl.lsl import StreamInfo, StreamInlet, StreamOutlet, resolve_streams
-
-from stimuli.triggers import LSLTrigger
 
 
 def test_trigger_lsl():
     """Testing for LSL triggers."""
+    pytest.importorskip("mne-lsl")
+
+    from mne_lsl.lsl import StreamInfo, StreamInlet, StreamOutlet, resolve_streams
+
+    from stimuli.triggers import LSLTrigger
+
     name = "test-trigger-lsl"
     trigger = LSLTrigger(name)
     assert trigger.name == name

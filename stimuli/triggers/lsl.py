@@ -49,7 +49,7 @@ class LSLTrigger(BaseTrigger):
     """
 
     def __init__(self, name: str) -> None:
-        import_optional_dependency("mne-lsl")
+        import_optional_dependency("mne_lsl")
 
         from mne_lsl.lsl import StreamInfo, StreamOutlet
 
