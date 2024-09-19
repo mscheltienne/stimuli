@@ -17,6 +17,42 @@ if TYPE_CHECKING:
 docdict: dict[str, str] = dict()
 
 # -- A ---------------------------------------------------------------------------------
+docdict["audio_backend"] = """
+backend : ``"sounddevice"``
+    The backend to use for sound playback."""
+
+docdict["audio_clock"] = """
+clock : BaseClock
+    Clock object to use for timing measurements."""
+
+docdict["audio_device"] = """
+device : int | None
+    Device index to use for sound playback. If None, the default device provided
+    by the backend is used."""
+
+docdict["audio_duration"] = """
+duration : float
+    Duration of the sound in seconds, used to generate the time array."""
+
+docdict["audio_kwargs"] = """
+**kwargs
+    Additional keyword arguments passed to the backend initialization."""
+
+docdict["audio_n_channels"] = """
+n_channels : int
+    Number of channels of the sound."""
+
+docdict["audio_sample_rate"] = """
+sample_rate : int | None
+    Sample rate of the sound. If None, the default sample rate of the device
+    provided by the backend is used."""
+
+docdict["audio_volume"] = """
+volume : float | list of float | tuple of float | array of float
+    Volume of the sound as a percentage between 0 and 100. If a :class:`float` is
+    provided, the same volume is used for all channels. If a sequence is provided,
+    the length must match the number of channels."""
+
 # -- B ---------------------------------------------------------------------------------
 # -- C ---------------------------------------------------------------------------------
 # -- D ---------------------------------------------------------------------------------

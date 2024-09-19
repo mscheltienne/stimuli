@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from scipy.io import wavfile
 
 from ..utils._checks import check_type, check_value, ensure_int, ensure_path
-from ..utils._docs import copy_doc
+from ..utils._docs import copy_doc, fill_doc
 from ..utils.logs import logger
 from .backend import BACKENDS
 from .backend._base import BaseBackend
@@ -24,31 +24,20 @@ if TYPE_CHECKING:
     from ..time import BaseClock
 
 
+@fill_doc
 class BaseSound(ABC):
     """Base audio stimulus class.
 
     Parameters
     ----------
-    volume : float | list of float | tuple of float | array of float
-        Volume of the sound as a percentage between 0 and 100. If a :class:`float` is
-        provided, the same volume is used for all channels. If a sequence is provided,
-        the length must match the number of channels.
-    duration : float
-        Duration of the sound in seconds, used to generate the time array.
-    sample_rate : int | None
-        Sample rate of the sound. If None, the default sample rate of the device
-        provided by the backend is used.
-    device : int | None
-        Device index to use for sound playback. If None, the default device provided
-        by the backend is used.
-    n_channels : int
-        Number of channels of the sound.
-    backend : ``"sounddevice"``
-        The backend to use for sound playback.
-    clock : BaseClock
-        Clock object to use for timing measurements.
-    **kwargs
-        Additional keyword arguments passed to the backend initialization.
+    %(audio_volume)s
+    %(audio_duration)s
+    %(audio_sample_rate)s
+    %(audio_device)s
+    %(audio_n_channels)s
+    %(audio_backend)s
+    %(audio_clock)s
+    %(audio_kwargs)s
     """
 
     @abstractmethod

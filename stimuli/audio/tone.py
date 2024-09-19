@@ -6,7 +6,7 @@ import numpy as np
 
 from ..time import Clock
 from ..utils._checks import check_type
-from ..utils._docs import copy_doc
+from ..utils._docs import copy_doc, fill_doc
 from ..utils.logs import logger
 from ._base import BaseSound
 
@@ -16,8 +16,23 @@ if TYPE_CHECKING:
     from ..time import BaseClock
 
 
+@fill_doc
 class Tone(BaseSound):
-    """Pure tone stimulus at a given frequency."""
+    """Pure tone stimulus at a given frequency.
+
+    Parameters
+    ----------
+    frequency : float
+        Frequency of the tone in Hz.
+    %(audio_volume)s
+    %(audio_duration)s
+    %(audio_sample_rate)s
+    %(audio_device)s
+    %(audio_n_channels)s
+    %(audio_backend)s
+    %(audio_clock)s
+    %(audio_kwargs)s
+    """
 
     def __init__(
         self,

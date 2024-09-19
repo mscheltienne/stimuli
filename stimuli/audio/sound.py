@@ -7,7 +7,7 @@ from scipy.io import wavfile
 
 from ..time import Clock
 from ..utils._checks import ensure_path
-from ..utils._docs import copy_doc
+from ..utils._docs import copy_doc, fill_doc
 from ..utils.logs import warn
 from ._base import BaseSound
 
@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 _SUPPORTED: tuple[str, ...] = (".wav",)
 
 
+@fill_doc
 class Sound(BaseSound):
     """Auditory stimulus loaded from a file.
 
@@ -29,6 +30,9 @@ class Sound(BaseSound):
     ----------
     fname : str | Path
         Path to the supported audio file to load.
+    %(audio_device)s
+    %(audio_backend)s
+    %(audio_clock)s
     """
 
     def __init__(

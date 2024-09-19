@@ -6,7 +6,7 @@ import numpy as np
 
 from ..time import Clock
 from ..utils._checks import check_type, check_value
-from ..utils._docs import copy_doc
+from ..utils._docs import copy_doc, fill_doc
 from ..utils.logs import logger
 from ._base import BaseSound
 
@@ -25,6 +25,7 @@ _PSDS: dict[str, Callable] = {
 }
 
 
+@fill_doc
 class Noise(BaseSound):
     """Colored noise stimulus.
 
@@ -32,6 +33,14 @@ class Noise(BaseSound):
     ----------
     color : ``'white'`` | ``'pink'`` | ``'blue'`` | ``'violet'`` | ``'brown'``
         The name of the noise color.
+    %(audio_volume)s
+    %(audio_duration)s
+    %(audio_sample_rate)s
+    %(audio_device)s
+    %(audio_n_channels)s
+    %(audio_backend)s
+    %(audio_clock)s
+    %(audio_kwargs)s
     """
 
     def __init__(

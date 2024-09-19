@@ -6,7 +6,7 @@ import numpy as np
 
 from ..time import Clock
 from ..utils._checks import check_type, check_value
-from ..utils._docs import copy_doc
+from ..utils._docs import copy_doc, fill_doc
 from ..utils.logs import logger
 from ._base import BaseSound
 
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from ..time import BaseClock
 
 
+@fill_doc
 class SoundAM(BaseSound):
     """Amplitude modulated sound.
 
@@ -39,6 +40,14 @@ class SoundAM(BaseSound):
 
                 signal = M(t)*cos(2*pi*fc*t)
                 M(t) = sin(2*pi*fm*t)
+    %(audio_volume)s
+    %(audio_duration)s
+    %(audio_sample_rate)s
+    %(audio_device)s
+    %(audio_n_channels)s
+    %(audio_backend)s
+    %(audio_clock)s
+    %(audio_kwargs)s
     """
 
     def __init__(
