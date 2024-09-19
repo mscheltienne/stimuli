@@ -31,3 +31,12 @@ def test_color_setter():
     sound.color = "pink"
     assert sound.color == "pink"
     assert data_orig != sound._backend._data
+
+
+def test_duration_setter():
+    """Test changing the duration of the sound."""
+    sound = Noise(volume=10, duration=1, color="white")
+    sound.duration = 0.05
+    assert_allclose(sound.duration, 0.05, atol=1 / sound.sample_rate)
+    assert_allclose(sound.times.size, sound.sample_rate * sound.duration, atol=1)
+    assert sound.signal.shape == (sound.times.size, 1)

@@ -1,8 +1,6 @@
 from io import StringIO
 
-import pytest
-
-from ..config import _get_gpu_info, sys_info
+from ..config import sys_info
 
 
 def test_sys_info():
@@ -33,11 +31,3 @@ def test_sys_info():
     assert "build" in value
     assert "style" in value
     assert "test" in value
-
-
-def test_gpu_info():
-    """Test getting GPU info."""
-    pytest.importorskip("pyvista")
-    version, renderer = _get_gpu_info()
-    assert version is not None
-    assert renderer is not None

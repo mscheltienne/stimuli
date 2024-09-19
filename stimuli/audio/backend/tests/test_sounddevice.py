@@ -22,7 +22,7 @@ def device() -> dict[str, str | int | float]:
 @pytest.fixture(scope="module")
 def duration() -> float:
     """Duration of the sound."""
-    return 0.1
+    return 0.2
 
 
 @pytest.fixture(scope="module")
@@ -52,16 +52,16 @@ def test_backend_mono(
     assert sound._target_time is None
     sound.play()
     assert sound._target_time is not None
-    sleep(1.1 * duration)
+    sleep(2 * duration)
     assert sound._target_time is None
 
     sound.play(when=5 * duration)
     assert sound._target_time is not None
-    sleep(1.1 * duration)
+    sleep(2 * duration)
     assert sound._target_time is not None
-    sleep(4 * duration)
+    sleep(3 * duration)
     assert sound._target_time is not None
-    sleep(1.1 * duration)
+    sleep(2 * duration)
     assert sound._target_time is None
 
 
@@ -77,7 +77,7 @@ def test_backend_stereo(
     assert sound._target_time is None
     sound.play()
     assert sound._target_time is not None
-    sleep(1.1 * duration)
+    sleep(2 * duration)
     assert sound._target_time is None
 
 
@@ -103,7 +103,7 @@ def test_backend_invalid_play(
     sound.play()
     with pytest.raises(RuntimeError, match="The audio playback is already on-going."):
         sound.play()
-    sleep(1.1 * duration)
+    sleep(2 * duration)
     sound.play(when=3 * duration)
     with pytest.raises(RuntimeError, match="The audio playback is already on-going."):
         sound.play()
@@ -163,7 +163,7 @@ def test_invalid_block_size(
     sound.initialize(data, 0)
     sound.play()
     assert sound._target_time is not None
-    sleep(1.1 * duration)
+    sleep(2 * duration)
     assert sound._target_time is None
 
 

@@ -88,7 +88,7 @@ class BaseSound(ABC):
             0,
             self.duration,
             int(self.duration * self.sample_rate),
-            endpoint=True,
+            endpoint=False,
             dtype=np.float32,
         )
 

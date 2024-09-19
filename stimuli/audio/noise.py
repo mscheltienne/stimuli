@@ -77,6 +77,10 @@ class Noise(BaseSound):
         signal = np.fft.irfft(dft * S)
         signal /= np.max(np.abs(signal))  # normalize
         super()._set_signal(signal)
+        # make sure we have the correct times as the rFFT and irFFT could get us off
+        if self._times.size != self._signal.size:
+            self._times = self._times[: self._signal.size]
+            self._duration = self._times[-1] + 1 / self.sample_rate
 
     @property
     def color(self) -> str:
