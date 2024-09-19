@@ -4,7 +4,7 @@ import pytest
 
 def test_trigger_lsl():
     """Testing for LSL triggers."""
-    pytest.importorskip("mne-lsl")
+    pytest.importorskip("mne_lsl")
 
     from mne_lsl.lsl import StreamInfo, StreamInlet, StreamOutlet, resolve_streams
 
