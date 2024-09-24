@@ -49,6 +49,7 @@ class Sound(BaseSound):
             raise ValueError(f"Unsupported file extension {fname.suffix}.")
         self._fname = fname
         sample_rate, original_signal = wavfile.read(self._fname)
+        original_signal = original_signal.astype(np.float32)
         _check_signal(original_signal)
         volume = _extract_volume(original_signal)
         self._original_signal = _ensure_signal(original_signal)
@@ -87,7 +88,7 @@ class Sound(BaseSound):
         return self._fname
 
 
-def _check_signal(signal: NDArray) -> NDArray[np.float32]:
+def _check_signal(signal: NDArray[np.float32]) -> None:
     """Check the loaded signal is valid."""
     if signal.ndim not in (1, 2):
         raise ValueError(
@@ -96,7 +97,7 @@ def _check_signal(signal: NDArray) -> NDArray[np.float32]:
         )
 
 
-def _extract_volume(signal: NDArray) -> NDArray[np.float32]:
+def _extract_volume(signal: NDArray[np.float32]) -> NDArray[np.float32]:
     """Extract the volume from the signal."""
     if signal.ndim == 1:
         signal = signal[:, np.newaxis]  # add a channel dimension
@@ -110,10 +111,10 @@ def _extract_volume(signal: NDArray) -> NDArray[np.float32]:
     return volume
 
 
-def _ensure_signal(signal: NDArray) -> NDArray[np.float32]:
+def _ensure_signal(signal: NDArray[np.float32]) -> NDArray[np.float32]:
     """Ensure the signal is valid."""
     if signal.ndim == 2 and signal.shape[1] == 1:
         signal = signal.squeeze()
     signal /= np.max(np.abs(signal, dtype=np.float32), axis=0)
     np.nan_to_num(signal, copy=False, nan=0.0)  # sanity-check
-    return signal.astype(np.float32)
+    return signal
