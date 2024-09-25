@@ -32,7 +32,7 @@ jobs:
         uses: ./.github/actions/create-soundcard
       - name: Create virtual pport (linux)
         if: ${{ runner.os == 'Linux' }}
-        run:
+        run: |
           sudo modprobe parport
           ls -l /dev/parport*
       - name: Setup Python ${{ matrix.python-version }}
