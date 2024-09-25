@@ -37,7 +37,6 @@ runs:
         Import-Certificate -FilePath ScreamCertificate.cer -CertStoreLocation Cert:\LocalMachine\root
         Import-Certificate -FilePath ScreamCertificate.cer -CertStoreLocation Cert:\LocalMachine\TrustedPublisher
         Scream\Install\helpers\devcon-x64.exe install Scream\Install\driver\x64\Scream.inf *Scream
-      timeout-minutes: 5
     - name: Create soundcard (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
