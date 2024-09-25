@@ -30,6 +30,11 @@ jobs:
         uses: ./.github/actions/install-liblsl
       - name: Create virtual sound card
         uses: ./.github/actions/create-soundcard
+      - name: Create virtual pport (linux)
+        if: ${{ runner.os == 'Linux' }}
+        run:
+          sudo modprobe parport
+          ls -l /dev/parport*
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
