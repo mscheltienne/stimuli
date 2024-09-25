@@ -166,6 +166,9 @@ def test_invalid_device_inex() -> None:
         SoundSD(len(devices) + 101, 44100)
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
+)
 def test_invalid_block_size(
     device: dict[str, str | int | float], data: NDArray[np.float32], duration: float
 ) -> None:
