@@ -17,7 +17,9 @@ runs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |
-        brew install blackhole-2ch
+        brew install blackhole-2ch switchaudio-osx
+        SwitchAudioSource -s "BlackHole 2ch" -t input
+        SwitchAudioSource -s "BlackHole 2ch" -t output
     - name: Get soundcard dependencies (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
