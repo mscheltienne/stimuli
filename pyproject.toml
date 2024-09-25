@@ -78,7 +78,7 @@ full = [
   'stimuli[all]',
 ]
 lsl = [
-  'mne_lsl>=1.5.0'
+  'mne_lsl>=1.5.0',
 ]
 style = [
   'bibclean',
@@ -89,10 +89,10 @@ style = [
   'yamllint',
 ]
 test = [
-  'stimuli[lsl]',
   'pytest-cov',
   'pytest-timeout',
   'pytest>=8.0.0',
+  'stimuli[lsl]',
 ]
 
 [project.scripts]
