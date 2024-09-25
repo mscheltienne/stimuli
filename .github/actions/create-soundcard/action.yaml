@@ -8,8 +8,8 @@ runs:
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
-        sudo apt-get update
-        sudo apt-get install -y pulseaudio
+        sudo apt update
+        sudo apt install -y pulseaudio portaudio19-dev
         pulseaudio --check || pulseaudio --start
         pactl load-module module-null-sink sink_name=vspeaker sink_properties=device.description=virtual_speaker
         pactl load-module module-remap-source master=vspeaker.monitor source_name=vmic source_properties=device.description=virtual_mic
