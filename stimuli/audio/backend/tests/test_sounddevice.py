@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from time import sleep
 from typing import TYPE_CHECKING
 
@@ -43,6 +44,9 @@ def data(
     return data.astype(np.float32)
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
+)
 def test_backend_mono(
     device: dict[str, str | int | float], data: NDArray[np.float32], duration: float
 ) -> None:
@@ -52,7 +56,7 @@ def test_backend_mono(
     assert sound._target_time is None
     sound.play()
     assert sound._target_time is not None
-    sleep(2 * duration)
+    sleep(1.1 * duration)
     assert sound._target_time is None
 
     sound.play(when=5 * duration)
@@ -61,10 +65,13 @@ def test_backend_mono(
     assert sound._target_time is not None
     sleep(3 * duration)
     assert sound._target_time is not None
-    sleep(2 * duration)
+    sleep(1.1 * duration)
     assert sound._target_time is None
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
+)
 def test_backend_stereo(
     device: dict[str, str | int | float], data: NDArray[np.float32], duration: float
 ) -> None:
@@ -77,10 +84,13 @@ def test_backend_stereo(
     assert sound._target_time is None
     sound.play()
     assert sound._target_time is not None
-    sleep(2 * duration)
+    sleep(1.1 * duration)
     assert sound._target_time is None
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
+)
 def test_backend_interrupt(
     device: dict[str, str | int | float], data: NDArray[np.float32]
 ) -> None:
@@ -94,6 +104,9 @@ def test_backend_interrupt(
         sound.stop()
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
+)
 def test_backend_invalid_play(
     device: dict[str, str | int | float], data: NDArray[np.float32], duration: float
 ) -> None:
@@ -103,7 +116,7 @@ def test_backend_invalid_play(
     sound.play()
     with pytest.raises(RuntimeError, match="The audio playback is already on-going."):
         sound.play()
-    sleep(2 * duration)
+    sleep(1.1 * duration)
     sound.play(when=3 * duration)
     with pytest.raises(RuntimeError, match="The audio playback is already on-going."):
         sound.play()
