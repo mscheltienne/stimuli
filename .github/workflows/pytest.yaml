@@ -35,6 +35,7 @@ jobs:
         run: |
           sudo modprobe parport
           sudo modprobe parport_pc
+          sudo modprobe ppdev
           ls -l /dev/parport*
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
