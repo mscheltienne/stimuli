@@ -7,6 +7,7 @@ from importlib.metadata import metadata, requires, version
 from typing import TYPE_CHECKING
 
 import psutil
+import sounddevice as sd
 from packaging.requirements import Requirement
 
 from ._checks import check_type
@@ -75,6 +76,10 @@ def sys_info(fid: IO | None = None, developer: bool = False):
                 continue
             out(f"\nOptional '{key}' dependencies\n")
             _list_dependencies_info(out, ljust, package, extra_dependencies)
+
+    # audio device information
+    out("\nAudio devices\n")
+    out(repr(sd.query_devices()) + "\n")
 
 
 def _list_dependencies_info(
