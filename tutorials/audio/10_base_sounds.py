@@ -60,7 +60,7 @@ sound.play(blocking=True)
 # :class:`~stimuli.audio.Sound`.
 
 with TemporaryDirectory() as directory:
-    fname = Path(directory.name) / "my_pure_tone.wav"
+    fname = Path(directory) / "my_pure_tone.wav"
     sound.save(fname, overwrite=True)
     sound_loaded = Sound(fname)
 sound_loaded.play(blocking=True)
@@ -85,10 +85,8 @@ print(f"Sample rate of the loaded sound: {sound_loaded.sample_rate} Hz.")
 # The volume is normalized, with the loudest channel set to ``100``. The ratio
 # between channels is preserved.
 
-print("Volume of the original sound: %s" % "({:.1f}, {:.1f})".format(*sound.volume))
-print(
-    "Volume of the loaded sound: %s" % "({:.1f}, {:.1f})".format(*sound_loaded.volume)
-)
+print(f"Volume of the original sound: {sound.volume}.")
+print(f"Volume of the loaded sound: {sound_loaded.volume}.")
 
 # %%
 # Visualize a sound
