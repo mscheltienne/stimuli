@@ -64,6 +64,8 @@ class BaseSound(ABC):
                 f"'{self._n_channels}' is invalid."
             )
         self._volume = _ensure_volume(volume, self._n_channels)
+        # window can only be set by property
+        self._window = None
         # the arguments sample_rate, device, clock, and **kwargs are checked in
         # the backend initialization.
         self._backend_kwargs = kwargs
@@ -85,10 +87,12 @@ class BaseSound(ABC):
     def _set_signal(self, signal: NDArray) -> None:
         """Set the signal array."""
         signal = np.vstack([signal] * self._n_channels).T
+        if self._window is not None:
+            assert self._window.size == signal.shape[0]  # sanity-check
+            signal = np.multiply(signal, self._window[:, np.newaxis])
         assert self._volume.ndim == 1  # sanity-check
         assert self._volume.size == self._n_channels  # sanity-check
-        signal = np.ascontiguousarray(signal) * self._volume / 100
-        signal = signal.astype(np.float32)  # sanity-check
+        signal = np.ascontiguousarray(signal * self._volume / 100, dtype=np.float32)
         self._signal = signal
 
     @copy_doc(BaseBackend.play)
@@ -191,6 +195,32 @@ class BaseSound(ABC):
     def volume(self, volume: float | Sequence[float]) -> None:
         logger.debug("Setting 'volume' to %s [%].", volume)
         self._volume = _ensure_volume(volume, self._n_channels)
+        self._set_signal()
+
+    @property
+    def window(self) -> NDArray[np.float32] | None:
+        """Window applied to the audio signal.
+
+        :type: array of shape (n_samples,) | None
+        """
+        return self._window
+
+    @window.setter
+    def window(self, window: NDArray | list | tuple | set | None) -> None:
+        if window is not None:
+            check_type(window, ("array-like",), "window")
+            window = np.asarray(window, dtype=np.float32)
+            if window.ndim != 1:
+                raise ValueError(
+                    f"The window must be a 1D array. Provided'{window.ndim}' "
+                    "dimensions are invalid."
+                )
+            if window.size != self.times.size:
+                raise ValueError(
+                    "The window must have the same number of samples as the signal. "
+                    f"Provided '{window.size}' samples for '{self.times.size}' samples."
+                )
+        self._window = window
         self._set_signal()
 
     @property

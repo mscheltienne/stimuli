@@ -86,6 +86,8 @@ class BaseBackend(ABC):
             If True, the function blocks until the audio playback is finished.
         """
         self._check_initialized()
+        if when is not None:  # quick input validation
+            assert 0 < when, "The 'when' parameter must be a positive float."
 
     @abstractmethod
     def stop(self) -> None:

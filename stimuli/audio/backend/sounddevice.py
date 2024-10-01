@@ -124,7 +124,7 @@ class SoundSD(BaseBackend):
 
     @copy_doc(BaseBackend.play)
     def play(self, when: float | None = None, *, blocking: bool = False) -> None:
-        super().play(when)
+        super().play(when, blocking=blocking)
         if self._target_time is not None:
             raise RuntimeError("The audio playback is already on-going.")
         self._target_time = (

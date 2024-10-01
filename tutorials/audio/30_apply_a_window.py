@@ -43,7 +43,7 @@ from stimuli.audio import Tone
 # To create the stimuli, we create a :class:`~stimuli.audio.Tone` object with
 # a given volume and frequency.
 
-sound = Tone(volume=10, frequency=200, duration=0.1)
+sound = Tone(frequency=200, volume=10, duration=0.1)
 
 # %%
 # By default, a generated signal will have a rectangular window applied. A
@@ -51,23 +51,20 @@ sound = Tone(volume=10, frequency=200, duration=0.1)
 # to 1 inside. We can plot the waveform of one of the channels:
 
 # draw the waveform
-plt.figure()
-plt.plot(sound.times * 1000, sound.signal[:, 0])
-plt.xlabel("Time (ms)")
-plt.title("Waveform - Rectangular window")
+_, ax = sound.plot()
+ax.set_title("Waveform - Rectangular window")
 
 # overlay a rectangular window
 # note: for demonstration purposes, we make the window 20% longer than the
 # signal by extending it by 10% before and after the signal.
-extension = int(0.1 * sound.n_samples)
-window = np.zeros(extension + sound.n_samples + extension)
-window[extension + 1 : extension + sound.n_samples] = 1 / sound.volume
+extension = int(0.1 * sound.times.size)
+window = np.zeros(extension + sound.times.size + extension)
+window[extension + 1 : extension + sound.times.size] = 1 / sound.volume
 # determine the timestamps associated to each sample in the window (ms)
 window_times = np.arange(0, 1 / sound.sample_rate * window.size, 1 / sound.sample_rate)
 window_times -= extension / sound.sample_rate
-window_times *= 1000
 # draw the window
-plt.plot(window_times, window, color="crimson")
+ax.plot(window_times, window, color="crimson")
 plt.show()
 
 # %%
@@ -79,53 +76,38 @@ plt.show()
 # during the last 10% of the total duration. A correctly defined window is a
 # 1D `~numpy.array` with the same number of samples as the sound.
 
-window = np.ones(sound.n_samples)
-n_samples_ramp = int(0.1 * sound.n_samples)
+window = np.ones(sound.times.size)
+n_samples_ramp = int(0.1 * sound.times.size)
 ramp = np.linspace(start=0, stop=1, num=n_samples_ramp)
 window[:n_samples_ramp] = ramp
 window[-n_samples_ramp:] = ramp[::-1]
-
-# draw the window
-plt.figure()
-plt.plot(window)
-plt.title("Window with onset/offset ramps")
-plt.xlabel("Samples")
-plt.show()
 
 # %%
 # Change the window
 # -----------------
 #
-# We can change the applied window by setting the attribute ``window``.
+# We can change the applied window by setting the property ``window``.
 
 sound.window = window
 
 # draw the modified sound and the window
-plt.figure()
-plt.plot(sound.times * 1000, sound.signal[:, 0])
-plt.xlabel("Time (ms)")
-plt.title("Waveform - Ramp onset/offset window")
-
-# overlay the window
-plt.plot(sound.times * 1000, window / sound.volume, color="crimson")
+_, ax = sound.plot()
+ax.set_title("Waveform - Ramp onset/offset window")
+ax.plot(sound.times, window / sound.volume, color="crimson")  # overlay the window
 plt.show()
 
 # %%
 # Scipy windows
 # -------------
 #
-# `scipy`_ has many windows implemented in `scipy.signal.windows`. For instance
+# `scipy`_ has many windows implemented in :mod:`scipy.signal.windows`. For instance
 # we can use a Tukey window with the function `~scipy.signal.windows.tukey`.
 
-window = tukey(sound.n_samples)
+window = tukey(sound.times.size)
 sound.window = window
 
 # draw the modified sound and the window
-plt.figure()
-plt.plot(sound.times * 1000, sound.signal[:, 0])
-plt.xlabel("Time (ms)")
-plt.title("Waveform - Tukey window")
-
-# overlay the window
-plt.plot(sound.times * 1000, window / sound.volume, color="crimson")
+_, ax = sound.plot()
+ax.set_title("Waveform - Tukey window")
+ax.plot(sound.times, window / sound.volume, color="crimson")  # overlay the window
 plt.show()
