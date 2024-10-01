@@ -96,7 +96,15 @@ class BaseSound(ABC):
         self._backend.play(when=when)
 
     def plot(self) -> tuple[Figure, Axes]:
-        """Plot the audio signal waveform."""
+        """Plot the audio signal waveform.
+
+        Returns
+        -------
+        f : Figure
+            The matplotlib figure object.
+        ax : Axes
+            The matplotlib axes object.
+        """
         f, ax = plt.subplots(1, 1, layout="constrained")
         ax.plot(self.times, self.signal)
         ax.set_xlabel("Time [s]")

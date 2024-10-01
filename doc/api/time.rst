@@ -6,5 +6,6 @@ Time
 .. autosummary::
     :toctree: generated/
 
+    BaseClock
     Clock
     sleep

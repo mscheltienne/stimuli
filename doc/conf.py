@@ -110,7 +110,7 @@ autoclass_content = "class"
 
 # -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = get_intersphinx_mapping(
-    packages={"matplotlib", "mne", "numpy", "pandas", "python", "scipy"}
+    packages={"matplotlib", "mne", "mne_lsl", "numpy", "pandas", "python", "scipy"}
 )
 intersphinx_mapping["sounddevice"] = (
     "https://python-sounddevice.readthedocs.io/",
@@ -131,12 +131,20 @@ numpydoc_attributes_as_param_list = False
 # x-ref
 numpydoc_xref_param_type = True
 numpydoc_xref_aliases = {
-    # Python
+    # matplotlib
+    "Axes": ":class:`matplotlib.axes.Axes`",
+    "Figure": ":class:`matplotlib.figure.Figure`",
+    # python
     "bool": ":class:`python:bool`",
-    "Path": "pathlib.Path",
-    "TextIO": "io.TextIOBase",
+    "Path": ":class:`pathlib.Path`",
+    "TextIO": ":class:`io.TextIOBase`",
+    # stimuli
+    "BaseClock": ":class:`stimuli.time.BaseClock`",
 }
 numpydoc_xref_ignore = {
+    "array",
+    "n_channels",
+    "n_samples",
     "of",
     "shape",
 }

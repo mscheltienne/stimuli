@@ -33,6 +33,7 @@ class Sound(BaseSound):
     %(audio_device)s
     %(audio_backend)s
     %(audio_clock)s
+    %(audio_kwargs)s
     """
 
     def __init__(
