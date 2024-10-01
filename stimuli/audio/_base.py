@@ -93,7 +93,7 @@ class BaseSound(ABC):
 
     @copy_doc(BaseBackend.play)
     def play(self, when: float | None = None, *, blocking: bool = False) -> None:
-        self._backend.play(when=when)
+        self._backend.play(when=when, blocking=blocking)
 
     def plot(self) -> tuple[Figure, Axes]:
         """Plot the audio signal waveform.

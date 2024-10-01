@@ -133,7 +133,14 @@ class SoundSD(BaseBackend):
             else self._clock.get_time_ns() + int(when * 1e9)
         )
         if blocking:
-            sleep(when + self._duration)
+            wait = self._duration
+            if when is not None:
+                wait += when
+            sleep(0.95 * wait)  # 5% margin
+            while self._target_time is not None:
+                # hog CPU for the last blocking part, based on _target_time and not on
+                # an estimated duration as sleep(...) does.
+                pass
 
     @copy_doc(BaseBackend.stop)
     def stop(self) -> None:
