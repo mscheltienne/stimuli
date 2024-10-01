@@ -110,7 +110,11 @@ autoclass_content = "class"
 
 # -- intersphinx -------------------------------------------------------------
 intersphinx_mapping = get_intersphinx_mapping(
-    packages={"matplotlib", "mne", "numpy", "pandas", "python", "scipy", "sounddevice"}
+    packages={"matplotlib", "mne", "numpy", "pandas", "python", "scipy"}
+)
+intersphinx_mapping["sounddevice"] = (
+    "https://python-sounddevice.readthedocs.io/",
+    None,
 )
 intersphinx_timeout = 5
 

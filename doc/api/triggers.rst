@@ -3,7 +3,7 @@ Triggers
 
 Triggers are used to mark event in time during an experiment.
 
-.. currentmodule:: stimuli.Triggers
+.. currentmodule:: stimuli.triggers
 
 .. autosummary::
     :toctree: generated/
