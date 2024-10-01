@@ -69,6 +69,7 @@ class BaseBackend(ABC):
             )
             data = np.ascontiguousarray(data)
         self._data = data if data.ndim == 2 else data[:, np.newaxis]
+        self._duration = self._data.shape[0] / self._sample_rate
 
     @abstractmethod
     def play(self, when: float | None = None, *, blocking: bool = False) -> None:
@@ -100,6 +101,11 @@ class BaseBackend(ABC):
     def clock(self) -> BaseClock:
         """The clock object used for time measurement."""
         return self._clock
+
+    @property
+    def duration(self) -> float:
+        """The duration of the audio data, in seconds."""
+        return self._duration
 
     @property
     def sample_rate(self) -> int:

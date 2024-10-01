@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import sounddevice as sd
 
-from ...time import Clock
+from ...time import Clock, sleep
 from ...utils._checks import check_value, ensure_int
 from ...utils._docs import copy_doc
 from ...utils.logs import warn
@@ -133,8 +133,7 @@ class SoundSD(BaseBackend):
             else self._clock.get_time_ns() + int(when * 1e9)
         )
         if blocking:
-            while self._target_time is not None:
-                pass  # TODO: add a precise sleep here based on when + duration.
+            sleep(when + self._duration)
 
     @copy_doc(BaseBackend.stop)
     def stop(self) -> None:

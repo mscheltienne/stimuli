@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install liblsl
         uses: ./.github/actions/install-liblsl
+      - name: Create virtual sound card
+        uses: ./.github/actions/create-soundcard
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
@@ -32,8 +34,6 @@ jobs:
         run: |
           python -m pip install --quiet uv
           uv pip install --quiet --system .[doc]
-      - name: Create virtual sound card
-        uses: LABSN/sound-ci-helpers@v1
       - name: Display system information
         run: stimuli sys-info --developer
       - name: Build doc
