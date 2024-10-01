@@ -19,19 +19,43 @@ class BaseClock(ABC):
         pass
 
     @abstractmethod
-    def get_time_ns(self) -> int:
-        """Return the current time in nanoseconds."""
+    def get_time_ns(self) -> float:
+        """Return the current time in nanoseconds.
+
+        Returns
+        -------
+        time : float
+            The current time in nanoseconds.
+        """
 
     def get_time_us(self) -> float:
-        """Return the current time in microseconds."""
+        """Return the current time in microseconds.
+
+        Returns
+        -------
+        time : float
+            The current time in microseconds.
+        """
         return self.get_time_ns() / 1e3
 
     def get_time_ms(self) -> float:
-        """Return the current time in milliseconds."""
+        """Return the current time in milliseconds.
+
+        Returns
+        -------
+        time : float
+            The current time in milliseconds.
+        """
         return self.get_time_ns() / 1e6
 
     def get_time(self) -> float:
-        """Return the current time in seconds."""
+        """Return the current time in seconds.
+
+        Returns
+        -------
+        time : float
+            The current time in seconds.
+        """
         return self.get_time_ns() / 1e9
 
 
@@ -56,6 +80,5 @@ class Clock(BaseClock):
         self._t0 = self._function()
 
     @copy_doc(BaseClock.get_time_ns)
-    def get_time_ns(self) -> int:
-        """Return the current time in nanoseconds."""
+    def get_time_ns(self) -> float:
         return self._function() - self._t0
