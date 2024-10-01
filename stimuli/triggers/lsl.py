@@ -87,7 +87,7 @@ class LSLTrigger(BaseTrigger):
             except Exception:  # pragma: no cover
                 pass
 
-    def __del__(self):  # noqa: D105
+    def __del__(self) -> None:  # noqa: D105
         self.close()
 
     # --------------------------------------------------------------------

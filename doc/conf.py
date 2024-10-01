@@ -3,6 +3,7 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+from __future__ import annotations
 
 import inspect
 import subprocess
@@ -18,12 +19,12 @@ import stimuli
 # -- project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Simple-stimuli"
+project = "Stimuli"
 author = "Mathieu Scheltienne"
 copyright = f"{date.today().year}, {author}"  # noqa: A001
 release = stimuli.__version__
 package = stimuli.__name__
-gh_url = "https://github.com/mscheltienne/simple-stimuli"
+gh_url = "https://github.com/mscheltienne/stimuli"
 
 # -- general configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -44,6 +45,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx.ext.linkcode",
+    "sphinx.ext.mathjax",
     "numpydoc",
     "sphinxcontrib.bibtex",
     "sphinx_copybutton",
@@ -71,10 +73,14 @@ default_role = "py:obj"
 suppress_warnings = ["config.cache"]
 
 # -- options for HTML output -------------------------------------------------
-html_theme = "furo"
-html_static_path = ["_static"]
-html_title = project
+html_css_files = [
+    "css/style.css",
+]
+html_permalinks_icon = "🔗"
 html_show_sphinx = False
+html_static_path = ["_static"]
+html_theme = "furo"
+html_title = project
 
 # Documentation to change footer icons:
 # https://pradyunsg.me/furo/customisation/footer/#changing-footer-icons
@@ -116,7 +122,7 @@ autosectionlabel_prefix_document = True
 
 # -- numpydoc ----------------------------------------------------------------
 numpydoc_class_members_toctree = False
-numpydoc_attributes_as_param_list = sys.platform != "linux"
+numpydoc_attributes_as_param_list = False
 
 # x-ref
 numpydoc_xref_param_type = True
@@ -219,16 +225,16 @@ else:
 sphinx_gallery_conf = {
     "backreferences_dir": "generated/backreferences",
     "compress_images": compress_images,
-    "doc_module": ("stimuli",),
+    "doc_module": (f"{package}",),
     "examples_dirs": ["../tutorials"],
     "exclude_implicit_doc": {},  # set
     "filename_pattern": r"\d{2}_",
     "gallery_dirs": ["generated/tutorials"],
     "line_numbers": False,
     "plot_gallery": "True",  # str, to enable overwrite from CLI without warning
-    "reference_url": dict(stimuli=None),
+    "reference_url": {f"{package}": None},
     "remove_config_comments": True,
-    "show_memory": sys.platform == "linux",
+    "show_memory": True,
     "within_subsection_order": FileNameSortKey,
 }
 

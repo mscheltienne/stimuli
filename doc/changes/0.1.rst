@@ -15,9 +15,8 @@ Version 0.1
 API and behavior changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Add audio module with ``ASSR``, ``WhiteNoise``, :class:`~stimuli.audio.Tone` and :class:`~stimuli.audio.Sound` (by `Mathieu Scheltienne`_)
-
-- Add visuals module with :class:`~stimuli.visuals.Text`, :class:`~stimuli.visuals.Cross`, :class:`~stimuli.visuals.FillingBar`, :class:`~stimuli.visuals.MovingBar` (by `Mathieu Scheltienne`_)
+- Add audio module with ``ASSR``, ``WhiteNoise``, ``Tone`` and ``Sound`` (by `Mathieu Scheltienne`_)
+- Add visuals module with ``Text``, ``Cross``, ``FillingBar``, ``MovingBar`` (by `Mathieu Scheltienne`_)
 
 Authors
 ~~~~~~~

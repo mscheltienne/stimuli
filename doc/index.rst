@@ -1,30 +1,24 @@
 .. include:: ./links.inc
 
-Simple-stimuli
-==============
+Stimuli
+=======
 
 .. toctree::
    :hidden:
 
    api/index
-   cli
    generated/tutorials/index
    changes/index
 
-Simple-stimuli is a Python package for delivery of simple auditory and visuals
-stimuli which does not require `PsychoPy`_\ :footcite:p:`peirce_psychopy2_2019,
+Stimuli is a Python package for delivery of auditory stimuli and events via parallel
+port or LSL which does not require `PsychoPy`_\ :footcite:p:`peirce_psychopy2_2019,
 peirce_generating_2008,peirce_psychopypsychophysics_2007`. Instead, it uses
-``opencv-python`` for visual stimuli and ``sounddevice`` for auditory stimuli.
-For complex paradigm and use cases, `PsychoPy`_\
-:footcite:p:`peirce_psychopy2_2019,peirce_generating_2008,
-peirce_psychopypsychophysics_2007` and its builder
-should be preferred.
+`sounddevice`_ for auditory stimuli which uses `PortAudio`_ under-the-hood.
 
 Install
 -------
 
-Simple-stimuli is available on `PyPI <project pypi_>`_ and
-on `conda-forge <project conda_>`_.
+Stimuli is available on `PyPI <project pypi_>`_ and on `conda-forge <project conda_>`_.
 
 .. tab-set::
 
@@ -33,6 +27,12 @@ on `conda-forge <project conda_>`_.
         .. code-block:: bash
 
             pip install stimuli
+
+        Or use the faster `uv`_:
+
+        .. code-block:: bash
+
+            uv pip install stimuli
 
     .. tab-item:: Conda
 
@@ -44,39 +44,12 @@ on `conda-forge <project conda_>`_.
 
         .. code-block:: bash
 
-            pip install git+https://github.com/mscheltienne/simple-stimuli
-
-Citation
---------
-
-If you use this package, please cite using the information in
-`CITATION.cff <project citation_>`_.
-
-.. tab-set::
-
-    .. tab-item:: APA
-
-        .. code-block::
-            :name: APA
-
-            Scheltienne, M. simple-stimuli [Computer software]. https://github.com/mscheltienne/simple-stimuli
-
-    .. tab-item:: BibTex
-
-        .. code-block::
-            :name: BibTex
-
-            @software{Scheltienne_simple-stimuli,
-              author = {Scheltienne, Mathieu},
-              license = {MIT},
-              title = {{simple-stimuli}},
-              url = {https://github.com/mscheltienne/simple-stimuli}
-            }
+            pip install git+https://github.com/mscheltienne/stimuli
 
 License
 -------
 
-``simple-stimuli`` is licensed under the `MIT license`_.
+``stimuli`` is licensed under the `MIT license`_.
 A full copy of the license can be found `on GitHub <project license_>`_.
 
 References

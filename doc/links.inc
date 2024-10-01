@@ -12,9 +12,7 @@
 
 .. _project pypi: https://pypi.org/project/stimuli/
 .. _project conda: https://anaconda.org/conda-forge/stimuli
-.. _project github: https://github.com/mscheltienne/simple-stimuli
-.. _project citation: https://github.com/mscheltienne/simple-stimuli/blob/main/CITATION.cff
-.. _project license: https://github.com/mscheltienne/simple-stimuli/blob/main/LICENSE
+.. _project license: https://github.com/mscheltienne/stimuli/blob/main/LICENSE
 
 
 .. license
@@ -22,11 +20,10 @@
 .. _MIT license: https://opensource.org/licenses/MIT
 
 
-.. psychopy
+.. softwares
 
+.. _uv: https://github.com/astral-sh/uv
+.. _portaudio: https://www.portaudio.com/
 .. _psychopy: https://www.psychopy.org/
-
-
-.. scipy
-
 .. _scipy: https://scipy.org/
+.. _sounddevice: https://python-sounddevice.readthedocs.io/en/latest/
