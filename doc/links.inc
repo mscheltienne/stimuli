@@ -20,7 +20,7 @@
 .. _MIT license: https://opensource.org/licenses/MIT
 
 
-.. softwares
+.. software
 
 .. _uv: https://github.com/astral-sh/uv
 .. _portaudio: https://www.portaudio.com/
