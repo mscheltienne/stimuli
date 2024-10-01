@@ -28,7 +28,7 @@ from stimuli.audio import Noise
 
 # %%
 # In this tutorial, we will create and plot the power spectrum of different
-# noise colors. ``simple-stimuli`` implements several noise color in
+# noise colors. ``stimuli`` implements several noise color in
 # :class:`~stimuli.audio.Noise`. Refer to the documentation of the ``color``
 # argument for available colors.
 
@@ -36,7 +36,7 @@ colors = ("white", "pink", "blue", "violet", "brown")
 sounds = dict()
 for color in colors:
     # identical volume on all audio channels
-    sounds[color] = Noise(volume=10, color=color)
+    sounds[color] = Noise(color=color, volume=10, duration=1)
 
 # %%
 # We can listen to each individual noise by playing each sound with
@@ -46,14 +46,13 @@ for sound in sounds.values():
     sound.play(blocking=True)
 
 # %%
-# The underlying signal is stored in the ``signal`` attribute. The returned
-# numpy array has 2 dimensions: ``(n_samples, n_channels)``. As the volume has
-# been set identicaly on all audio channels, we can disregard the second
-# dimension and select only the first channel.
+# The underlying signal is stored in the :py:attr:`stimuli.audio.Noise.signal``
+# property, a numpy array of shape ``(n_samples, n_channels)``. In this case, the sound
+# was set to mono so the signal has shape ``(n_samples, 1)``.
 
-plt.figure()
+plt.figure(layout="constrained")
 for color in colors:
-    signal = sounds[color].signal[:, 0]  # retrieve the signal
+    signal = sounds[color].signal.squeeze()
     # compute the one-dimensional discrete fourier transform
     frequencies = np.fft.rfftfreq(signal.size)
     dft = np.abs(np.fft.rfft(signal))

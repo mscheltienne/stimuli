@@ -71,7 +71,7 @@ class BaseBackend(ABC):
         self._data = data if data.ndim == 2 else data[:, np.newaxis]
 
     @abstractmethod
-    def play(self, when: float | None = None) -> None:
+    def play(self, when: float | None = None, *, blocking: bool = False) -> None:
         """Play the audio data.
 
         Parameters
@@ -81,6 +81,8 @@ class BaseBackend(ABC):
             instance, ``0.2`` will start playing in 200 ms. If ``None``, the audio data
             is played as soon as possible. A duration superior to the device latency is
             recommended.
+        blocking : bool
+            If True, the function blocks until the audio playback is finished.
         """
         self._check_initialized()
 

@@ -92,7 +92,7 @@ class BaseSound(ABC):
         self._signal = signal
 
     @copy_doc(BaseBackend.play)
-    def play(self, when: float | None = None) -> None:
+    def play(self, when: float | None = None, *, blocking: bool = False) -> None:
         self._backend.play(when=when)
 
     def plot(self) -> tuple[Figure, Axes]:

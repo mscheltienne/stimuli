@@ -123,7 +123,7 @@ class SoundSD(BaseBackend):
             self._target_time = None
 
     @copy_doc(BaseBackend.play)
-    def play(self, when: float | None = None) -> None:
+    def play(self, when: float | None = None, *, blocking: bool = False) -> None:
         super().play(when)
         if self._target_time is not None:
             raise RuntimeError("The audio playback is already on-going.")
@@ -132,6 +132,9 @@ class SoundSD(BaseBackend):
             if when is None
             else self._clock.get_time_ns() + int(when * 1e9)
         )
+        if blocking:
+            while self._target_time is not None:
+                pass  # TODO: add a precise sleep here based on when + duration.
 
     @copy_doc(BaseBackend.stop)
     def stop(self) -> None:
