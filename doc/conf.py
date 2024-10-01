@@ -59,7 +59,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 
 # Sphinx will warn about all references where the target cannot be found.
 nitpicky = True
-nitpick_ignore = []
+nitpick_ignore = [
+    ("py:class", "array"),
+    ("py:class", "n_channels"),
+    ("py:class", "n_samples"),
+    ("py:class", "shape"),
+]
 
 # A list of ignored prefixes for module index sorting.
 modindex_common_prefix = [f"{package}."]
@@ -147,9 +152,6 @@ numpydoc_xref_aliases = {
     "BaseClock": ":class:`stimuli.time.BaseClock`",
 }
 numpydoc_xref_ignore = {
-    "array",
-    "n_channels",
-    "n_samples",
     "of",
     "shape",
 }
