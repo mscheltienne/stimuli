@@ -13,6 +13,12 @@ runs:
         pulseaudio --check || pulseaudio --start
         pactl load-module module-null-sink sink_name=vspeaker sink_properties=device.description=virtual_speaker
         pactl load-module module-remap-source master=vspeaker.monitor source_name=vmic source_properties=device.description=virtual_mic
+    - name: Create soundcard (macOS)
+      if: ${{ runner.os == 'macOS' }}
+      shell: bash
+      run: |
+        brew install --cask background-music
+        sudo launchctl kickstart -kp system/com.apple.audio.coreaudiod || sudo killall coreaudiod
     - name: Get soundcard dependencies (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
