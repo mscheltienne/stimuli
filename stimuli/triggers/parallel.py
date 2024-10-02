@@ -18,7 +18,7 @@ class ParallelPortTrigger(BaseTrigger):
     ----------
     address : int (hex) | str
         The address of the parallel port on the system.
-        If an :ref:`api/triggers:Arduino to Parallel Port converter` is
+        If an :ref:`api/trigger:Arduino to Parallel Port converter` is
         used, the address must be the serial port address or ``"arduino"`` for automatic
         detection.
     port_type : str | None
@@ -162,7 +162,7 @@ class ParallelPortTrigger(BaseTrigger):
             raise RuntimeError(
                 "macOS does not support built-in parallel port. "
                 "Please use an arduino to LPT converter for hardware triggers "
-                "or byte_triggers.LSLTrigger for software triggers."
+                "or stimuli.trigger.LSLTrigger for software triggers."
             )
         elif ParallelPort is None and system() != "Linux":
             raise RuntimeError(

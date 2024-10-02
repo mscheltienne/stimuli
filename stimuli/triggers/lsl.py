@@ -18,14 +18,14 @@ class LSLTrigger(BaseTrigger):
     """Trigger sending values on an LSL outlet.
 
     Make sure you are recording the stream created by the
-    :class:`~stimuli.triggers.LSLTrigger` alongside your data. e.g. if you use
+    :class:`~stimuli.trigger.LSLTrigger` alongside your data. e.g. if you use
     LabRecorder, update the stream list after creating the
-    :class:`~stimuli.triggers.LSLTrigger`.
+    :class:`~stimuli.trigger.LSLTrigger`.
 
     .. warning::
 
         Make sure to close the :class:`~mne_lsl.lsl.StreamOutlet` by calling the
-        :meth:`~stimuli.triggers.LSLTrigger.close` method or by deleting the trigger
+        :meth:`~stimuli.trigger.LSLTrigger.close` method or by deleting the trigger
         after use.
 
     Parameters

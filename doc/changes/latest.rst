@@ -16,8 +16,8 @@ Version 1.0
 
 - Remove the visual stimuli module (by `Mathieu Scheltienne`_)
 - Refactor the audio stimuli module to use a precise callback mechanism (by `Mathieu Scheltienne`_)
-- Add triggers via parallel port with :class:`~stimuli.triggers.ParallelPortTrigger` (by `Mathieu Scheltienne`_)
-- Add triggers via LSL with :class:`~stimuli.triggers.LSLTrigger` (by `Mathieu Scheltienne`_)
+- Add trigger via parallel port with :class:`~stimuli.trigger.ParallelPortTrigger` (by `Mathieu Scheltienne`_)
+- Add trigger via LSL with :class:`~stimuli.trigger.LSLTrigger` (by `Mathieu Scheltienne`_)
 - Add time module to measure time and sleep with :class:`~stimuli.time.Clock` and :func:`~stimuli.time.sleep` (by `Mathieu Scheltienne`_)
 
 Authors

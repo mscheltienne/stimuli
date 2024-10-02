@@ -18,7 +18,7 @@ This repository contains auditory stimuli that do not require
 
 # Installation
 
-This repository is available for `python ≥ 3.10` on `pip` with the command
+This repository is available for `python ≥ 3.11` on `pip` with the command
 `pip install stimuli` or on `conda-forge` with the command
 `conda install -c conda-forge stimuli`.
 
@@ -29,7 +29,7 @@ This repository is available for `python ≥ 3.10` on `pip` with the command
 ```
 from stimuli.audio import Tone
 from stimuli.time import sleep
-from stimuli.triggers import ParallelPortTrigger
+from stimuli.trigger import ParallelPortTrigger
 
 trigger = ParallelPortTrigger("/dev/parport0")
 sound = Tone(frequency=1000, volume=80, duration=1)

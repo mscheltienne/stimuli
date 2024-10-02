@@ -20,6 +20,11 @@ def sleep(duration: float, *, clock: BaseClock = Clock) -> None:
     clock : BaseClock
         Clock object to use for time measurement. By default, the
         :class:`stimuli.time.Clock` class is used.
+
+    Notes
+    -----
+    On Windows, only python version 3.11 and above have good accuracy when sleeping.
+    This accuracy limitation dictates the minimum version of ``stimuli``.
     """
     if duration <= 0:
         return

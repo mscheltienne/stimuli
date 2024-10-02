@@ -27,7 +27,7 @@ Sleep performance (linux)::
 Example usage::
 
     from stimuli.audio import Tone
-    from stimuli.triggers import ParallelPortTrigger
+    from stimuli.trigger import ParallelPortTrigger
     from stimuli.time import sleep
 
     sound = Tone(frequency=1000, volume=25, duratin=0.5)

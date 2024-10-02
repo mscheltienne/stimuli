@@ -14,7 +14,7 @@ import sounddevice as sd
 
 from stimuli.audio import SoundAM
 from stimuli.time import sleep
-from stimuli.triggers import MockTrigger
+from stimuli.trigger import MockTrigger
 
 idx = sd.default.device["output"]
 print(f"Low-latency (s): {sd.query_devices()[idx]['default_low_output_latency']}")

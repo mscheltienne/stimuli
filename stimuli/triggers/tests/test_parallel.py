@@ -2,7 +2,7 @@ from platform import system
 
 import pytest
 
-from stimuli.triggers import ParallelPortTrigger
+from stimuli.trigger import ParallelPortTrigger
 
 
 @pytest.mark.skipif(system() != "Linux", reason="requires Linux")

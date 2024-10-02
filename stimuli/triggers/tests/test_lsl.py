@@ -3,12 +3,12 @@ import pytest
 
 
 def test_trigger_lsl():
-    """Testing for LSL triggers."""
+    """Testing for LSL trigger."""
     pytest.importorskip("mne_lsl")
 
     from mne_lsl.lsl import StreamInfo, StreamInlet, StreamOutlet, resolve_streams
 
-    from stimuli.triggers import LSLTrigger
+    from stimuli.trigger import LSLTrigger
 
     name = "test-trigger-lsl"
     trigger = LSLTrigger(name)

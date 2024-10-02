@@ -1,10 +1,10 @@
 import pytest
 
-from stimuli.triggers import MockTrigger
+from stimuli.trigger import MockTrigger
 
 
 def test_trigger_mock(caplog):
-    """Testing for Mock triggers."""
+    """Testing for Mock trigger."""
     trigger = MockTrigger()
     trigger.signal(1)
     assert "Mock set to 1" in caplog.text

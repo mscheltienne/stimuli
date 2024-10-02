@@ -15,7 +15,6 @@ classifiers = [
   'Operating System :: Microsoft :: Windows',
   'Operating System :: Unix',
   'Programming Language :: Python :: 3 :: Only',
-  'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Topic :: Scientific/Engineering',
@@ -38,7 +37,7 @@ keywords = [
   'auditory',
   'python',
   'stimuli',
-  'triggers',
+  'trigger',
 ]
 license = {file = 'LICENSE'}
 maintainers = [
@@ -46,7 +45,7 @@ maintainers = [
 ]
 name = 'stimuli'
 readme = 'README.md'
-requires-python = '>=3.10'
+requires-python = '>=3.11'
 version = '1.0.0.dev0'
 
 [project.optional-dependencies]
@@ -124,7 +123,7 @@ omit = [
   '**/__init__.py',
   '**/conftest.py',
   '**/stimuli/_version.py',
-  '**/stimuli/triggers/io/**',
+  '**/stimuli/trigger/io/**',
   '**/stimuli/utils/_fixes.py',
   '**/tests/**',
 ]
@@ -135,9 +134,8 @@ junit_family = 'xunit2'
 minversion = '8.0'
 
 [tool.ruff]
-extend-exclude = ['stimuli/triggers/io']
+extend-exclude = ['stimuli/trigger/io']
 line-length = 88
-target-version = 'py310'
 
 [tool.ruff.format]
 docstring-code-format = true
