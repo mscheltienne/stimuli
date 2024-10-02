@@ -1,7 +1,7 @@
 .. include:: ../links.inc
 
-Triggers
---------
+Trigger
+-------
 
 To mark events in time during an experiment, you can use triggers. For instance, you can
 mark the onset of a sound. The triggers defined in ``stimuli`` uses one byte to encode
