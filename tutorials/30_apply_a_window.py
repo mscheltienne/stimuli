@@ -3,7 +3,7 @@
 Apply a window
 ==============
 
-.. include:: ../../../links.inc
+.. include:: ../../links.inc
 
 In signal processing and statistics, a window function (also known as an
 apodization function or tapering function) is a mathematical function that is
