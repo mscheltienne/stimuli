@@ -30,6 +30,9 @@ def test_tone(volume, duration, frequency):
     assert_allclose(np.max(np.abs(sound.signal)), volume / 100)
     assert sound.frequency == frequency
     _assert_frequency(sound.signal, sound.sample_rate, frequency)
+    # test representation
+    assert "Pure tone" in repr(sound)
+    assert f"{frequency:.2f} Hz" in repr(sound)
 
 
 def test_frequency_setter():

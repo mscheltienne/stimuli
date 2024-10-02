@@ -21,6 +21,8 @@ def test_noise(color, volume, duration):
     assert sound.signal.shape == (sound.times.size, 1)
     assert_allclose(np.max(np.abs(sound.signal)), volume / 100)
     assert sound.color == color
+    # test representation
+    assert f"{color.capitalize()} noise" in repr(sound)
 
 
 def test_color_setter():

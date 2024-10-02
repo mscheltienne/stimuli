@@ -53,6 +53,9 @@ def test_sound_am(fc, fm, method, volume, duration):
     assert sound._frequency_carrier == fc
     assert sound._frequency_modulation == fm
     _assert_frequency(sound.signal, sound.sample_rate, fc, fm, method)
+    # test representation
+    assert method in repr(sound)
+    assert "AM sound" in repr(sound)
 
 
 @pytest.mark.parametrize("ftype", ["carrier", "modulation"])
@@ -69,3 +72,41 @@ def test_check_frequency(ftype):
         _check_frequency(-440, ftype)
     with pytest.raises(TypeError, match="must be an instance of"):
         _check_frequency("440", ftype)
+
+
+def test_property_setter():
+    """Test the property setters of the AM sound."""
+    sound = SoundAM(
+        frequency_carrier=1000,
+        frequency_modulation=40,
+        method="dsbsc",
+        volume=100,
+        duration=1,
+    )
+    assert sound.method == "dsbsc"
+    assert sound.frequency_carrier == 1000
+    assert sound.frequency_modulation == 40
+    data = sound.signal.copy()
+
+    sound.method = "conventional"
+    assert sound.method == "conventional"
+    assert not np.allclose(data, sound.signal, atol=0)
+    _assert_frequency(sound.signal, sound.sample_rate, 1000, 40, "conventional")
+
+    sound.method = "dsbsc"
+    assert sound.method == "dsbsc"
+    assert_allclose(data, sound.signal)
+    _assert_frequency(sound.signal, sound.sample_rate, 1000, 40, "dsbsc")
+
+    sound.frequency_carrier = 2000
+    assert sound.frequency_carrier == 2000
+    _assert_frequency(sound.signal, sound.sample_rate, 2000, 40, "dsbsc")
+
+    sound.frequency_modulation = 100
+    assert sound.frequency_modulation == 100
+    _assert_frequency(sound.signal, sound.sample_rate, 2000, 100, "dsbsc")
+
+    sound.frequency_carrier = 1000
+    sound.frequency_modulation = 40
+    assert_allclose(data, sound.signal)
+    _assert_frequency(sound.signal, sound.sample_rate, 1000, 40, "dsbsc")

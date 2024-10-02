@@ -87,8 +87,8 @@ class SoundAM(BaseSound):
     def __repr__(self) -> str:
         """Representation of the object."""
         return (
-            f"<{self._method}-AM sound @ {self._frequency_carrier} % "
-            f"{self._frequency_modulation} Hz - {self.duration:.2f} s>"
+            f"<{self._method}-AM sound @ {self._frequency_carrier:.2f} % "
+            f"{self._frequency_modulation:.2f} Hz - {self.duration:.2f} s>"
         )
 
     @copy_doc(BaseSound._set_signal)
