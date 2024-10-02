@@ -46,7 +46,7 @@ for sound in sounds.values():
     sound.play(blocking=True)
 
 # %%
-# The underlying signal is stored in the :py:attr:`stimuli.audio.Noise.signal``
+# The underlying signal is stored in the :py:attr:`stimuli.audio.Noise.signal`
 # property, a numpy :class:`~numpy.ndarray` of shape ``(n_samples, n_channels)``. In
 # this case, the sound was set to mono so the signal has shape ``(n_samples, 1)``.
 
