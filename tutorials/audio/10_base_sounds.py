@@ -18,6 +18,8 @@ from matplotlib import pyplot as plt
 
 from stimuli.audio import Sound, Tone
 
+# sphinx_gallery_thumbnail_number = 1
+
 # %%
 #
 # In this tutorial, we will create, edit, save and load a pure tone auditory
@@ -110,3 +112,11 @@ ax.set_xlabel("Time (ms)")
 period = int(sound.sample_rate / sound.frequency)
 for k in range(0, samples_to_plot, period):
     ax.axvline(times[k], color="lightgreen")
+
+plt.show()
+
+# %%
+# Or with the convenient :meth:`~stimuli.audio.Tone.plot` method.
+
+sound.plot()
+plt.show()
