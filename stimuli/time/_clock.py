@@ -19,12 +19,12 @@ class BaseClock(ABC):
         pass
 
     @abstractmethod
-    def get_time_ns(self) -> float:
+    def get_time_ns(self) -> int:
         """Return the current time in nanoseconds.
 
         Returns
         -------
-        time : float
+        time : int
             The current time in nanoseconds.
         """
 
@@ -74,11 +74,11 @@ class Clock(BaseClock):
             time.get_clock_info("perf_counter").resolution
             < time.get_clock_info("monotonic").resolution
         ):
-            self._function = lambda: time.perf_counter() * 1e9
+            self._function = time.perf_counter_ns
         else:
             self._function = time.monotonic_ns
         self._t0 = self._function()
 
     @copy_doc(BaseClock.get_time_ns)
-    def get_time_ns(self) -> float:
+    def get_time_ns(self) -> int:
         return self._function() - self._t0
