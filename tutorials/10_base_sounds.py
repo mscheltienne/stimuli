@@ -35,7 +35,7 @@ from stimuli.audio import Sound, Tone
 # To create the stimuli, we create a :class:`~stimuli.audio.Tone` object with
 # a given volume and frequency.
 
-sound = Tone(frequency=440, volume=10, duration=1)  # La - A440
+sound = Tone(frequency=440, volume=10, duration=0.1)  # La - A440
 
 # %%
 # We can listen to the sound we created with :meth:`~stimuli.audio.Tone.play`.
