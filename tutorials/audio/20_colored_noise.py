@@ -47,8 +47,8 @@ for sound in sounds.values():
 
 # %%
 # The underlying signal is stored in the :py:attr:`stimuli.audio.Noise.signal``
-# property, a numpy array of shape ``(n_samples, n_channels)``. In this case, the sound
-# was set to mono so the signal has shape ``(n_samples, 1)``.
+# property, a numpy :class:`~numpy.ndarray` of shape ``(n_samples, n_channels)``. In
+# this case, the sound was set to mono so the signal has shape ``(n_samples, 1)``.
 
 plt.figure(layout="constrained")
 for color in colors:

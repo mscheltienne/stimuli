@@ -52,10 +52,11 @@ class BaseBackend(ABC):
 
         Parameters
         ----------
-        data : array of shape (n_frames, n_channels)
+        data : :class:`~numpy.ndarray` of shape (n_frames, n_channels)
             The audio data to play provided as a 2 dimensional array of shape
             ``(n_frames, n_channels)``. The array layout must be C-contiguous. A one
-            dimensional array of shape ``(n_frames,)`` is also accepted for mono audio.
+            dimensional :class:`~numpy.ndarray` of shape ``(n_frames,)`` is also
+            accepted for mono audio.
         """
         check_type(data, (np.ndarray,), "data")
         if data.ndim not in (1, 2):

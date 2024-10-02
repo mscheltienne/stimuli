@@ -1,3 +1,5 @@
+.. include:: ../links.inc
+
 Audio
 -----
 
@@ -41,3 +43,16 @@ Example usage::
 
     sound = Sound("path/to/sound.wav")
     sound.play(when=0.2)  # schedule in 200 ms
+
+Backend
+~~~~~~~
+
+The audio module uses the `sounddevice`_ library with a callback function to play the
+sounds.
+
+.. currentmodule:: stimuli.audio.backend
+
+.. autosummary::
+    :toctree: ../generated/api
+
+    SoundSD

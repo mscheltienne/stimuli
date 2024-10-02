@@ -158,6 +158,8 @@ numpydoc_xref_aliases = {
     "BaseClock": ":class:`stimuli.time.BaseClock`",
 }
 numpydoc_xref_ignore = {
+    "n_channels",
+    "n_frames",
     "of",
     "shape",
 }

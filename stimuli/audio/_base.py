@@ -171,7 +171,7 @@ class BaseSound(ABC):
     def signal(self) -> NDArray[np.float32]:
         """The audio signal.
 
-        :type: array of shape (n_samples, n_channels)
+        :type: :class:`~numpy.ndarray` of shape (n_samples, n_channels)
         """
         return self._signal
 
@@ -179,7 +179,7 @@ class BaseSound(ABC):
     def times(self) -> NDArray[np.float32]:
         """The time array of the audio stimulus.
 
-        :type: array of shape (n_samples,)
+        :type: :class:`~numpy.ndarray` of shape (n_samples,)
         """
         return self._times
 
@@ -187,7 +187,7 @@ class BaseSound(ABC):
     def volume(self) -> NDArray[np.float32]:
         """The volume of the audio stimulus per channel given as a percentage.
 
-        :type: array of shape (n_channels,)
+        :type: :class:`~numpy.ndarray` of shape (n_channels,)
         """
         return self._volume
 
@@ -201,7 +201,7 @@ class BaseSound(ABC):
     def window(self) -> NDArray[np.float32] | None:
         """Window applied to the audio signal.
 
-        :type: array of shape (n_samples,) | None
+        :type: :class:`~numpy.ndarray` of shape (n_samples,) | None
         """
         return self._window
 
