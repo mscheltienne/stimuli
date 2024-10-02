@@ -84,7 +84,7 @@ class Sound(BaseSound):
     def fname(self) -> Path:
         """The sound's original file name.
 
-        :type: :classl:`~pathlib.Path`
+        :type: :class:`~pathlib.Path`
         """
         return self._fname
 
