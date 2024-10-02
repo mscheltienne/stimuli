@@ -17,10 +17,9 @@ runs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |
-        brew install blackhole-2ch --build-from-source
-        brew install switchaudio-osx
-        SwitchAudioSource -s "BlackHole 2ch" -t input
-        SwitchAudioSource -s "BlackHole 2ch" -t output
+        sudo coreaudioctl --create-aggregate-device --name "Virtual Soundcard"
+        SwitchAudioSource -s "Virtual Soundcard" -t input
+        SwitchAudioSource -s "Virtual Soundcard" -t output
     - name: Get soundcard dependencies (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
