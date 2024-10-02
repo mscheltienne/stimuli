@@ -2,6 +2,7 @@ from itertools import product
 
 import numpy as np
 import pytest
+from matplotlib import pyplot as plt
 from numpy.testing import assert_allclose
 
 from stimuli.audio import Tone
@@ -54,3 +55,12 @@ def test_check_frequency():
         _check_frequency(-440)
     with pytest.raises(TypeError, match="must be an instance of"):
         _check_frequency("440")
+
+
+def test_tone_plot():
+    """Test plotting a tone."""
+    sound = Tone(frequency=440, volume=10, duration=1)
+    f, ax = sound.plot()
+    assert isinstance(f, plt.Figure)
+    assert isinstance(ax, plt.Axes)
+    plt.close("all")

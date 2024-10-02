@@ -108,12 +108,15 @@ class BaseSound(ABC):
         ax : Axes
             The matplotlib axes object.
         """
-        f, ax = plt.subplots(1, 1, layout="constrained")
-        ax.plot(self.times, self.signal)
-        ax.set_xlabel("Time [s]")
-        ax.set_ylabel("Amplitude")
-        ax.set_title(repr(self))
-        return f, ax
+        f, ax = plt.subplots(self._n_channels, 1, layout="constrained")
+        if self._n_channels == 1:
+            ax = np.array([ax])
+        for ch in range(self._n_channels):
+            ax[ch].plot(self.times, self.signal[:, ch])
+            ax[ch].set_ylabel("Amplitude")
+            ax[ch].set_title(repr(self))
+        ax[-1].set_xlabel("Time [s]")
+        return f, ax if ax.size != 1 else ax[0]
 
     def save(self, fname: str | Path, *, overwrite: bool = False) -> None:
         """Save the audio stimulus to a WAV file.

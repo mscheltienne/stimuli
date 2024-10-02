@@ -3,6 +3,7 @@ from itertools import product
 import numpy as np
 import pytest
 import sounddevice as sd
+from matplotlib import pyplot as plt
 from numpy.testing import assert_allclose
 from scipy.io import wavfile
 
@@ -160,3 +161,17 @@ def test_window(tmp_path):
     sound.window = window
     assert_allclose(sound.signal[::10, :], 1)
     assert_allclose(sound.signal, data * window[:, np.newaxis])
+
+
+def test_plot(tmp_path):
+    """Test plotting the sound."""
+    sfreq = int(sd.query_devices()[sd.default.device["output"]]["default_samplerate"])
+    data = np.ones((sfreq, 2))  # stereo
+    fname = tmp_path / "test.wav"
+    wavfile.write(fname, sfreq, data)
+    sound = Sound(fname)
+    f, ax = sound.plot()
+    assert isinstance(f, plt.Figure)
+    assert ax.size == 2
+    assert all(isinstance(a, plt.Axes) for a in ax)
+    plt.close("all")
