@@ -10,6 +10,8 @@ is to schedule the sound.
 First, let's have a look at our default device latency.
 """
 
+# sphinx_gallery_thumbnail_path = '_static/performance.png'
+
 import sounddevice as sd
 
 from stimuli.audio import SoundAM
@@ -35,3 +37,16 @@ sound = SoundAM(
 sound.play(when=0.5, blocking=False)
 sleep(0.5)
 trigger.signal(1)
+
+# %%
+# A quick measurement on a dual-boot Windows/Linux computer connected to a USB Crimson 3
+# soundcard shows that the delay and jitter of ``stimuli`` are similar to
+# ``psychtoolbox`` on linux.
+#
+# .. image:: ../../_static/performance.png
+#    :align: center
+#
+# On different computers with different soundards, the performance may vary. For
+# instance, with on-board soundcards on Linux, both psychtoolbox and stimuli are usually
+# perfectly syncrhonized with the trigger. In the end, the performance should always be
+# measured on the target system.
