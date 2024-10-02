@@ -40,8 +40,6 @@ jobs:
           uv pip install --quiet --system .[test]
       - name: Display system information
         run: stimuli sys-info --developer
-      - uses: valeriangalliat/action-sshd-cloudflared@v1
-        if: ${{ runner.os == 'macOS' }}
       - name: Run pytest
         run: pytest stimuli --cov=stimuli --cov-report=xml --cov-config=pyproject.toml
       - name: Upload to codecov
