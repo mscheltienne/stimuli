@@ -10,11 +10,15 @@ import subprocess
 import sys
 from datetime import date
 from importlib import import_module
+from pathlib import Path
 
 from intersphinx_registry import get_intersphinx_mapping
 from sphinx_gallery.sorting import FileNameSortKey
 
 import stimuli
+
+# -- path setup ------------------------------------------------------------------------
+sys.path.append(str(Path(__file__).parent / "_sphinxext"))
 
 # -- project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -52,6 +56,8 @@ extensions = [
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
     "sphinx_issues",
+    # local extensions
+    "sphinx_remove_toctrees",
 ]
 
 templates_path = ["_templates"]
@@ -256,6 +262,9 @@ sphinx_gallery_conf = {
     "show_memory": True,
     "within_subsection_order": FileNameSortKey,
 }
+
+# -- sphinx-remove-toctrees ------------------------------------------------------------
+remove_from_toctrees = ["generated/api/*"]
 
 # -- linkcheck -------------------------------------------------------------------------
 linkcheck_anchors = False  # saves a bit of time

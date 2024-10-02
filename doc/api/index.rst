@@ -6,8 +6,17 @@ This is the reference for classes (``CamelCase`` names) and functions
 
 .. toctree::
     :maxdepth: 2
+    :hidden:
 
     audio.rst
     triggers.rst
     time.rst
-    logging.rst
+    utilities.rst
+
+.. include:: audio.rst
+
+.. include:: triggers.rst
+
+.. include:: time.rst
+
+.. include:: utilities.rst

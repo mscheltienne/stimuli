@@ -8,6 +8,11 @@
    nipy, NIPY, Nipy, etc...
 
 
+.. FCBG
+
+.. _fcbg: https://fcbg.ch/
+
+
 .. project
 
 .. _project pypi: https://pypi.org/project/stimuli/
