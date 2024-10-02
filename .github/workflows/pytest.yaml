@@ -20,7 +20,6 @@ jobs:
         python-version: ["3.10", "3.11", "3.12"]
     name: ${{ matrix.os }} - py${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}-latest
-    permissions: write-all
     defaults:
       run:
         shell: bash
