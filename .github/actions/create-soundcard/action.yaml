@@ -13,13 +13,6 @@ runs:
         pulseaudio --check || pulseaudio --start
         pactl load-module module-null-sink sink_name=vspeaker sink_properties=device.description=virtual_speaker
         pactl load-module module-remap-source master=vspeaker.monitor source_name=vmic source_properties=device.description=virtual_mic
-    - name: Create soundcard (macOS)
-      if: ${{ runner.os == 'macOS' }}
-      shell: bash
-      run: |
-        sudo coreaudioctl --create-aggregate-device --name "Virtual Soundcard"
-        SwitchAudioSource -s "Virtual Soundcard" -t input
-        SwitchAudioSource -s "Virtual Soundcard" -t output
     - name: Get soundcard dependencies (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
