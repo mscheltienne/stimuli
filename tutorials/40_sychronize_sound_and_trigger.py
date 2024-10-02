@@ -48,5 +48,5 @@ trigger.signal(1)
 #
 # On different computers with different soundards, the performance may vary. For
 # instance, with on-board soundcards on Linux, both psychtoolbox and stimuli are usually
-# perfectly syncrhonized with the trigger. In the end, the performance should always be
+# perfectly synchronized with the trigger. In the end, the performance should always be
 # measured on the target system.
