@@ -9,7 +9,7 @@ from scipy.io import wavfile
 
 from ..utils._checks import check_type, check_value, ensure_int, ensure_path
 from ..utils._docs import copy_doc, fill_doc
-from ..utils.logs import logger
+from ..utils.logs import logger, warn
 from .backend import BACKENDS
 from .backend._base import BaseBackend
 
@@ -207,20 +207,7 @@ class BaseSound(ABC):
 
     @window.setter
     def window(self, window: NDArray | list | tuple | set | None) -> None:
-        if window is not None:
-            check_type(window, ("array-like",), "window")
-            window = np.asarray(window, dtype=np.float32)
-            if window.ndim != 1:
-                raise ValueError(
-                    f"The window must be a 1D array. Provided'{window.ndim}' "
-                    "dimensions are invalid."
-                )
-            if window.size != self.times.size:
-                raise ValueError(
-                    "The window must have the same number of samples as the signal. "
-                    f"Provided '{window.size}' samples for '{self.times.size}' samples."
-                )
-        self._window = window
+        self._window = _ensure_window(window, self.times.size)
         self._set_signal()
 
     @property
@@ -257,6 +244,27 @@ def _ensure_volume(volume: float | Sequence[float], n_channels: int) -> None:
             f"'{volume}' is invalid."
         )
     return np.asarray(volume, dtype=np.float32)
+
+
+def _ensure_window(window: NDArray | list | tuple | set | None, n_samples: int) -> None:
+    """Check that the window is valid."""
+    if window is not None:
+        check_type(window, ("array-like",), "window")
+        window = np.asarray(window, dtype=np.float32)
+        if window.ndim != 1:
+            raise ValueError(
+                f"The window must be a 1D array. Provided'{window.ndim}' dimensions "
+                "are invalid."
+            )
+        if window.size != n_samples:
+            raise ValueError(
+                "The window must have the same number of samples as the signal. "
+                f"Provided '{window.size}' samples for '{n_samples}' samples."
+            )
+        if np.any(window < 0) or np.any(1 < window):
+            warn("The window values should be normalized between 0 and 1.")
+            window = (window - np.min(window)) / (np.max(window) - np.min(window))
+    return window
 
 
 def _check_duration(duration: float) -> None:

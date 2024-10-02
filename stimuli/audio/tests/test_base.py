@@ -5,7 +5,7 @@ import pytest
 from numpy.testing import assert_allclose
 
 from stimuli.audio import Noise, SoundAM, Tone
-from stimuli.audio._base import _check_duration, _ensure_volume
+from stimuli.audio._base import _check_duration, _ensure_volume, _ensure_window
 
 
 def test_check_duration():
@@ -104,3 +104,26 @@ def test_save(tmp_path):
     with pytest.raises(ValueError, match="extension must be"):
         sound.save(tmp_path / "test.mp3")
     assert not (tmp_path / "test.mp3").exists()
+
+
+def test_ensure_window():
+    """Test window validation."""
+    window = np.zeros(10)
+    window[2:8] = 1
+    window_validated = _ensure_window(window, window.size)
+    assert_allclose(window, window_validated)
+
+    window[2:8] = 2
+    with pytest.warns(RuntimeWarning, match="should be normalized between 0 and 1"):
+        window_validated = _ensure_window(window, window.size)
+    assert_allclose(window_validated, window / 2)
+
+    with pytest.raises(ValueError, match="must have the same number of samples"):
+        _ensure_window(window, window.size + 1)
+    with pytest.raises(ValueError, match="must be a 1D array"):
+        _ensure_window(np.zeros((10, 10)), 10)
+    with pytest.raises(TypeError, match="must be an instance of"):
+        _ensure_window("101", 10)
+
+    window = _ensure_window(None, 101)
+    assert window is None
