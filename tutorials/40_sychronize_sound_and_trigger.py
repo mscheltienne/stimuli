@@ -46,7 +46,22 @@ trigger.signal(1)
 # .. image:: ../../_static/performance.png
 #    :align: center
 #
-# On different computers with different soundards, the performance may vary. For
+# On different computers with different soundcards, the performance may vary. For
 # instance, with on-board soundcards on Linux, both psychtoolbox and stimuli are usually
 # perfectly synchronized with the trigger. In the end, the performance should always be
 # measured on the target system.
+#
+# .. code-block:: python
+#
+#     from stimuli.audio import Tone
+#     from stimuli.time import sleep
+#     from stimuli.trigger import ParallelPortTrigger
+#
+#     sound = Tone(frequency=440, volume=100, duration=0.3)
+#     trigger = ParallelPortTrigger("/dev/parport0")
+#
+#     for k in range(10):
+#         sound.play(when=0.2)
+#         sleep(0.2)
+#         trigger.signal(1)
+#         sleep(0.5)
