@@ -17,11 +17,9 @@ runs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |
-        brew install --cask background-music
-        brew install switchaudio-osx
-        sudo launchctl kickstart -kp system/com.apple.audio.coreaudiod || sudo killall coreaudiod
-        SwitchAudioSource -s "Background Music" -t input
-        SwitchAudioSource -s "Background Music" -t output
+        brew install blackhole-2ch switchaudio-osx
+        SwitchAudioSource -s "BlackHole 2ch" -t input
+        SwitchAudioSource -s "BlackHole 2ch" -t output
     - name: Get soundcard dependencies (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
