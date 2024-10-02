@@ -105,6 +105,7 @@ class SoundAM(BaseSound):
                 2 * np.pi * self._frequency_carrier * self._times
             )
         signal /= np.max(np.abs(signal))  # normalize
+        signal = np.vstack([signal] * self._n_channels).T
         super()._set_signal(signal)
 
     @property

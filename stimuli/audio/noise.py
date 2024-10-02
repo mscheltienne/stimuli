@@ -85,6 +85,7 @@ class Noise(BaseSound):
         S /= np.sqrt(np.mean(S**2))
         signal = np.fft.irfft(dft * S)
         signal /= np.max(np.abs(signal))  # normalize
+        signal = np.vstack([signal] * self._n_channels).T
         super()._set_signal(signal)
         # make sure we have the correct times as the rFFT and irFFT could get us off
         if self._times.size != self._signal.size:

@@ -86,10 +86,9 @@ class BaseSound(ABC):
     @abstractmethod
     def _set_signal(self, signal: NDArray) -> None:
         """Set the signal array."""
-        signal = np.vstack([signal] * self._n_channels).T
         if self._window is not None:
             assert self._window.size == signal.shape[0]  # sanity-check
-            signal = np.multiply(signal, self._window[:, np.newaxis])
+            signal = signal * self._window[:, np.newaxis]
         assert self._volume.ndim == 1  # sanity-check
         assert self._volume.size == self._n_channels  # sanity-check
         signal = np.ascontiguousarray(signal * self._volume / 100, dtype=np.float32)

@@ -9,13 +9,13 @@ def test_sound_io_mono(tmp_path):
     sound = Noise("pink", volume=100, duration=0.5)
     sound.save(tmp_path / "test.wav")
     sound_loaded = Sound(tmp_path / "test.wav")
-    assert_allclose(sound.signal, sound_loaded.signal)
+    assert_allclose(sound.signal.squeeze(), sound_loaded.signal)
 
     sound = Noise("pink", volume=50, duration=0.5)
     sound.save(tmp_path / "test.wav", overwrite=True)
     sound_loaded = Sound(tmp_path / "test.wav")
     sound_loaded.volume = 50
-    assert_allclose(sound.signal, sound_loaded.signal)
+    assert_allclose(sound.signal.squeeze(), sound_loaded.signal)
     # test representation
     assert str(tmp_path / "test.wav") in repr(sound_loaded)
     # test duration setter

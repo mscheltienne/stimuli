@@ -68,6 +68,7 @@ class Tone(BaseSound):
     def _set_signal(self) -> None:
         signal = np.sin(2 * np.pi * self._frequency * self._times, dtype=np.float32)
         signal /= np.max(np.abs(signal))  # normalize
+        signal = np.vstack([signal] * self._n_channels).T
         super()._set_signal(signal)
 
     @property

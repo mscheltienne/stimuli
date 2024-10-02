@@ -2,9 +2,11 @@ from itertools import product
 
 import numpy as np
 import pytest
+import sounddevice as sd
 from numpy.testing import assert_allclose
+from scipy.io import wavfile
 
-from stimuli.audio import Noise, SoundAM, Tone
+from stimuli.audio import Noise, Sound, SoundAM, Tone
 from stimuli.audio._base import _check_duration, _ensure_volume, _ensure_window
 
 
@@ -127,3 +129,34 @@ def test_ensure_window():
 
     window = _ensure_window(None, 101)
     assert window is None
+
+
+@pytest.mark.parametrize(
+    ("sound"),
+    [
+        (Tone, dict(frequency=440)),
+        (Noise, dict(color="white")),
+        (
+            SoundAM,
+            dict(frequency_carrier=1000, frequency_modulation=40, method="dsbsc"),
+        ),
+    ],
+)
+def test_invalid_n_channels(sound):
+    """Test invalid number of channels."""
+    with pytest.raises(ValueError, match="The number of channels must be"):
+        sound = sound[0](volume=10, duration=1, n_channels=0, **sound[1])
+
+
+def test_window(tmp_path):
+    """Test applying a window the the sound."""
+    sfreq = int(sd.query_devices()[sd.default.device["output"]]["default_samplerate"])
+    data = np.ones((sfreq, 2))  # stereo
+    fname = tmp_path / "test.wav"
+    wavfile.write(fname, sfreq, data)
+    sound = Sound(fname)
+    window = np.zeros(sound.times.size, dtype=np.float32)
+    window[::10] = 1
+    sound.window = window
+    assert_allclose(sound.signal[::10, :], 1)
+    assert_allclose(sound.signal, data * window[:, np.newaxis])
