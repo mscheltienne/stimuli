@@ -1,6 +1,6 @@
 title: stimuli
 type: software
-abstract: Auditory and visual stimuli that do not require PsychoPy.
+abstract: Precise auditory stimuli that do not require PsychoPy.
 authors:
   - given-names: Mathieu
     family-names: Scheltienne
