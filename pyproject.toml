@@ -98,7 +98,7 @@ test = [
 stimuli = 'stimuli.commands.main:run'
 
 [project.urls]
-documentation = 'https://mscheltienne.github.io/stimuli/dev/index.html'
+documentation = 'https://mscheltienne.github.io/stimuli/'
 source = 'https://github.com/mscheltienne/stimuli'
 tracker = 'https://github.com/mscheltienne/stimuli/issues'
 
