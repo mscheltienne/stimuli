@@ -26,8 +26,6 @@ dependencies = [
   'numpy>=1.23',
   'packaging',
   'psutil',
-  'pyparallel; sys_platform == "linux"',
-  'pyserial',
   'scipy',
   'sounddevice',
 ]
@@ -53,6 +51,7 @@ all = [
   'stimuli[build]',
   'stimuli[doc]',
   'stimuli[lsl]',
+  'stimuli[pport]',
   'stimuli[style]',
   'stimuli[test]',
 ]
@@ -79,6 +78,11 @@ full = [
 lsl = [
   'mne_lsl>=1.5.0',
 ]
+pport = [
+  'pyserial',
+  'pyparallel; sys_platform == "linux"',
+
+]
 style = [
   'bibclean',
   'codespell[toml]>=2.2.4',
@@ -92,6 +96,7 @@ test = [
   'pytest-timeout',
   'pytest>=8.0.0',
   'stimuli[lsl]',
+  'stimuli[pport]',
 ]
 
 [project.scripts]
