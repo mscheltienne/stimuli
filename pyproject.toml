@@ -79,9 +79,8 @@ lsl = [
   'mne_lsl>=1.5.0',
 ]
 pport = [
-  'pyserial',
   'pyparallel; sys_platform == "linux"',
-
+  'pyserial',
 ]
 style = [
   'bibclean',
