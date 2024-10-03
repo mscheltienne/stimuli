@@ -31,7 +31,7 @@ dependencies = [
   'scipy',
   'sounddevice',
 ]
-description = 'Auditory and visual stimuli.'
+description = 'Precise auditory stimuli.'
 keywords = [
   'audio',
   'auditory',
