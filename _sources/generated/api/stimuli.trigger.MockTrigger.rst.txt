@@ -1,0 +1,11 @@
+﻿stimuli.trigger.MockTrigger
+===========================
+
+.. currentmodule:: stimuli.trigger
+
+.. autoclass:: MockTrigger
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.trigger.MockTrigger
+    :add-heading:
