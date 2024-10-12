@@ -1,0 +1,11 @@
+﻿stimuli.time.BaseClock
+======================
+
+.. currentmodule:: stimuli.time
+
+.. autoclass:: BaseClock
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.time.BaseClock
+    :add-heading:

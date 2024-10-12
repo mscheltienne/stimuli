@@ -1,0 +1,30 @@
+.. NOTE: we use cross-references to highlight new functions and classes.
+   Please follow the examples below, so the changelog page will have a link to
+   the function/class documentation.
+
+.. NOTE: there are 3 separate sections for changes, based on type:
+   - "Enhancements" for new features
+   - "Bugs" for bug fixes
+   - "API changes" for backward-incompatible changes
+
+.. include:: ./authors.inc
+
+Version 0.2
+-----------
+
+Enhancements
+~~~~~~~~~~~~
+
+- Add support for colored noise to ``Noise`` (by `Mathieu Scheltienne`_)
+
+API and behavior changes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Add a CLI entry-point to display a fixation ``Cross`` named ``stimuli_cross`` (by `Mathieu Scheltienne`_)
+- Rename ``ASSR`` auditory stimuli to ``SoundAM`` (by `Mathieu Scheltienne`_)
+- Rename ``WhiteNoise`` auditory stimuli to ``Noise`` (by `Mathieu Scheltienne`_)
+
+Authors
+~~~~~~~
+
+* `Mathieu Scheltienne`_
