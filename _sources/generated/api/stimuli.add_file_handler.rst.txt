@@ -1,0 +1,9 @@
+﻿stimuli.add\_file\_handler
+==========================
+
+.. currentmodule:: stimuli
+
+.. autofunction:: add_file_handler
+
+.. minigallery:: stimuli.add_file_handler
+    :add-heading:
