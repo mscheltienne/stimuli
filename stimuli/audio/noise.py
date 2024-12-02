@@ -13,8 +13,6 @@ from ._base import BaseSound
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
 
-    from ..time import BaseClock
-
 
 _PSDS: dict[str, Callable] = {
     "white": lambda f: 1,
@@ -53,7 +51,7 @@ class Noise(BaseSound):
         n_channels: int = 1,
         *,
         backend: str = "sounddevice",
-        clock: BaseClock = Clock,
+        clock: Callable = Clock,
         **kwargs,
     ) -> None:
         check_type(color, (str,), "color")

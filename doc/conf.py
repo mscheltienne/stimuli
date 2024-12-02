@@ -156,6 +156,7 @@ numpydoc_xref_aliases = {
     "TextIO": ":class:`io.TextIOBase`",
     # stimuli
     "BaseClock": ":class:`stimuli.time.BaseClock`",
+    "KeyEvent": ":class:`stimuli.keyboard.KeyEvent`",
 }
 numpydoc_xref_ignore = {
     "n_channels",

@@ -14,14 +14,12 @@ from .backend import BACKENDS
 from .backend._base import BaseBackend
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
     from pathlib import Path
 
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
     from numpy.typing import NDArray
-
-    from ..time import BaseClock
 
 
 @fill_doc
@@ -50,7 +48,7 @@ class BaseSound(ABC):
         n_channels: int = 1,
         *,
         backend: str,
-        clock: BaseClock,
+        clock: Callable,
         **kwargs,
     ) -> None:
         check_type(backend, (str,), "backend")

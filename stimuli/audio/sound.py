@@ -12,12 +12,12 @@ from ..utils.logs import warn
 from ._base import BaseSound
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pathlib import Path
 
     import numpy as np
     from numpy.typing import NDArray
 
-    from ..time import BaseClock
 
 _SUPPORTED: tuple[str, ...] = (".wav",)
 
@@ -42,7 +42,7 @@ class Sound(BaseSound):
         device: int | None = None,
         *,
         backend: str = "sounddevice",
-        clock: BaseClock = Clock,
+        clock: Callable = Clock,
         **kwargs,
     ) -> None:
         fname = ensure_path(fname, must_exist=True)

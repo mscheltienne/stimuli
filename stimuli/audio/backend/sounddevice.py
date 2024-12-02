@@ -6,7 +6,7 @@ import sounddevice as sd
 
 from ...time import Clock, sleep
 from ...utils._checks import check_value, ensure_int
-from ...utils._docs import copy_doc
+from ...utils._docs import copy_doc, fill_doc
 from ...utils.logs import warn
 from ._base import BaseBackend
 
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from ...time import BaseClock
 
 
+@fill_doc
 class SoundSD(BaseBackend):
     """Sounddevice backend for audio playback.
 
@@ -27,9 +28,7 @@ class SoundSD(BaseBackend):
     sample_rate : int
         The sample rate of the audio data, which should match the sample rate of the
         output device. If None, the default sample rate of the device is used.
-    clock : BaseClock
-        Clock object to use for time measurement. By default, the
-        :class:`stimuli.time.Clock` class is used.
+    %(clock)s
     """
 
     def __init__(

@@ -11,9 +11,7 @@ from ..utils.logs import logger
 from ._base import BaseSound
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
-
-    from ..time import BaseClock
+    from collections.abc import Callable, Sequence
 
 
 @fill_doc
@@ -44,7 +42,7 @@ class Tone(BaseSound):
         n_channels: int = 1,
         *,
         backend: str = "sounddevice",
-        clock: BaseClock = Clock,
+        clock: Callable = Clock,
         **kwargs,
     ) -> None:
         _check_frequency(frequency)

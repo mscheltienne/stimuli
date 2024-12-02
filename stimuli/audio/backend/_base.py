@@ -7,12 +7,16 @@ import numpy as np
 
 from ...time import BaseClock
 from ...utils._checks import check_type
+from ...utils._docs import fill_doc
 from ...utils.logs import warn
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import NDArray
 
 
+@fill_doc
 class BaseBackend(ABC):
     """Base backend class for audio stimuli.
 
@@ -23,9 +27,7 @@ class BaseBackend(ABC):
     sample_rate : int
         The sample rate of the audio data, which should match the sample rate of the
         output device. If None, the default sample rate of the device is used.
-    clock : BaseClock
-        Clock object used for time measurement. By default, the
-        :class:`stimuli.time.Clock` class is used.
+    %(clock)s
     """
 
     @abstractmethod
@@ -33,8 +35,9 @@ class BaseBackend(ABC):
         self,
         device: int | None,
         sample_rate: int | None,
-        clock: BaseClock,
+        clock: Callable,
     ) -> None:
+        check_type(clock, ("callable",), "clock")
         self._clock = clock()
         check_type(self._clock, (BaseClock,), "clock")
 

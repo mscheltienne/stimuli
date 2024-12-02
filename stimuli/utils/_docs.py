@@ -52,8 +52,9 @@ volume : float | list of float | tuple of float | array of float
 # -- B ---------------------------------------------------------------------------------
 # -- C ---------------------------------------------------------------------------------
 docdict["clock"] = """
-clock : BaseClock
-    Clock object to use for timing measurements."""
+clock : BaseClock class
+    Clock object to use for timing measurements. By default, the
+    :class:`stimuli.time.Clock` class is used."""
 
 # -- D ---------------------------------------------------------------------------------
 # -- E ---------------------------------------------------------------------------------
