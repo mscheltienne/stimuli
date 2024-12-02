@@ -20,3 +20,12 @@ def test_clock():
     t1 = clock.get_time_ns()
     t2 = clock.get_time_ns()
     assert t1 < t2
+
+
+def test_reset():
+    """Test the clock reset method."""
+    clock = Clock()
+    t0 = clock.t0
+    assert isinstance(t0, int)
+    clock.reset()
+    assert t0 < clock.t0

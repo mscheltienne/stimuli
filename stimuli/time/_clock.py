@@ -58,6 +58,10 @@ class BaseClock(ABC):
         """
         return self.get_time_ns() / 1e9
 
+    @abstractmethod
+    def reset(self) -> None:
+        """Reset the clock to zero."""
+
 
 class Clock(BaseClock):
     """Clock which keeps track of time in nanoseconds.
@@ -77,8 +81,20 @@ class Clock(BaseClock):
             self._function = time.perf_counter_ns
         else:
             self._function = time.monotonic_ns
-        self._t0 = self._function()
+        self.reset()
 
     @copy_doc(BaseClock.get_time_ns)
     def get_time_ns(self) -> int:
         return self._function() - self._t0
+
+    def reset(self) -> None:
+        """Reset the clock to zero."""
+        self._t0 = self._function()
+
+    @property
+    def t0(self) -> int:
+        """The time of instantiation of the clock.
+
+        :type: :class:`int`
+        """
+        return self._t0
