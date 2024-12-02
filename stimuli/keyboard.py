@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import threading
-from copy import deepcopy
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pynput.keyboard import Key, KeyCode, Listener
@@ -13,6 +13,31 @@ from .utils.logs import logger, warn
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+
+@dataclass
+class KeyEvent:
+    """Object representing a keyboard event.
+
+    Attributes
+    ----------
+    key : str
+        The string representation of the key.
+    press_time : float | None
+        The time at which the key was pressed in seconds.
+    release_time : float | None
+        The time at which the key was released in seconds.
+
+    Notes
+    -----
+    The time reference is ``t0``, the instantation time of the
+    :class:`~stimuli.keyboard.Keyboard` object or the last clock reset with
+    :meth:`~stimuli.keyboard.Keyboard.reset_clock`.
+    """
+
+    key: str
+    press_time: float | None
+    release_time: float | None
 
 
 @fill_doc
@@ -60,9 +85,12 @@ class Keyboard:
         self._on_press = on_press
         self._on_release = on_release
         # create an event buffer and a threading lock to modify the buffer
-        self._buffer: list[dict[str, Key | KeyCode | None | float]] = []
+        self._buffer: list[KeyEvent] = []
         self._listener: Listener | None = None
         self._lock = threading.Lock()
+        # create the threading event for wait_keys
+        self._wait_event = threading.Event()
+        self._wait_result = None
 
     def __del__(self) -> None:
         """Make sure to stop the listener when the object is deleted."""
@@ -102,6 +130,7 @@ class Keyboard:
                 suppress=suppress,
             )
             self._listener.start()
+            logger.info("Keyboard monitoring started.")
         else:
             warn("The keyboard is already running.")
 
@@ -112,17 +141,18 @@ class Keyboard:
                 self._listener.stop()
                 self._listener = None
                 self._buffer.clear()
+            logger.info("Keyboard monitoring stopped.")
         else:
             warn("The keyboard is not running.")
 
-    def get_keys(self) -> list[dict[str, str | float | None]]:
+    def get_keys(self) -> list[KeyEvent]:
         """Get a list of keys that were pressed since the last call."""
         with self._lock:
-            keys = deepcopy(self._buffer)
+            keys = self._buffer.copy()
             self._buffer.clear()
             return keys
 
-    def wait_keys(self, *, timeout: float | None = None) -> bool:
+    def wait_keys(self, *, timeout: float | None = None) -> str | None:
         """Wait until a key is pressed.
 
         Parameters
@@ -133,56 +163,79 @@ class Keyboard:
 
         Returns
         -------
-        success : bool
-            If True, a key was pressed before the timeout was reached. If False, no key
-            was pressed before the timeout was reached.
+        key : str | None
+            The key that was pressed or None if the timeout was reached.
         """
-        t0 = self._clock.get_time_ns()
-        n_keys = len(self._buffer)
         check_type(timeout, ("numeric", None), "timeout")
         if timeout is not None and timeout <= 0:
             raise ValueError(
                 "The argument 'timeout' should be a strictly positive number. Provided "
                 f"value '{timeout}' is invalid."
             )
-        timeout = float("inf") if timeout is None else timeout * 1e9
-        while self._clock.get_time_ns() - t0 < timeout:
-            if n_keys < len(self._buffer):
-                break
-        else:
-            warn("Timeout reached. No key was pressed.")
-            return False
-        return True
+        with self._lock:
+            self._wait_event.clear()
+            self._wait_result = None
+        is_set = self._wait_event.wait(timeout)
+        with self._lock:
+            if is_set:
+                return self._wait_result
+        warn("Timeout reached. No key was pressed.")
 
     def _on_press_callback(self, key) -> None:
-        event = {
-            "key": _key_to_str(key),
-            "press_time": self._clock.get_time(),
-            "release_time": None,
-        }
-        if self._keys is None or event["key"] in self._keys:
-            logger.debug("Key pressed: %s", event["key"])
-            with self._lock:
-                self._buffer.append(event)
-            if self._on_press is not None:  # call additional callback
-                self._on_press(key)
-        else:
-            logger.debug("Key press ignored: %s", event["key"])
+        """Callback function called on key press."""  # noqa: D401
+        try:
+            key_str = _key_to_str(key)
+            event = KeyEvent(key_str, self._clock.get_time(), None)
+            if self._keys is None or key_str in self._keys:
+                logger.debug("Key pressed: %s", key_str)
+                with self._lock:
+                    self._buffer.append(event)
+                    self._wait_result = key_str
+                    self._wait_event.set()
+                if self._on_press is not None:  # call additional callback
+                    self._on_press(key)
+            else:
+                logger.debug("Key press ignored: %s", event.key)
+        except Exception as error:
+            logger.error(
+                "An error occurred while processing a key press event.\n\n%s", error
+            )
 
     def _on_release_callback(self, key) -> None:
-        timestamp = self._clock.get_time()
-        key_str = _key_to_str(key)
-        if self._keys is None or key_str in self._keys:
-            logger.debug("Key released: %s", key_str)
-            with self._lock:
-                for event in reversed(self._buffer):
-                    if event["key"] == key_str and event["release_time"] is None:
-                        event["release_time"] = timestamp
-                        break
-            if self._on_release is not None:  # call additional callback
-                self._on_release(key)
-        else:
-            logger.debug("Key release ignored: %s", key_str)
+        """Callback function called on key release."""  # noqa: D401
+        try:
+            timestamp = self._clock.get_time()
+            key_str = _key_to_str(key)
+            if self._keys is None or key_str in self._keys:
+                logger.debug("Key released: %s", key_str)
+                with self._lock:
+                    for event in reversed(self._buffer):
+                        if event.key == key_str and event.release_time is None:
+                            event.release_time = timestamp
+                            break
+                    else:
+                        warn(
+                            "No matching key press event found for key release: "
+                            f"{key_str}."
+                        )
+                        self._buffer.append(KeyEvent(key_str, None, timestamp))
+                if self._on_release is not None:  # call additional callback
+                    self._on_release(key)
+            else:
+                logger.debug("Key release ignored: %s", key_str)
+        except Exception as error:
+            logger.error(
+                "An error occurred while processing a key release event.\n\n%s", error
+            )
+
+    def reset_clock(self) -> None:
+        """Reset the clock of the Keyboard."""
+        self._clock.reset()
+
+    def reset_buffer(self) -> None:
+        """Reset the buffer of the Keyboard."""
+        with self._lock:
+            self._buffer.clear()
 
     @property
     def t0(self) -> float:
