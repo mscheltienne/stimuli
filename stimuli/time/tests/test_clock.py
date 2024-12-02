@@ -26,6 +26,6 @@ def test_reset():
     """Test the clock reset method."""
     clock = Clock()
     t0 = clock.t0
-    assert isinstance(t0, int)
+    assert isinstance(t0, float)
     clock.reset()
     assert t0 < clock.t0
