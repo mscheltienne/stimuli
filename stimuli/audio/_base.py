@@ -36,7 +36,7 @@ class BaseSound(ABC):
     %(audio_device)s
     %(audio_n_channels)s
     %(audio_backend)s
-    %(audio_clock)s
+    %(clock)s
     %(audio_kwargs)s
     """
 

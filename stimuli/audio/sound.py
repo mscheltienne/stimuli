@@ -32,7 +32,7 @@ class Sound(BaseSound):
         Path to the supported audio file to load.
     %(audio_device)s
     %(audio_backend)s
-    %(audio_clock)s
+    %(clock)s
     %(audio_kwargs)s
     """
 

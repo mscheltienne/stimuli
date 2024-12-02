@@ -21,10 +21,6 @@ docdict["audio_backend"] = """
 backend : ``"sounddevice"``
     The backend to use for sound playback."""
 
-docdict["audio_clock"] = """
-clock : BaseClock
-    Clock object to use for timing measurements."""
-
 docdict["audio_device"] = """
 device : int | None
     Device index to use for sound playback. If None, the default device provided
@@ -55,6 +51,10 @@ volume : float | list of float | tuple of float | array of float
 
 # -- B ---------------------------------------------------------------------------------
 # -- C ---------------------------------------------------------------------------------
+docdict["clock"] = """
+clock : BaseClock
+    Clock object to use for timing measurements."""
+
 # -- D ---------------------------------------------------------------------------------
 # -- E ---------------------------------------------------------------------------------
 # -- F ---------------------------------------------------------------------------------

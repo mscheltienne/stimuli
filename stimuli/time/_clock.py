@@ -16,6 +16,7 @@ class BaseClock(ABC):
 
     @abstractmethod
     def __init__(self) -> None:
+        # the variable 'self._t0' needs to be defined by the end of the __init__ method.
         pass
 
     @abstractmethod
@@ -62,6 +63,14 @@ class BaseClock(ABC):
     def reset(self) -> None:
         """Reset the clock to zero."""
 
+    @property
+    def t0(self) -> float:
+        """The time of instantiation of the clock in seconds.
+
+        :type: :class:`float`
+        """
+        return self._t0 / 1e9
+
 
 class Clock(BaseClock):
     """Clock which keeps track of time in nanoseconds.
@@ -90,11 +99,3 @@ class Clock(BaseClock):
     def reset(self) -> None:
         """Reset the clock to zero."""
         self._t0 = self._function()
-
-    @property
-    def t0(self) -> int:
-        """The time of instantiation of the clock.
-
-        :type: :class:`int`
-        """
-        return self._t0
