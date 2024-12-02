@@ -182,7 +182,7 @@ class Keyboard:
                         self._on_press(key)
                     except Exception as error:
                         logger.error(
-                            "An error occured in the user-defined on_press callback "
+                            "An error occurred in the user-defined on_press callback "
                             "when processing a press event for key %s.",
                             key_str,
                         )
@@ -223,7 +223,7 @@ class Keyboard:
                         self._on_release(key)
                     except Exception as error:
                         logger.error(
-                            "An error occured in the user-defined on_release callback "
+                            "An error occurred in the user-defined on_release callback "
                             "when processing a release event for key %s.",
                             key_str,
                         )

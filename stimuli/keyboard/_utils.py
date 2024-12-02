@@ -20,7 +20,7 @@ class KeyEvent:
 
     Notes
     -----
-    The time reference is ``t0``, the instantation time of the
+    The time reference is ``t0``, the instantiation time of the
     :class:`~stimuli.keyboard.Keyboard` object or the reset with
     :meth:`~stimuli.keyboard.Keyboard.reset`.
     """
