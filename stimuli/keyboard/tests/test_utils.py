@@ -29,8 +29,7 @@ def event() -> KeyEvent:
 def test_KeyBuffer(event: KeyEvent):
     """Test the key buffer object."""
     buffer = KeyBuffer()
-    assert buffer.events == [].pressed_keys.add("a")
-
+    assert buffer.events == []
     buffer.events.append(event)
     buffer.pressed_keys.add(event.key)
     assert buffer.events == [event]
@@ -45,7 +44,7 @@ def test_KeyBuffer_get(event: KeyEvent):
     """Test the get method from a key buffer."""
     buffer = KeyBuffer()
     buffer.events.append(event)
-    buffer.pressed_keys.add("a")
+    buffer.pressed_keys.add(event.key)
     assert buffer.pressed_keys == {"a"}
     assert buffer.events == [event]
     assert buffer.get() == [event]
@@ -57,8 +56,8 @@ def test_KeyBuffer_clear(event: KeyEvent):
     """Test the clear method from a key buffer."""
     buffer = KeyBuffer()
     buffer.events.append(event)
-    buffer.pressed_keys.add("a")
-    assert buffer.pressed_keys == {"a"}
+    buffer.pressed_keys.add(event.key)
+    assert buffer.pressed_keys == {event.key}
     assert buffer.events == [event]
     buffer.clear()
     assert buffer.events == []
