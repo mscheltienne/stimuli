@@ -24,26 +24,17 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Install liblsl
-        uses: ./.github/actions/install-liblsl
-      - name: Create virtual sound card
-        uses: ./.github/actions/create-soundcard
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/create-soundcard
+      - uses: pyvista/setup-headless-display-action@v3
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install uv and package
-        run: |
-          python -m pip install --quiet uv
-          uv pip install --quiet --system .[test]
-      - name: Display system information
-        run: stimuli sys-info --developer
-      - name: Run pytest
-        run: pytest stimuli --cov=stimuli --cov-report=xml --cov-config=pyproject.toml
-      - name: Upload to codecov
-        uses: codecov/codecov-action@v5
+      - uses: astral-sh/setup-uv@v4
+      - run: uv pip install --quiet --system .[test]
+      - run: stimuli sys-info --developer
+      - run: pytest stimuli --cov=stimuli --cov-report=xml --cov-config=pyproject.toml
+      - uses: codecov/codecov-action@v5
         with:
           files: ./coverage.xml
           flags: unittests  # optional
