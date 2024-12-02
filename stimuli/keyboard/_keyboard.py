@@ -124,11 +124,19 @@ class Keyboard:
             warn("The keyboard is not running.")
 
     def get_keys(self) -> list[KeyEvent]:
-        """Get a list of keys that were pressed since the last call."""
+        """Get a list of keys that were pressed since the last call.
+
+        Returns
+        -------
+        keys : list of KeyEvent
+            The list of keys that were pressed.
+
+        Notes
+        -----
+        Note that calling this method will reset the buffer.
+        """
         with self._lock:
-            keys = self._buffer.get()
-            self._buffer.clear()
-            return keys
+            return self._buffer.get()
 
     def wait_keys(self, *, timeout: float | None = None) -> KeyEvent | None:
         """Wait until a key is pressed.

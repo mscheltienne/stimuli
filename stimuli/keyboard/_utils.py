@@ -44,7 +44,9 @@ class KeyBuffer:
 
     def get(self) -> list[KeyEvent]:
         """Get the buffer of keyboard events."""
-        return self.events.copy()
+        events = self.events.copy()
+        self.clear()
+        return events
 
 
 def _key_to_str(key) -> str:
