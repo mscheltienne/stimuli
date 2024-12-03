@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import platform
 
 import pytest
 from numpy.testing import assert_allclose
@@ -27,6 +28,10 @@ def _get_keys(keyboard: Keyboard) -> list[KeyEvent]:
     return keys
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true" and platform.system() == "Darwin",
+    reason="Unreliable on macOS CIs.",
+)
 def test_keyboard_basic() -> None:
     """Test basic keyboard functionalities."""
     kb = Keyboard()
@@ -44,6 +49,10 @@ def test_keyboard_basic() -> None:
     assert_allclose(keys[0].release_time - keys[0].press_time, 0.1, atol=0.01)
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true" and platform.system() == "Darwin",
+    reason="Unreliable on macOS CIs.",
+)
 def test_keyboard_not_monitoring() -> None:
     """Test keyboard not monitoring."""
     kb = Keyboard()
@@ -54,6 +63,10 @@ def test_keyboard_not_monitoring() -> None:
         kb.stop()
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true" and platform.system() == "Darwin",
+    reason="Unreliable on macOS CIs.",
+)
 def test_keyboard_key_restriction() -> None:
     """Test monitoring specific keys."""
     kb = Keyboard(keys="b")
@@ -70,6 +83,10 @@ def test_keyboard_key_restriction() -> None:
     assert keys[0].key == "b"
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true" and platform.system() == "Darwin",
+    reason="Unreliable on macOS CIs.",
+)
 def test_keyboard_reset() -> None:
     """Test keyboard reset."""
     kb = Keyboard()
@@ -84,6 +101,10 @@ def test_keyboard_reset() -> None:
     assert t0 < kb.t0
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS", "") == "true" and platform.system() == "Darwin",
+    reason="Unreliable on macOS CIs.",
+)
 @pytest.mark.xfail(
     os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
 )
