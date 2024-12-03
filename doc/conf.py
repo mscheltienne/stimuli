@@ -160,6 +160,7 @@ numpydoc_xref_aliases = {
     "KeyEvent": ":class:`stimuli.keyboard.KeyEvent`",
 }
 numpydoc_xref_ignore = {
+    "class",
     "n_channels",
     "n_frames",
     "of",
