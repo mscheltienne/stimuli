@@ -91,7 +91,7 @@ class Keyboard:
                 repr_ += f"monitor {len(self._keys)} keys >"
         return repr_
 
-    def start(self, *, suppress: bool = False) -> None:
+    def start(self, *, suppress: bool = False) -> Keyboard:
         """Start monitoring the keyboard.
 
         Parameters
@@ -100,6 +100,11 @@ class Keyboard:
             If True, the events are not propagated to the system meaning that they will
             be only received by the :class:`~stimuli.keyboard.Keyboard` object and not
             by any other application or process.
+
+        Returns
+        -------
+        keyboard : Keyboard
+            The current :class:`~stimuli.keyboard.Keyboard` object, modified in-place.
         """
         if self._listener is None:
             self._listener = Listener(
@@ -111,9 +116,16 @@ class Keyboard:
             logger.info("Keyboard monitoring started.")
         else:
             warn("The keyboard is already running.")
+        return self
 
-    def stop(self) -> None:
-        """Stop monitoring the keyboard."""
+    def stop(self) -> Keyboard:
+        """Stop monitoring the keyboard.
+
+        Returns
+        -------
+        keyboard : Keyboard
+            The current :class:`~stimuli.keyboard.Keyboard` object, modified in-place.
+        """
         if self._listener is not None:
             with self._lock:
                 self._listener.stop()
@@ -122,6 +134,7 @@ class Keyboard:
             logger.info("Keyboard monitoring stopped.")
         else:
             warn("The keyboard is not running.")
+        return self
 
     def get_keys(self) -> list[KeyEvent]:
         """Get a list of keys that were pressed since the last call.
