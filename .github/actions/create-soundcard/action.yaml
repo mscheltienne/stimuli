@@ -21,6 +21,7 @@ runs:
       if: ${{ runner.os == 'macOS' }}
       shell: bash
       run: |
+        set -exo pipefail
         brew install blackhole-2ch switchaudio-osx
         SwitchAudioSource -s "BlackHole 2ch" -t input
         SwitchAudioSource -s "BlackHole 2ch" -t output

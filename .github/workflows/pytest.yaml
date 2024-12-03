@@ -32,6 +32,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - uses: astral-sh/setup-uv@v4
       - run: uv pip install --quiet --system .[test]
+      - run: python -m sounddevice
       - run: stimuli sys-info --developer
       - run: pytest stimuli --cov=stimuli --cov-report=xml --cov-config=pyproject.toml
       - uses: codecov/codecov-action@v5
