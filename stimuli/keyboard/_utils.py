@@ -9,7 +9,7 @@ from pynput.keyboard import Key, KeyCode
 class KeyEvent:
     """Object representing a keyboard event.
 
-    Attributes
+    Parameters
     ----------
     key : str
         The string representation of the key.
@@ -20,6 +20,8 @@ class KeyEvent:
 
     Notes
     -----
+    The parameters are accessible as attributes of the object.
+
     The time reference is ``t0``, the instantiation time of the
     :class:`~stimuli.keyboard.Keyboard` object or the reset with
     :meth:`~stimuli.keyboard.Keyboard.reset`.
