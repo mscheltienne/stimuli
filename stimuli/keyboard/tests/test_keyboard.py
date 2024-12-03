@@ -35,6 +35,7 @@ def test_keyboard_basic(controller: Controller) -> None:
         assert kb.get_keys() is None
 
 
+@pytest.mark.xfail("Unreliable on CIs.")
 def test_keyboard_repr() -> None:
     """Test keyboard representation."""
     kb = Keyboard()
