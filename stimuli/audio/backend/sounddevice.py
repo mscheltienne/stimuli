@@ -7,7 +7,7 @@ import sounddevice as sd
 from ...time import Clock, sleep
 from ...utils._checks import check_value, ensure_int
 from ...utils._docs import copy_doc, fill_doc
-from ...utils.logs import warn
+from ...utils.logs import logger, warn
 from ._base import BaseBackend
 
 if TYPE_CHECKING:
@@ -164,7 +164,9 @@ def _ensure_device(device: int | None) -> dict[str, str | int | float]:
     """Ensure the device argument is valid."""
     if device is None:
         idx = sd.default.device["output"]
-        return sd.query_devices()[idx]
+        devices = sd.query_devices()
+        logger.debug("Selected device: %s\nAvailable devices\n%s", idx, devices)
+        return devices[idx]
     device_idx = ensure_int(device, "device")
     devices = sd.query_devices()
     if len(devices) <= device_idx:
