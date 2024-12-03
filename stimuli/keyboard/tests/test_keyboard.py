@@ -40,7 +40,7 @@ def test_keyboard_repr() -> None:
     kb = Keyboard()
     assert repr(kb) == "<Keyboard (disabled) - monitor all keys>"
     kb.start()
-    assert repr(kb) == "<Keyboard (enabled) - monitor all keks>"
+    assert repr(kb) == "<Keyboard (enabled) - monitor all keys>"
     kb.stop()
 
     kb = Keyboard(keys=["a", "b", "c"])
