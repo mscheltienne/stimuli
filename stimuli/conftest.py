@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from stimuli import set_log_level
 from stimuli.utils.logs import logger
 
 if TYPE_CHECKING:
@@ -21,5 +20,4 @@ def pytest_configure(config: pytest.Config) -> None:
         if warning_line and not warning_line.startswith("#"):
             config.addinivalue_line("filterwarnings", warning_line)
     # setup logging
-    set_log_level("DEBUG")
     logger.propagate = True
