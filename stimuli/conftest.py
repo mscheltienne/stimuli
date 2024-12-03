@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 def pytest_configure(config: pytest.Config) -> None:
-    """Configure pytest options."""
+    """Configure pytest (test) options."""
     warnings_lines = r"""
     error::
     # Matplotlib deprecation issued in VSCode test debugger
