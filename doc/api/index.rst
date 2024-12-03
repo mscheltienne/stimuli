@@ -9,14 +9,17 @@ This is the reference for classes (``CamelCase`` names) and functions
     :hidden:
 
     audio.rst
-    trigger.rst
+    keyboard.rst
     time.rst
+    trigger.rst
     utilities.rst
 
 .. include:: audio.rst
 
-.. include:: trigger.rst
+.. include:: keyboard.rst
 
 .. include:: time.rst
+
+.. include:: trigger.rst
 
 .. include:: utilities.rst

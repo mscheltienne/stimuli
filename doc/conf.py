@@ -132,6 +132,7 @@ intersphinx_mapping = get_intersphinx_mapping(
         "sounddevice",
     }
 )
+intersphinx_mapping["pynput"] = ("https://pynput.readthedocs.io/en/stable/", None)
 intersphinx_timeout = 5
 
 # -- sphinx-issues -----------------------------------------------------------
