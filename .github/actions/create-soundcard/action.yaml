@@ -8,11 +8,15 @@ runs:
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
+        set -exo pipefail
         sudo apt update
         sudo apt install -y pulseaudio portaudio19-dev
         pulseaudio --check || pulseaudio --start
+        pactl info
         pactl load-module module-null-sink sink_name=vspeaker sink_properties=device.description=virtual_speaker
         pactl load-module module-remap-source master=vspeaker.monitor source_name=vmic source_properties=device.description=virtual_mic
+        pactl list short sinks
+        pactl list short sources
     - name: Create soundcard (macOS)
       if: ${{ runner.os == 'macOS' }}
       shell: bash
