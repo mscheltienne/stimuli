@@ -20,7 +20,6 @@ Example usage::
     from stimuli.keyboard import Keyboard
     from stimuli.time import sleep
 
-
     kb = Keyboard(keys=["esc", "space"]).start(suppress=True)
     while True:
         events = kb.get_keys()
