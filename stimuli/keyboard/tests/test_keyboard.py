@@ -14,7 +14,7 @@ def controller() -> Controller:
     return Controller()
 
 
-@pytest.mark.xfail("Unreliable on CIs.")
+@pytest.mark.xfail(reason="Unreliable on CIs.")
 def test_keyboard_basic(controller: Controller) -> None:
     """Test basic keyboard functionalities."""
     kb = Keyboard().start(suppress=True)
@@ -35,7 +35,7 @@ def test_keyboard_basic(controller: Controller) -> None:
         assert kb.get_keys() is None
 
 
-@pytest.mark.xfail("Unreliable on CIs.")
+@pytest.mark.xfail(reason="Unreliable on CIs.")
 def test_keyboard_repr() -> None:
     """Test keyboard representation."""
     kb = Keyboard()
