@@ -14,7 +14,7 @@ def controller() -> Controller:
     return Controller()
 
 
-@pytest.mark.flaky(reruns=10)
+@pytest.mark.xfail("Unreliable on CIs.")
 def test_keyboard_basic(controller: Controller) -> None:
     """Test basic keyboard functionalities."""
     kb = Keyboard().start(suppress=True)

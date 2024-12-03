@@ -93,8 +93,6 @@ style = [
 ]
 test = [
   'pytest-cov',
-  'pytest-randomly',
-  'pytest-rerunfailures',
   'pytest-timeout',
   'pytest>=8.0.0',
   'stimuli[lsl]',
