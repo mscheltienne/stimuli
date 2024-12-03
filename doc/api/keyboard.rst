@@ -7,7 +7,7 @@ To interact with the keyboard during an experiment, you can use a
 :class:`~stimuli.keyboard.Keyboard` object which monitors in a separate thread for key
 inputs.
 
-.. curentmodule:: stimuli.keyboard
+.. currentmodule:: stimuli.keyboard
 
 .. autosummary::
     :toctree: ../generated/api
