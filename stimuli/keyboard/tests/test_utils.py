@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import pytest
 from pynput.keyboard import Key, KeyCode
 
 from stimuli.keyboard._utils import KeyBuffer, KeyEvent, _key_to_str
 
 
-def test_key_to_str():
+def test_key_to_str() -> None:
     """Test the conversion of key events to strings."""
     assert _key_to_str(Key.space) == "space"
     assert _key_to_str(Key.enter) == "enter"
@@ -12,7 +14,7 @@ def test_key_to_str():
     assert _key_to_str(KeyCode.from_char("o")) == "o"
 
 
-def test_KeyEvent():
+def test_KeyEvent() -> None:
     """Test the key event object."""
     event = KeyEvent("a", 0.1, 0.2)
     assert event.key == "a"
@@ -26,7 +28,7 @@ def event() -> KeyEvent:
     return KeyEvent("a", 0.1, 0.2)
 
 
-def test_KeyBuffer(event: KeyEvent):
+def test_KeyBuffer(event: KeyEvent) -> None:
     """Test the key buffer object."""
     buffer = KeyBuffer()
     assert buffer.events == []
@@ -40,7 +42,7 @@ def test_KeyBuffer(event: KeyEvent):
     assert buffer.pressed_keys == set()
 
 
-def test_KeyBuffer_get(event: KeyEvent):
+def test_KeyBuffer_get(event: KeyEvent) -> None:
     """Test the get method from a key buffer."""
     buffer = KeyBuffer()
     buffer.events.append(event)
@@ -52,7 +54,7 @@ def test_KeyBuffer_get(event: KeyEvent):
     assert buffer.pressed_keys == set()
 
 
-def test_KeyBuffer_clear(event: KeyEvent):
+def test_KeyBuffer_clear(event: KeyEvent) -> None:
     """Test the clear method from a key buffer."""
     buffer = KeyBuffer()
     buffer.events.append(event)

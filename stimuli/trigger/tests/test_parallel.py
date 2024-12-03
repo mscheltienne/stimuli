@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from platform import system
 
 import pytest
@@ -6,7 +8,7 @@ from stimuli.trigger import ParallelPortTrigger
 
 
 @pytest.mark.skipif(system() != "Linux", reason="requires Linux")
-def test_infer_port_type_linux():
+def test_infer_port_type_linux() -> None:
     """Test port type inference patterns on linux."""
     assert ParallelPortTrigger._infer_port_type("arduino") == "arduino"
     assert ParallelPortTrigger._infer_port_type("/dev/parport0") == "pport"
@@ -20,7 +22,7 @@ def test_infer_port_type_linux():
 
 
 @pytest.mark.skipif(system() != "Windows", reason="requires Windows")
-def test_infer_port_type_windows():
+def test_infer_port_type_windows() -> None:
     """Test port type inference patterns on Windows."""
     assert ParallelPortTrigger._infer_port_type("arduino") == "arduino"
     assert ParallelPortTrigger._infer_port_type("COM7") == "arduino"
@@ -29,7 +31,7 @@ def test_infer_port_type_windows():
 
 
 @pytest.mark.skipif(system() != "Darwin", reason="requires macOS")
-def test_infer_port_type_macos():
+def test_infer_port_type_macos() -> None:
     """Test port type inference patterns on Windows."""
     assert ParallelPortTrigger._infer_port_type("arduino") == "arduino"
     with pytest.raises(RuntimeError, match="macOS does not support"):
@@ -38,7 +40,7 @@ def test_infer_port_type_macos():
         ParallelPortTrigger._infer_port_type(0x4FB8)
 
 
-def test_search_arduino():
+def test_search_arduino() -> None:
     """Test arduino detection."""
     with pytest.raises(IOError, match="No arduino card was found."):
         ParallelPortTrigger._search_arduino()

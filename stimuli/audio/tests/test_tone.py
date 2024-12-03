@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from itertools import product
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
@@ -8,8 +11,11 @@ from numpy.testing import assert_allclose
 from stimuli.audio import Tone
 from stimuli.audio.tone import _check_frequency
 
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
-def _assert_frequency(signal, sample_rate, target):
+
+def _assert_frequency(signal: NDArray, sample_rate: float, target: float) -> None:
     """Check frequency of the tone."""
     frequencies = np.fft.rfftfreq(signal.shape[0], 1 / sample_rate)
     fftval = np.abs(np.fft.rfft(signal, axis=0))
@@ -20,7 +26,7 @@ def _assert_frequency(signal, sample_rate, target):
 @pytest.mark.parametrize(
     ("volume", "duration", "frequency"), product((10, 100), (1, 5), (440, 1000))
 )
-def test_tone(volume, duration, frequency):
+def test_tone(volume: float, duration: float, frequency: float) -> None:
     """Test a tone sound."""
     sound = Tone(frequency, volume, duration)
     assert sound.volume.ndim == 1
@@ -36,7 +42,7 @@ def test_tone(volume, duration, frequency):
     assert f"{frequency:.2f} Hz" in repr(sound)
 
 
-def test_frequency_setter():
+def test_frequency_setter() -> None:
     """Test changing the frequency of the sound."""
     sound = Tone(frequency=440, volume=10, duration=1)
     _assert_frequency(sound.signal, sound.sample_rate, 440)
@@ -46,7 +52,7 @@ def test_frequency_setter():
     assert data_orig != sound._backend._data
 
 
-def test_check_frequency():
+def test_check_frequency() -> None:
     """Test validation of frequency."""
     _check_frequency(440)
     with pytest.raises(ValueError, match="The frequency must be a strictly positive"):
@@ -57,7 +63,7 @@ def test_check_frequency():
         _check_frequency("440")
 
 
-def test_tone_plot():
+def test_tone_plot() -> None:
     """Test plotting a tone."""
     sound = Tone(frequency=440, volume=10, duration=1)
     f, ax = sound.plot()

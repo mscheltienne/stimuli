@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import pytest
 
 from stimuli.trigger import MockTrigger
 
 
-def test_trigger_mock(caplog):
+def test_trigger_mock(caplog: pytest.LogCaptureFixture) -> None:
     """Testing for Mock trigger."""
     trigger = MockTrigger()
     trigger.signal(1)

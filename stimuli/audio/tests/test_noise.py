@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -11,7 +13,7 @@ from stimuli.audio.noise import _PSDS
 @pytest.mark.parametrize(
     ("color", "volume", "duration"), product(_PSDS.keys(), (10, 100), (1, 5))
 )
-def test_noise(color, volume, duration):
+def test_noise(color: str, volume: float, duration: float) -> None:
     """Test a noise sound."""
     sound = Noise(color=color, volume=volume, duration=duration)
     assert sound.volume.ndim == 1
@@ -25,7 +27,7 @@ def test_noise(color, volume, duration):
     assert f"{color.capitalize()} noise" in repr(sound)
 
 
-def test_color_setter():
+def test_color_setter() -> None:
     """Test changing the color of the noise."""
     sound = Noise(color="white", volume=10, duration=1)
     assert sound.color == "white"
@@ -35,7 +37,7 @@ def test_color_setter():
     assert data_orig != sound._backend._data
 
 
-def test_duration_setter():
+def test_duration_setter() -> None:
     """Test changing the duration of the sound."""
     sound = Noise(volume=10, duration=1, color="white")
     sound.duration = 0.05

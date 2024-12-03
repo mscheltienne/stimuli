@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import pytest
 
 from stimuli.time import Clock
 
 
 @pytest.mark.xfail(reason="Depends on the system clock.")
-def test_clock():
+def test_clock() -> None:
     """Test the clock object."""
     # test t0 with 20 microseconds headroom
     clock = Clock()
@@ -22,7 +24,7 @@ def test_clock():
     assert t1 < t2
 
 
-def test_reset():
+def test_reset() -> None:
     """Test the clock reset method."""
     clock = Clock()
     t0 = clock.t0

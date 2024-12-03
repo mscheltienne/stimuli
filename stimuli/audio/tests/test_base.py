@@ -1,4 +1,8 @@
+from __future__ import annotations
+
 from itertools import product
+from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
@@ -10,8 +14,12 @@ from scipy.io import wavfile
 from stimuli.audio import Noise, Sound, SoundAM, Tone
 from stimuli.audio._base import _check_duration, _ensure_volume, _ensure_window
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from pathlib import Path
 
-def test_check_duration():
+
+def test_check_duration() -> None:
     """Test duration validation."""
     _check_duration(0.1)
     _check_duration(10)
@@ -26,7 +34,7 @@ def test_check_duration():
 
 
 @pytest.mark.parametrize(("volume", "n_channels"), product((0, 50, 100), (1, 2)))
-def test_ensure_volume_valid(volume, n_channels):
+def test_ensure_volume_valid(volume: float, n_channels: int) -> None:
     """Test volume validation."""
     vol = _ensure_volume(volume, n_channels)
     assert vol.ndim == 1
@@ -34,7 +42,7 @@ def test_ensure_volume_valid(volume, n_channels):
     assert all(vol == volume)
 
 
-def test_ensure_volume_invalid():
+def test_ensure_volume_invalid() -> None:
     """Test volume validation."""
     with pytest.raises(TypeError, match="must be an instance of"):
         _ensure_volume(None, 1)
@@ -60,7 +68,7 @@ def test_ensure_volume_invalid():
         ),
     ),
 )
-def test_duration_setter(durations, sound):
+def test_duration_setter(durations: float, sound: Callable) -> None:
     """Test changing the duration of the sound."""
     sound = sound[0](volume=10, duration=durations[0], **sound[1])
     len_data_backend = len(sound._backend._data)
@@ -85,7 +93,7 @@ def test_duration_setter(durations, sound):
         ),
     ),
 )
-def test_volume_setter(volumes, sound):
+def test_volume_setter(volumes: float, sound: Callable) -> None:
     """Test changing the volume of the sound."""
     sound = sound[0](volume=volumes[0], duration=1, **sound[1])
     assert_allclose(np.max(np.abs(sound.signal)), volumes[0] / 100)
@@ -95,7 +103,7 @@ def test_volume_setter(volumes, sound):
     assert data_orig != sound._backend._data
 
 
-def test_save(tmp_path):
+def test_save(tmp_path: Path) -> None:
     """Test saving a sound."""
     sound = Tone(volume=10, duration=0.1, frequency=440)
     sound.save(tmp_path / "test.wav")
@@ -109,7 +117,7 @@ def test_save(tmp_path):
     assert not (tmp_path / "test.mp3").exists()
 
 
-def test_ensure_window():
+def test_ensure_window() -> None:
     """Test window validation."""
     window = np.zeros(10)
     window[2:8] = 1
@@ -143,13 +151,13 @@ def test_ensure_window():
         ),
     ],
 )
-def test_invalid_n_channels(sound):
+def test_invalid_n_channels(sound: Callable) -> None:
     """Test invalid number of channels."""
     with pytest.raises(ValueError, match="The number of channels must be"):
         sound = sound[0](volume=10, duration=1, n_channels=0, **sound[1])
 
 
-def test_window(tmp_path):
+def test_window(tmp_path: Path) -> None:
     """Test applying a window the the sound."""
     sfreq = int(sd.query_devices()[sd.default.device["output"]]["default_samplerate"])
     data = np.ones((sfreq, 2))  # stereo
@@ -163,7 +171,7 @@ def test_window(tmp_path):
     assert_allclose(sound.signal, data * window[:, np.newaxis])
 
 
-def test_plot(tmp_path):
+def test_plot(tmp_path: Path) -> None:
     """Test plotting the sound."""
     sfreq = int(sd.query_devices()[sd.default.device["output"]]["default_samplerate"])
     data = np.ones((sfreq, 2))  # stereo

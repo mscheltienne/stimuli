@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from io import StringIO
 
-from ..config import sys_info
+from stimuli.utils.config import sys_info
 
 
-def test_sys_info():
+def test_sys_info() -> None:
     """Test info-showing utility."""
     out = StringIO()
     sys_info(fid=out)

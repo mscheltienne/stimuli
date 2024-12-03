@@ -25,7 +25,7 @@ def time_func_ns() -> Callable:
 
 @pytest.mark.xfail(reason="Depends on the system clock.")
 @pytest.mark.parametrize("duration", [-1, 0, 0.1, 0.5, 1.0])
-def test_sleep(duration, time_func_ns):
+def test_sleep(duration: float, time_func_ns: Callable) -> None:
     """Test sleeping function."""
     start = time_func_ns()
     sleep(duration)

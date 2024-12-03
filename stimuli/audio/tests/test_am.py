@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from itertools import product
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
@@ -8,8 +11,13 @@ from scipy.signal import find_peaks
 from stimuli.audio import SoundAM
 from stimuli.audio.am import _check_frequency
 
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
-def _assert_frequency(signal, sample_rate, fc, fm, method):
+
+def _assert_frequency(
+    signal: NDArray, sample_rate: float, fc: float, fm: float, method: str
+) -> None:
     """Check frequency content of the AM sound."""
     frequencies = np.fft.rfftfreq(signal.shape[0], 1 / sample_rate)
     fftval = np.abs(np.fft.rfft(signal, axis=0))
@@ -34,7 +42,9 @@ def _assert_frequency(signal, sample_rate, fc, fm, method):
     ("fc", "fm", "method", "volume", "duration"),
     product((1000, 2000), (40, 100), ("dsbsc", "conventional"), (10, 100), (1, 5)),
 )
-def test_sound_am(fc, fm, method, volume, duration):
+def test_sound_am(
+    fc: float, fm: float, method: str, volume: float, duration: float
+) -> None:
     """Test an amplitude-modulated sound."""
     sound = SoundAM(
         frequency_carrier=fc,
@@ -59,7 +69,7 @@ def test_sound_am(fc, fm, method, volume, duration):
 
 
 @pytest.mark.parametrize("ftype", ["carrier", "modulation"])
-def test_check_frequency(ftype):
+def test_check_frequency(ftype: str) -> None:
     """Test validation of frequency."""
     _check_frequency(440, ftype)
     with pytest.raises(
@@ -74,7 +84,7 @@ def test_check_frequency(ftype):
         _check_frequency("440", ftype)
 
 
-def test_property_setter():
+def test_property_setter() -> None:
     """Test the property setters of the AM sound."""
     sound = SoundAM(
         frequency_carrier=1000,

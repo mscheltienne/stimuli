@@ -1,10 +1,17 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import pytest
 from numpy.testing import assert_allclose
 
 from stimuli.audio import Noise, Sound
 
+if TYPE_CHECKING:
+    from pathlib import Path
 
-def test_sound_io_mono(tmp_path):
+
+def test_sound_io_mono(tmp_path: Path) -> None:
     """Test sound saving/loading."""
     sound = Noise("pink", volume=100, duration=0.5)
     sound.save(tmp_path / "test.wav")
@@ -25,7 +32,7 @@ def test_sound_io_mono(tmp_path):
     assert duration == sound_loaded.duration
 
 
-def test_invalid_sound(tmp_path):
+def test_invalid_sound(tmp_path: Path) -> None:
     """Test invalid sound file."""
     fname = tmp_path / "test.txt"
     with open(fname, "w") as f:
@@ -34,7 +41,7 @@ def test_invalid_sound(tmp_path):
         Sound(fname)
 
 
-def test_silent_sound(tmp_path):
+def test_silent_sound(tmp_path: Path) -> None:
     """Test loading a silent sound."""
     sound = Noise("pink", volume=0, duration=0.5)
     sound.save(tmp_path / "test.wav")
