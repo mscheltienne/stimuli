@@ -23,7 +23,7 @@ class Keyboard:
 
     Parameters
     ----------
-    keys: str | list of str | None
+    keys : str | list of str | None
         The list of keys to monitor. If None, all keys will be monitored.
         Keys should be specified as strings, for instance
         ``['a', 'enter', 'space', 'shift_r']``.
