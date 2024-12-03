@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 import pytest
 from numpy.testing import assert_allclose
 from pynput.keyboard import Controller
@@ -35,7 +37,9 @@ def test_keyboard_basic(controller: Controller) -> None:
         assert kb.get_keys() is None
 
 
-@pytest.mark.xfail(reason="Unreliable on CIs.")
+@pytest.mark.xfail(
+    os.getenv("GITHUB_ACTIONS", "") == "true", reason="Unreliable on CIs."
+)
 def test_keyboard_repr() -> None:
     """Test keyboard representation."""
     kb = Keyboard()
