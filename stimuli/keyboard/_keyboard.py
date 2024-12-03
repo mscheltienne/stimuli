@@ -82,13 +82,13 @@ class Keyboard:
         else:
             status = "invalid"
         if self._keys is None:
-            repr_ = f"< {self.__class__.__name__} ({status}) - monitor all keys >"
+            repr_ = f"<{self.__class__.__name__} ({status}) - monitor all keys>"
         else:
-            repr_ = f"< {self.__class__.__name__} ({status}) - "
+            repr_ = f"<{self.__class__.__name__} ({status}) - "
             if len(self._keys) <= 3:
-                repr_ += f"monitor {', '.join(self._keys)} >"
+                repr_ += f"monitor {', '.join(self._keys)}>"
             else:
-                repr_ += f"monitor {len(self._keys)} keys >"
+                repr_ += f"monitor {len(self._keys)} keys>"
         return repr_
 
     def start(self, *, suppress: bool = False) -> Keyboard:
@@ -136,20 +136,24 @@ class Keyboard:
             warn("The keyboard is not running.")
         return self
 
-    def get_keys(self) -> list[KeyEvent]:
+    def get_keys(self) -> list[KeyEvent] | None:
         """Get a list of keys that were pressed since the last call.
 
         Returns
         -------
-        keys : list of KeyEvent
-            The list of keys that were pressed.
+        keys : list of KeyEvent | None
+            The list of keys that were pressed. If the keyboard is not running, None is
+            returned.
 
         Notes
         -----
         Note that calling this method will reset the buffer.
         """
-        with self._lock:
-            return self._buffer.get()
+        if self._listener is not None:
+            with self._lock:
+                return self._buffer.get()
+        else:
+            warn("The keyboard is not running.")
 
     def wait_keys(self, *, timeout: float | None = None) -> KeyEvent | None:
         """Wait until a key is pressed.

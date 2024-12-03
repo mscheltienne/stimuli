@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 
-def test_trigger_lsl():
+def test_trigger_lsl() -> None:
     """Testing for LSL trigger."""
     pytest.importorskip("mne_lsl")
 
