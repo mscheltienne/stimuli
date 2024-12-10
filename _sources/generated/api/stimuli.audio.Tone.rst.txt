@@ -1,0 +1,11 @@
+﻿stimuli.audio.Tone
+==================
+
+.. currentmodule:: stimuli.audio
+
+.. autoclass:: Tone
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.audio.Tone
+    :add-heading:
