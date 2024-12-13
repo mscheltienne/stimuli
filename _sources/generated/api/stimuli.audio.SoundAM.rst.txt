@@ -1,0 +1,11 @@
+﻿stimuli.audio.SoundAM
+=====================
+
+.. currentmodule:: stimuli.audio
+
+.. autoclass:: SoundAM
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.audio.SoundAM
+    :add-heading:
