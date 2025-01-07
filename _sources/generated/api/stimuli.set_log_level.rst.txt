@@ -1,0 +1,9 @@
+﻿stimuli.set\_log\_level
+=======================
+
+.. currentmodule:: stimuli
+
+.. autofunction:: set_log_level
+
+.. minigallery:: stimuli.set_log_level
+    :add-heading:

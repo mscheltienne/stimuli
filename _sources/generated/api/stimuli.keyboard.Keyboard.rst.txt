@@ -1,0 +1,11 @@
+﻿stimuli.keyboard.Keyboard
+=========================
+
+.. currentmodule:: stimuli.keyboard
+
+.. autoclass:: Keyboard
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.keyboard.Keyboard
+    :add-heading:
