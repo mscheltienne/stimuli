@@ -156,7 +156,7 @@ class ParallelPortTrigger(BaseTrigger):
 
     def _connect_pport(self) -> None:
         """Connect to the ParallelPort."""
-        from .io import ParallelPort
+        from ._io import ParallelPort
 
         if ParallelPort is None and system() == "Darwin":
             raise RuntimeError(
