@@ -165,6 +165,8 @@ def _ensure_device(device: int | None) -> dict[str, str | int | float]:
     if device is None:
         idx = sd.default.device["output"]
         devices = sd.query_devices()
+        if len(devices) == 0:
+            raise RuntimeError("No audio devices found.")
         logger.debug("Selected device: %s\nAvailable devices\n%s", idx, devices)
         return devices[idx]
     device_idx = ensure_int(device, "device")
