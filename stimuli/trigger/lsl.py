@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from ..utils._checks import check_type
-from ..utils._docs import copy_doc, fill_doc
+from ..utils._docs import copy_doc
 from ..utils._imports import import_optional_dependency
 from ._base import BaseTrigger
 
@@ -13,7 +13,6 @@ if TYPE_CHECKING:
     from mne_lsl.lsl import StreamInfo, StreamOutlet
 
 
-@fill_doc
 class LSLTrigger(BaseTrigger):
     """Trigger sending values on an LSL outlet.
 
