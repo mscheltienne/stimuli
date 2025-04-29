@@ -1,0 +1,11 @@
+﻿stimuli.audio.Noise
+===================
+
+.. currentmodule:: stimuli.audio
+
+.. autoclass:: Noise
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.audio.Noise
+    :add-heading:

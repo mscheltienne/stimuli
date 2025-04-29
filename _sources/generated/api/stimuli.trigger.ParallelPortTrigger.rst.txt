@@ -1,0 +1,11 @@
+﻿stimuli.trigger.ParallelPortTrigger
+===================================
+
+.. currentmodule:: stimuli.trigger
+
+.. autoclass:: ParallelPortTrigger
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.trigger.ParallelPortTrigger
+    :add-heading:
