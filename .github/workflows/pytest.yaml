@@ -26,9 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/create-soundcard
-        if : ${{ matrix.os != 'macos-13' }}
+        if: ${{ matrix.os != 'macos-13' }}
       - uses: LABSN/sound-ci-helpers@v1
-        if : ${{ matrix.os == 'macos-13' }}
+        if: ${{ matrix.os == 'macos-13' }}
       - uses: pyvista/setup-headless-display-action@v3
       - uses: actions/setup-python@v5
         with:
