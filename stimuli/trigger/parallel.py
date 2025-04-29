@@ -7,7 +7,7 @@ from platform import system
 from ..utils._checks import check_type, check_value, ensure_int
 from ..utils._docs import copy_doc
 from ..utils._imports import import_optional_dependency
-from ..utils.logs import logger
+from ..utils.logs import logger, warn
 from ._base import BaseTrigger
 
 
@@ -192,11 +192,11 @@ class ParallelPortTrigger(BaseTrigger):
     def signal(self, value: int) -> None:
         value = super().signal(value)
         if self._future is not None and not self._future.done():
-            logger.warning(
+            warn(
                 "You are sending a new signal before the end of the "
-                "last signal. Signal ignored. Delay required = %.1f ms.",
-                self.delay,
+                f"last signal. Signal ignored. Delay required = {self.delay:.1f} ms.",
             )
+            return
         self._set_data(value)
         self._future = self._executor.submit(self._signal_off())
 
