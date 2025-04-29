@@ -9,12 +9,12 @@
 
 .. include:: ./authors.inc
 
-Version 1.1
+.. _latest:
+
+Version 1.2
 -----------
 
-- Add :meth:`~stimuli.time.Clock.reset` to :class:`~stimuli.time.Clock` (by `Mathieu Scheltienne`_)
-- Add :class:`stimuli.keyboard.Keyboard` and :class:`stimuli.keyboard.KeyEvent` to handle keyboard events (by `Mathieu Scheltienne`_)
-- Fix handling of hardware triggers that are too close from another, now correctly skipping the second as indicated by the warning emitted (by `Mathieu Scheltienne`_)
+- ...
 
 Authors
 ~~~~~~~
