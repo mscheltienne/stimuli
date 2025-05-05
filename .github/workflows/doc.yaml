@@ -19,7 +19,7 @@ jobs:
           sudo apt install -y optipng
       - uses: actions/checkout@v4
       - uses: ./.github/actions/create-soundcard
-      - uses: pyvista/setup-headless-display-action@v3
+      - uses: pyvista/setup-headless-display-action@v4
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
