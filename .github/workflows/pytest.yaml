@@ -30,7 +30,7 @@ jobs:
       - uses: LABSN/sound-ci-helpers@v1
         if: ${{ matrix.os == 'macos-13' }}
       - uses: pyvista/setup-headless-display-action@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - uses: astral-sh/setup-uv@v6
