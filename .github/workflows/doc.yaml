@@ -17,13 +17,13 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y optipng
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/create-soundcard
       - uses: pyvista/setup-headless-display-action@v4
       - uses: actions/setup-python@v6
         with:
           python-version: 3.11
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - run: uv pip install --quiet --system .[doc]
       - run: stimuli sys-info --developer
       - run: make -C doc html
@@ -42,7 +42,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v7
         with:
           name: doc-dev

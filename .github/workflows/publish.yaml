@@ -9,13 +9,13 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/create-soundcard
       - uses: pyvista/setup-headless-display-action@v4
       - uses: actions/setup-python@v6
         with:
           python-version: 3.11
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - run: uv pip install --quiet --system .[build]
       - run: stimuli sys-info --developer
       - name: Build and publish
