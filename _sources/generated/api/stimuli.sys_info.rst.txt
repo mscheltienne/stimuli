@@ -1,0 +1,9 @@
+﻿stimuli.sys\_info
+=================
+
+.. currentmodule:: stimuli
+
+.. autofunction:: sys_info
+
+.. minigallery:: stimuli.sys_info
+    :add-heading:

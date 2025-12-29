@@ -1,0 +1,11 @@
+﻿stimuli.audio.backend.SoundSD
+=============================
+
+.. currentmodule:: stimuli.audio.backend
+
+.. autoclass:: SoundSD
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.audio.backend.SoundSD
+    :add-heading:

@@ -1,0 +1,11 @@
+﻿stimuli.trigger.LSLTrigger
+==========================
+
+.. currentmodule:: stimuli.trigger
+
+.. autoclass:: LSLTrigger
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.trigger.LSLTrigger
+    :add-heading:

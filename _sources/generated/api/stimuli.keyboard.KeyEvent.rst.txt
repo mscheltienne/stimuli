@@ -1,0 +1,11 @@
+﻿stimuli.keyboard.KeyEvent
+=========================
+
+.. currentmodule:: stimuli.keyboard
+
+.. autoclass:: KeyEvent
+   :members:
+   :inherited-members:
+
+.. minigallery:: stimuli.keyboard.KeyEvent
+    :add-heading:
