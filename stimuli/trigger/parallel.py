@@ -198,12 +198,16 @@ class ParallelPortTrigger(BaseTrigger):
             )
             return
         self._set_data(value)
-        self._future = self._executor.submit(self._signal_off())
+        self._future = self._executor.submit(self._signal_off)
 
     def _signal_off(self) -> None:
         """Reset trigger signal to 0."""
         time.sleep(self._delay)
         self._set_data(0)
+        # Clear both input and output buffers to prevent accumulation
+        if self._port_type == "arduino":
+            self._port.reset_input_buffer()
+            self._port.reset_output_buffer()
 
     def _set_data(self, value: int) -> None:
         """Set data on the pin."""

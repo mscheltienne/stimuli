@@ -47,4 +47,9 @@ runs:
     - name: Create soundcard (windows)
       if: ${{ runner.os == 'Windows' }}
       shell: powershell
-      run: net start audiosrv
+      run: |
+        $service = Get-Service -Name audiosrv
+        if ($service.Status -ne 'Running') {
+          Start-Service -Name audiosrv
+        }
+        Get-Service -Name audiosrv
