@@ -38,7 +38,7 @@ jobs:
       - run: python -m sounddevice
       - run: stimuli sys-info --developer
       - run: pytest stimuli --cov=stimuli --cov-report=xml --cov-config=pyproject.toml
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           files: ./coverage.xml
           flags: unittests  # optional
