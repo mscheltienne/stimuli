@@ -14,7 +14,7 @@
 Version 1.2
 -----------
 
-- ...
+- Fix reset of ``arduino`` parallel port trigger and don't block for the signal-off
 
 Authors
 ~~~~~~~
