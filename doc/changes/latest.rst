@@ -9,12 +9,7 @@
 
 .. include:: ./authors.inc
 
-Version 1.2
+.. _latest:
+
+Version 1.3
 -----------
-
-- Fix reset of ``arduino`` parallel port trigger and don't block for the signal-off
-
-Authors
-~~~~~~~
-
-* `Mathieu Scheltienne`_
