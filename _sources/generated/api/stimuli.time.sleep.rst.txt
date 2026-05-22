@@ -1,0 +1,9 @@
+﻿stimuli.time.sleep
+==================
+
+.. currentmodule:: stimuli.time
+
+.. autofunction:: sleep
+
+.. minigallery:: stimuli.time.sleep
+    :add-heading:

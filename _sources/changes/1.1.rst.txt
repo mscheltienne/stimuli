@@ -1,0 +1,22 @@
+.. NOTE: we use cross-references to highlight new functions and classes.
+   Please follow the examples below, so the changelog page will have a link to
+   the function/class documentation.
+
+.. NOTE: there are 3 separate sections for changes, based on type:
+   - "Enhancements" for new features
+   - "Bugs" for bug fixes
+   - "API changes" for backward-incompatible changes
+
+.. include:: ./authors.inc
+
+Version 1.1
+-----------
+
+- Add :meth:`~stimuli.time.Clock.reset` to :class:`~stimuli.time.Clock` (by `Mathieu Scheltienne`_)
+- Add :class:`stimuli.keyboard.Keyboard` and :class:`stimuli.keyboard.KeyEvent` to handle keyboard events (by `Mathieu Scheltienne`_)
+- Fix handling of hardware triggers that are too close from another, now correctly skipping the second as indicated by the warning emitted (by `Mathieu Scheltienne`_)
+
+Authors
+~~~~~~~
+
+* `Mathieu Scheltienne`_
